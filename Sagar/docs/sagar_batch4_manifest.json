@@ -1,0 +1,345 @@
+{
+  "project": "Project Sagar \u2014 2D Fighting Game Animation Production",
+  "character": "Sagar",
+  "batch": 4,
+  "batch_name": "Music-Based Special Abilities & Signature Ultimate (Redesigned)",
+  "creative_theme": "Musical notation (eighth notes, beamed notes, treble clefs, 5-line staves, chords, rhythm pulses) transforming directly into arcade fighting-game combat",
+  "global_technical_spec": {
+    "cell_width_px": 288,
+    "cell_height_px": 288,
+    "character_ground_baseline_y_px": 272,
+    "character_horizontal_pivot_x_px": 144,
+    "vfx_center_origin_px": {
+      "x": 144,
+      "y": 144
+    },
+    "default_facing": "right",
+    "format": "PNG (32-bit RGBA, transparent background)",
+    "scaling_method": "Nearest-Neighbor (crisp pixel art preserved)",
+    "musical_energy_palette": "Electric cyan, deep blue, bright turquoise, controlled violet highlights, warm golden musical notation accents"
+  },
+  "summary_counts": {
+    "character_animation_sequences": 7,
+    "vfx_assets": 2,
+    "total_png_sheets": 9,
+    "total_character_frames": 44,
+    "total_vfx_frames": 16,
+    "total_frames_in_batch": 60
+  },
+  "assets": [
+    {
+      "id": "sagar_30_sonic_pulse_charge",
+      "asset_name": "Sonic Pulse \u2014 Musical Charging",
+      "filename": "sagar_30_sonic_pulse_charge_6f.png",
+      "relative_path": "spritesheets/sagar_30_sonic_pulse_charge_6f.png",
+      "asset_type": "character",
+      "batch": 4,
+      "revision": "redesign_v2_musical_identity",
+      "category": "Music-Based Special Abilities & Effects",
+      "frame_count": 6,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1728,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 5)",
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.3,
+      "loop": false,
+      "facing_direction": "right",
+      "pivot_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "anchor_type": "grounded_character_bottom_center"
+      },
+      "gameplay_purpose": "Sagar taps a beat, feels the melody, wraps curved staff lines around his arm, and forms a glowing musical eighth note above his open palm (F6 holdable).",
+      "transition_notes": "F1 enters from Batch 1 standing fighting guard; F6 connects pixel-for-pixel into Sonic Pulse Release F1.",
+      "vfx_trigger_frame": null
+    },
+    {
+      "id": "sagar_31_sonic_pulse_release",
+      "asset_name": "Sonic Pulse \u2014 Musical Release",
+      "filename": "sagar_31_sonic_pulse_release_5f.png",
+      "relative_path": "spritesheets/sagar_31_sonic_pulse_release_5f.png",
+      "asset_type": "character",
+      "batch": 4,
+      "revision": "redesign_v2_musical_identity",
+      "category": "Music-Based Special Abilities & Effects",
+      "frame_count": 5,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1440,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 4)",
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.7,
+      "loop": false,
+      "facing_direction": "right",
+      "pivot_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "anchor_type": "grounded_character_bottom_center"
+      },
+      "gameplay_purpose": "Conducting-style forward palm thrust launching the concentrated musical note through an expanding turquoise rhythm ring and curved staff trail.",
+      "transition_notes": "F1 matches Sonic Pulse Charging F6; F5 recovers cleanly toward standing guard or Special Move Recovery F1.",
+      "vfx_trigger_frame": {
+        "vfx_asset_id": "sagar_32_sonic_pulse_projectile_vfx",
+        "trigger_frame_index_0based": 3,
+        "trigger_frame_number_1based": 4,
+        "spawn_offset_from_pivot_px": {
+          "dx": 94,
+          "dy": -136
+        },
+        "notes": "Spawn Sonic Pulse Musical Note Projectile VFX at Sagar's open palm on Frame 4 (index 3)."
+      }
+    },
+    {
+      "id": "sagar_32_sonic_pulse_projectile_vfx",
+      "asset_name": "Sonic Pulse \u2014 Note VFX",
+      "filename": "sagar_32_sonic_pulse_projectile_vfx_8f.png",
+      "relative_path": "spritesheets/sagar_32_sonic_pulse_projectile_vfx_8f.png",
+      "asset_type": "vfx",
+      "batch": 4,
+      "revision": "redesign_v2_musical_identity",
+      "category": "Music-Based Special Abilities & Effects",
+      "frame_count": 8,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 2304,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 7)",
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": true,
+      "facing_direction": "right",
+      "pivot_anchor_px": {
+        "x": 144,
+        "y": 144,
+        "anchor_type": "vfx_effect_center_origin"
+      },
+      "gameplay_purpose": "Separate transparent looping glowing eighth-note projectile wrapped in flowing cyan/violet staff lines, golden beat sparks, and circular rhythm rings.",
+      "transition_notes": "Seamless 8-frame travel loop (F8 -> F1); zero character pixels; centered at (144, 144).",
+      "vfx_trigger_frame": {
+        "triggered_by_character_asset": "sagar_31_sonic_pulse_release",
+        "trigger_frame_number_1based": 4,
+        "engine_behavior": "Loops seamlessly while engine translates musical note projectile rightward."
+      }
+    },
+    {
+      "id": "sagar_33_rhythm_break",
+      "asset_name": "Rhythm Break \u2014 Dash Attack",
+      "filename": "sagar_33_rhythm_break_8f.png",
+      "relative_path": "spritesheets/sagar_33_rhythm_break_8f.png",
+      "asset_type": "character",
+      "batch": 4,
+      "revision": "redesign_v2_musical_identity",
+      "category": "Music-Based Special Abilities & Effects",
+      "frame_count": 8,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 2304,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 7)",
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "facing_direction": "right",
+      "pivot_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "anchor_type": "grounded_character_bottom_center"
+      },
+      "gameplay_purpose": "Beat-synchronized signature dash-strike: finger snap sets a golden note beat (F2\u2013F3), foot rhythm-ring launch (F4), staff-line dash trail (F5), punch with musical beat impact burst (F6\u2013F7), and guard recovery (F8).",
+      "transition_notes": "Starts from standing guard (F1) and recovers directly into standing fighting guard (F8).",
+      "vfx_trigger_frame": null
+    },
+    {
+      "id": "sagar_34_final_chorus_activation",
+      "asset_name": "Final Chorus \u2014 Musical Activation",
+      "filename": "sagar_34_final_chorus_activation_8f.png",
+      "relative_path": "spritesheets/sagar_34_final_chorus_activation_8f.png",
+      "asset_type": "character",
+      "batch": 4,
+      "revision": "redesign_v2_musical_identity",
+      "category": "Music-Based Special Abilities & Effects",
+      "frame_count": 8,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 2304,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 7)",
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.3,
+      "loop": false,
+      "facing_direction": "right",
+      "pivot_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "anchor_type": "grounded_character_bottom_center"
+      },
+      "gameplay_purpose": "Ultimate activation where Sagar feels the rhythm, conducts glowing 5-line musical staves, golden treble clefs, and notes into a charged halo framing behind him.",
+      "transition_notes": "F1 connects from standing guard; F8 musical halo stance connects directly into Final Chorus Main Attack F1.",
+      "vfx_trigger_frame": null
+    },
+    {
+      "id": "sagar_35_final_chorus_main_attack",
+      "asset_name": "Final Chorus \u2014 Main Attack",
+      "filename": "sagar_35_final_chorus_main_attack_8f.png",
+      "relative_path": "spritesheets/sagar_35_final_chorus_main_attack_8f.png",
+      "asset_type": "character",
+      "batch": 4,
+      "revision": "redesign_v2_musical_identity",
+      "category": "Music-Based Special Abilities & Effects",
+      "frame_count": 8,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 2304,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 7)",
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.9,
+      "loop": false,
+      "facing_direction": "right",
+      "pivot_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "anchor_type": "grounded_character_bottom_center"
+      },
+      "gameplay_purpose": "Sagar converges staff lines into his palms, compresses glowing notes into a radiant chord (F5), and conducts a dramatic forward release with a golden treble-clef burst (F7).",
+      "transition_notes": "F1 matches Final Chorus Activation F8; F8 follow-through flows directly into Final Chorus Finisher F1.",
+      "vfx_trigger_frame": {
+        "vfx_asset_id": "sagar_35b_final_chorus_wave_vfx",
+        "trigger_frame_index_0based": 6,
+        "trigger_frame_number_1based": 7,
+        "spawn_offset_from_pivot_px": {
+          "dx": 96,
+          "dy": -138
+        },
+        "notes": "Trigger Final Chorus Musical Composition VFX on Frame 7 (index 6) at Sagar's treble-clef conducting release."
+      }
+    },
+    {
+      "id": "sagar_35b_final_chorus_wave_vfx",
+      "asset_name": "Final Chorus \u2014 Wave VFX",
+      "filename": "sagar_35b_final_chorus_wave_vfx_8f.png",
+      "relative_path": "spritesheets/sagar_35b_final_chorus_wave_vfx_8f.png",
+      "asset_type": "vfx",
+      "batch": 4,
+      "revision": "redesign_v2_musical_identity",
+      "category": "Music-Based Special Abilities & Effects",
+      "frame_count": 8,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 2304,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 7)",
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.4,
+      "loop": false,
+      "facing_direction": "right",
+      "pivot_anchor_px": {
+        "x": 144,
+        "y": 144,
+        "anchor_type": "vfx_effect_center_origin"
+      },
+      "gameplay_purpose": "Separate transparent ultimate projectile: golden chord -> treble clef core -> expanding 5-line musical staff -> massive interconnected note/clef/staff shockwave (F6) -> dissipating notes.",
+      "transition_notes": "One-shot 8-frame composition wave; zero character pixels; centered at (144, 144).",
+      "vfx_trigger_frame": {
+        "triggered_by_character_asset": "sagar_35_final_chorus_main_attack",
+        "trigger_frame_number_1based": 7,
+        "engine_behavior": "One-shot expanding musical composition wavefront layered ahead of Sagar facing RIGHT."
+      }
+    },
+    {
+      "id": "sagar_36_final_chorus_finisher",
+      "asset_name": "Final Chorus \u2014 Finisher",
+      "filename": "sagar_36_final_chorus_finisher_4f.png",
+      "relative_path": "spritesheets/sagar_36_final_chorus_finisher_4f.png",
+      "asset_type": "character",
+      "batch": 4,
+      "revision": "redesign_v2_musical_identity",
+      "category": "Music-Based Special Abilities & Effects",
+      "frame_count": 4,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1152,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 3)",
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": false,
+      "facing_direction": "right",
+      "pivot_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "anchor_type": "grounded_character_bottom_center"
+      },
+      "gameplay_purpose": "Confident post-ultimate finishing animation as tiny golden/cyan musical notes fade from Sagar's hand and he settles into a composed fighting stance.",
+      "transition_notes": "F1 follows Final Chorus Main Attack F8; F4 aligns cleanly into Special Move Recovery F1.",
+      "vfx_trigger_frame": null
+    },
+    {
+      "id": "sagar_37_special_move_recovery",
+      "asset_name": "Special Move Recovery",
+      "filename": "sagar_37_special_move_recovery_5f.png",
+      "relative_path": "spritesheets/sagar_37_special_move_recovery_5f.png",
+      "asset_type": "character",
+      "batch": 4,
+      "revision": "redesign_v2_musical_identity",
+      "category": "Music-Based Special Abilities & Effects",
+      "frame_count": 5,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1440,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 4)",
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.3,
+      "loop": false,
+      "facing_direction": "right",
+      "pivot_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "anchor_type": "grounded_character_bottom_center"
+      },
+      "gameplay_purpose": "Natural zero-effects recovery lowering arms, relaxing shoulders, and returning cleanly to Sagar's locked standing fighting guard.",
+      "transition_notes": "F1 accepts Final Chorus Finisher F4 or Sonic Pulse Release F5; F5 returns to Batch 1 neutral standing guard.",
+      "vfx_trigger_frame": null
+    }
+  ]
+}

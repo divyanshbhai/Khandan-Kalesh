@@ -1,0 +1,86 @@
+{
+  "project": "Project Jatin",
+  "batch": "Batch 05 — Character States & Finishing Animations (Final Batch)",
+  "character_name": "Jatin",
+  "version": "1.0.0",
+  "technical_standards": {
+    "frame_cell_dimensions": { "width": 288, "height": 288 },
+    "ground_baseline_y": 272,
+    "horizontal_root_pivot_x": 144,
+    "format": "32-bit RGBA PNG",
+    "background": "Genuine alpha transparency (binary 0/255 alpha)",
+    "default_facing_direction": "RIGHT",
+    "frame_order": "Left to right, chronological",
+    "scaling_method": "Nearest-neighbour only"
+  },
+  "summary": {
+    "total_animations": 4,
+    "total_frames": 23
+  },
+  "animations": [
+    {
+      "animation_id": "jatin_40_victory",
+      "animation_name": "Victory",
+      "filename": "spritesheets/jatin_40_victory_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": { "width": 288, "height": 288 },
+      "total_spritesheet_dimensions": { "width": 1728, "height": 288 },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": false,
+      "hold_final_frame": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": { "root_pivot_x": 144, "ground_baseline_y": 272 },
+      "gameplay_purpose": "Round/match win animation showcasing Jatin's confident, stylish, self-satisfied personality.",
+      "starting_and_ending_pose_notes": "F1 exits fighting stance; F2 straightens up relaxed; F3 adjusts glasses stylishly; F4 proud satisfied smirk; F5 folds arms smoothly; F6 holds stable confident arms-crossed victory pose."
+    },
+    {
+      "animation_id": "jatin_41_defeat",
+      "animation_name": "Defeat",
+      "filename": "spritesheets/jatin_41_defeat_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": { "width": 288, "height": 288 },
+      "total_spritesheet_dimensions": { "width": 1440, "height": 288 },
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.11,
+      "loop": false,
+      "hold_final_frame": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": { "root_pivot_x": 144, "ground_baseline_y": 272 },
+      "gameplay_purpose": "Time-over or match-loss defeat reaction.",
+      "starting_and_ending_pose_notes": "F1 realizes loss; F2 confidence fades and guard drops; F3 shoulders slump in frustration; F4 hand raises to forehead reacting; F5 holds stable disappointed/irritated defeated pose."
+    },
+    {
+      "animation_id": "jatin_42_ko_collapse",
+      "animation_name": "KO / Collapse",
+      "filename": "spritesheets/jatin_42_ko_collapse_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": { "width": 288, "height": 288 },
+      "total_spritesheet_dimensions": { "width": 1728, "height": 288 },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "hold_final_frame": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": { "root_pivot_x": 144, "ground_baseline_y": 272 },
+      "gameplay_purpose": "Arcade fighting-game knockout collapse when HP reaches zero.",
+      "starting_and_ending_pose_notes": "F1 strong hit jolt; F2 upper body recoils; F3 balance fails; F4 knees buckle downward; F5 collapses onto back (head left, feet right); F6 holds stable flat knocked-out pose (head left, feet right, zero blood/gore)."
+    },
+    {
+      "animation_id": "jatin_43_taunt",
+      "animation_name": "Money Taunt",
+      "filename": "spritesheets/jatin_43_taunt_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": { "width": 288, "height": 288 },
+      "total_spritesheet_dimensions": { "width": 1728, "height": 288 },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": false,
+      "hold_final_frame": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": { "root_pivot_x": 144, "ground_baseline_y": 272 },
+      "gameplay_purpose": "In-match personality taunt showcasing Jatin's modern cash-minded arrogance using a fictional green paper banknote.",
+      "starting_and_ending_pose_notes": "F1 confident taunt start; F2 reaches toward pocket; F3 pulls out fictional green paper banknote; F4 displays/flicks bill arrogantly; F5 smirks and gestures dismissively toward opponent; F6 returns smoothly to Batch 1 Standing Guard."
+    }
+  ]
+}

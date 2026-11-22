@@ -1,0 +1,318 @@
+{
+  "character": "TONY",
+  "batch": "BATCH_03_DEFENCE_DAMAGE",
+  "total_animations": 13,
+  "total_frames": 55,
+  "global_specs": {
+    "frame_width": 288,
+    "frame_height": 288,
+    "pivot_x": 144,
+    "pivot_y": 272,
+    "facing_direction": "RIGHT",
+    "file_format": "PNG",
+    "color_mode": "32-bit RGBA",
+    "background": "transparent",
+    "rendering": "nearest-neighbor pixel-art (no anti-aliasing)"
+  },
+  "animations": [
+    {
+      "animation_name": "Standing Guard",
+      "section": "Defensive",
+      "filename": "Tony_Standing_Guard.png",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "High Block",
+      "section": "Defensive",
+      "filename": "Tony_High_Block.png",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Low Block / Crouch Guard",
+      "section": "Defensive",
+      "filename": "Tony_Low_Block.png",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "High Block Impact",
+      "section": "Defensive",
+      "filename": "Tony_High_Block_Impact.png",
+      "frame_count": 3,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 864,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Low Block Impact",
+      "section": "Defensive",
+      "filename": "Tony_Low_Block_Impact.png",
+      "frame_count": 3,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 864,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Standing Light Hit Reaction",
+      "section": "Damage Reaction",
+      "filename": "Tony_Standing_Light_Hit.png",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Standing Heavy Hit Reaction",
+      "section": "Damage Reaction",
+      "filename": "Tony_Standing_Heavy_Hit.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Crouching Hit Reaction",
+      "section": "Damage Reaction",
+      "filename": "Tony_Crouching_Hit.png",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Air Hit Reaction",
+      "section": "Damage Reaction",
+      "filename": "Tony_Air_Hit_Reaction.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Knockback",
+      "section": "Knockback & Recovery",
+      "filename": "Tony_Knockback.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Knockdown / Falling",
+      "section": "Knockback & Recovery",
+      "filename": "Tony_Knockdown.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Grounded / Downed Idle",
+      "section": "Knockback & Recovery",
+      "filename": "Tony_Grounded_Idle.png",
+      "frame_count": 3,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 864,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Get-Up / Recovery",
+      "section": "Knockback & Recovery",
+      "filename": "Tony_Get_Up.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    }
+  ]
+}

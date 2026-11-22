@@ -1,0 +1,261 @@
+{
+  "character": "TONY",
+  "batch": "BATCH_01_BASIC_MOVEMENT",
+  "total_animations": 11,
+  "total_frames": 47,
+  "global_specs": {
+    "frame_width": 288,
+    "frame_height": 288,
+    "pivot_x": 144,
+    "pivot_y": 272,
+    "facing_direction": "RIGHT",
+    "file_format": "PNG",
+    "color_mode": "32-bit RGBA",
+    "background": "transparent",
+    "rendering": "nearest-neighbor pixel-art (no anti-aliasing)"
+  },
+  "animations": [
+    {
+      "animation_name": "Idle / Breathing",
+      "filename": "Tony_Idle.png",
+      "frame_count": 8,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Forward Walk",
+      "filename": "Tony_Walk_Forward.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Backward Walk",
+      "filename": "Tony_Walk_Backward.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Forward Dash",
+      "filename": "Tony_Dash_Forward.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Backward Dash",
+      "filename": "Tony_Dash_Backward.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Crouch Transition",
+      "filename": "Tony_Crouch_Transition.png",
+      "frame_count": 2,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Crouch Idle",
+      "filename": "Tony_Crouch_Idle.png",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Return to Standing",
+      "filename": "Tony_Return_Standing.png",
+      "frame_count": 2,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Jump Take-Off",
+      "filename": "Tony_Jump_Takeoff.png",
+      "frame_count": 2,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Airborne",
+      "filename": "Tony_Airborne.png",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Landing",
+      "filename": "Tony_Landing.png",
+      "frame_count": 2,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    }
+  ]
+}

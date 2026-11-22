@@ -1,0 +1,955 @@
+{
+  "project": "Project Sagar \u2014 Complete 2D Fighting Game Animation Library",
+  "character": "Sagar",
+  "included_batches": [
+    1,
+    2,
+    4,
+    5
+  ],
+  "note_on_batch_3": "Batch 3 (Defence & Damage Reactions, #22\u2013#29) was generated outside this session and can be placed into spritesheets/batch_03_defence_damage/.",
+  "global_technical_spec": {
+    "cell_dimensions_px": [
+      288,
+      288
+    ],
+    "character_ground_pivot_px": [
+      144,
+      272
+    ],
+    "vfx_center_origin_px": [
+      144,
+      144
+    ],
+    "format": "32-bit RGBA PNG (transparent background)",
+    "default_facing": "right",
+    "scaling": "Nearest-Neighbor"
+  },
+  "totals": {
+    "total_sprite_sheets": 34,
+    "character_sheets": 32,
+    "vfx_sheets": 2,
+    "total_frames": 184
+  },
+  "animations": [
+    {
+      "id": "sagar_01_idle",
+      "batch": 1,
+      "category": "Basic Movement",
+      "name": "Idle Breathing",
+      "filename": "sagar_01_idle_8f.png",
+      "relative_path": "spritesheets/batch_01_basic_movement/sagar_01_idle_8f.png",
+      "asset_type": "character",
+      "frames": 8,
+      "fps": 10,
+      "loop": true,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        2304,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Default neutral combat stance breathing and rhythmic bounce loop"
+    },
+    {
+      "id": "sagar_02_walk_forward",
+      "batch": 1,
+      "category": "Basic Movement",
+      "name": "Forward Walking",
+      "filename": "sagar_02_walk_forward_6f.png",
+      "relative_path": "spritesheets/batch_01_basic_movement/sagar_02_walk_forward_6f.png",
+      "asset_type": "character",
+      "frames": 6,
+      "fps": 10,
+      "loop": true,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1728,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Advancing toward opponent while maintaining combat guard"
+    },
+    {
+      "id": "sagar_03_walk_backward",
+      "batch": 1,
+      "category": "Basic Movement",
+      "name": "Backward Walking",
+      "filename": "sagar_03_walk_backward_6f.png",
+      "relative_path": "spritesheets/batch_01_basic_movement/sagar_03_walk_backward_6f.png",
+      "asset_type": "character",
+      "frames": 6,
+      "fps": 9,
+      "loop": true,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1728,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Defensive retreat while facing opponent with guard raised"
+    },
+    {
+      "id": "sagar_04_dash_forward",
+      "batch": 1,
+      "category": "Basic Movement",
+      "name": "Forward Dash",
+      "filename": "sagar_04_dash_forward_6f.png",
+      "relative_path": "spritesheets/batch_01_basic_movement/sagar_04_dash_forward_6f.png",
+      "asset_type": "character",
+      "frames": 6,
+      "fps": 15,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1728,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "High-speed burst forward to close distance or initiate pressure"
+    },
+    {
+      "id": "sagar_05_dash_backward",
+      "batch": 1,
+      "category": "Basic Movement",
+      "name": "Backward Dash",
+      "filename": "sagar_05_dash_backward_5f.png",
+      "relative_path": "spritesheets/batch_01_basic_movement/sagar_05_dash_backward_5f.png",
+      "asset_type": "character",
+      "frames": 5,
+      "fps": 14,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1440,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Evasive backstep hop to escape pressure or bait whiffs"
+    },
+    {
+      "id": "sagar_06_crouch_enter",
+      "batch": 1,
+      "category": "Basic Movement",
+      "name": "Crouch Transition",
+      "filename": "sagar_06_crouch_enter_2f.png",
+      "relative_path": "spritesheets/batch_01_basic_movement/sagar_06_crouch_enter_2f.png",
+      "asset_type": "character",
+      "frames": 2,
+      "fps": 16,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        576,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Rapid transition from standing stance into low crouch"
+    },
+    {
+      "id": "sagar_07_crouch_idle",
+      "batch": 1,
+      "category": "Basic Movement",
+      "name": "Crouch Idle",
+      "filename": "sagar_07_crouch_idle_4f.png",
+      "relative_path": "spritesheets/batch_01_basic_movement/sagar_07_crouch_idle_4f.png",
+      "asset_type": "character",
+      "frames": 4,
+      "fps": 8,
+      "loop": true,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1152,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Low-profile crouching breathing loop ready for low attacks or blocks"
+    },
+    {
+      "id": "sagar_08_crouch_exit",
+      "batch": 1,
+      "category": "Basic Movement",
+      "name": "Return to Standing",
+      "filename": "sagar_08_crouch_exit_2f.png",
+      "relative_path": "spritesheets/batch_01_basic_movement/sagar_08_crouch_exit_2f.png",
+      "asset_type": "character",
+      "frames": 2,
+      "fps": 16,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        576,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Smooth recovery rising from crouch back into standing guard"
+    },
+    {
+      "id": "sagar_09_jump_takeoff",
+      "batch": 1,
+      "category": "Basic Movement",
+      "name": "Jump Take-Off",
+      "filename": "sagar_09_jump_takeoff_2f.png",
+      "relative_path": "spritesheets/batch_01_basic_movement/sagar_09_jump_takeoff_2f.png",
+      "asset_type": "character",
+      "frames": 2,
+      "fps": 16,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        576,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Pre-jump crouch anticipation (Frame 1) and explosive upward launch (Frame 2)"
+    },
+    {
+      "id": "sagar_10_jump_airborne",
+      "batch": 1,
+      "category": "Basic Movement",
+      "name": "Jumping / Airborne Loop",
+      "filename": "sagar_10_jump_airborne_4f.png",
+      "relative_path": "spritesheets/batch_01_basic_movement/sagar_10_jump_airborne_4f.png",
+      "asset_type": "character",
+      "frames": 4,
+      "fps": 10,
+      "loop": true,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1152,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Mid-air ascent, apex tuck, and descent states for vertical/angled jumps"
+    },
+    {
+      "id": "sagar_11_landing",
+      "batch": 1,
+      "category": "Basic Movement",
+      "name": "Landing",
+      "filename": "sagar_11_landing_2f.png",
+      "relative_path": "spritesheets/batch_01_basic_movement/sagar_11_landing_2f.png",
+      "asset_type": "character",
+      "frames": 2,
+      "fps": 15,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        576,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Landing impact squash absorption (Frame 1) and recovery to fighting guard (Frame 2)"
+    },
+    {
+      "id": "sagar_12_light_punch",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "name": "Standing Light Punch",
+      "filename": "sagar_12_light_punch_4f.png",
+      "relative_path": "spritesheets/batch_02_basic_attacks/sagar_12_light_punch_4f.png",
+      "asset_type": "character",
+      "frames": 4,
+      "fps": 18,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1152,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Fast jab poke for interrupting opponents, pressure checks, and starting light chains."
+    },
+    {
+      "id": "sagar_13_heavy_punch",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "name": "Standing Heavy Punch",
+      "filename": "sagar_13_heavy_punch_6f.png",
+      "relative_path": "spritesheets/batch_02_basic_attacks/sagar_13_heavy_punch_6f.png",
+      "asset_type": "character",
+      "frames": 6,
+      "fps": 13,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1728,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "High-damage, weight-driven rear straight/haymaker for punishes and heavy combo enders."
+    },
+    {
+      "id": "sagar_14_light_kick",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "name": "Standing Light Kick",
+      "filename": "sagar_14_light_kick_5f.png",
+      "relative_path": "spritesheets/batch_02_basic_attacks/sagar_14_light_kick_5f.png",
+      "asset_type": "character",
+      "frames": 5,
+      "fps": 16,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1440,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Quick mid-low front snap kick for spacing control and fast hit-confirms."
+    },
+    {
+      "id": "sagar_15_heavy_kick",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "name": "Standing Heavy Kick",
+      "filename": "sagar_15_heavy_kick_7f.png",
+      "relative_path": "spritesheets/batch_02_basic_attacks/sagar_15_heavy_kick_7f.png",
+      "asset_type": "character",
+      "frames": 7,
+      "fps": 13,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        2016,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Long-range high-impact roundhouse/side kick for heavy neutral pokes and knockback."
+    },
+    {
+      "id": "sagar_16_crouch_punch",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "name": "Crouching Low Punch",
+      "filename": "sagar_16_crouch_punch_4f.png",
+      "relative_path": "spritesheets/batch_02_basic_attacks/sagar_16_crouch_punch_4f.png",
+      "asset_type": "character",
+      "frames": 4,
+      "fps": 18,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1152,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Fast crouching jab for low-profile pressure, tick throws, and close-range interrupts."
+    },
+    {
+      "id": "sagar_17_crouch_kick",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "name": "Crouching Low Kick",
+      "filename": "sagar_17_crouch_kick_5f.png",
+      "relative_path": "spritesheets/batch_02_basic_attacks/sagar_17_crouch_kick_5f.png",
+      "asset_type": "character",
+      "frames": 5,
+      "fps": 15,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1440,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Quick low-hitting shin/ankle poke from crouch to force low blocks."
+    },
+    {
+      "id": "sagar_18_sweep_attack",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "name": "Sweep Attack",
+      "filename": "sagar_18_sweep_attack_7f.png",
+      "relative_path": "spritesheets/batch_02_basic_attacks/sagar_18_sweep_attack_7f.png",
+      "asset_type": "character",
+      "frames": 7,
+      "fps": 13,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        2016,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Traditional fighting-game knockdown low sweep with distinct ground-skimming reach."
+    },
+    {
+      "id": "sagar_19_anti_air_uppercut",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "name": "Anti-Air Uppercut",
+      "filename": "sagar_19_anti_air_uppercut_6f.png",
+      "relative_path": "spritesheets/batch_02_basic_attacks/sagar_19_anti_air_uppercut_6f.png",
+      "asset_type": "character",
+      "frames": 6,
+      "fps": 14,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1728,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Dedicated upward anti-air punch to stuff jumping opponents."
+    },
+    {
+      "id": "sagar_20_jumping_punch",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "name": "Jumping Punch",
+      "filename": "sagar_20_jumping_punch_5f.png",
+      "relative_path": "spritesheets/batch_02_basic_attacks/sagar_20_jumping_punch_5f.png",
+      "asset_type": "character",
+      "frames": 5,
+      "fps": 15,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1440,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Fast aerial forward punch for air-to-air exchanges and jump-in combo starters."
+    },
+    {
+      "id": "sagar_21_jumping_kick",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "name": "Jumping Kick",
+      "filename": "sagar_21_jumping_kick_5f.png",
+      "relative_path": "spritesheets/batch_02_basic_attacks/sagar_21_jumping_kick_5f.png",
+      "asset_type": "character",
+      "frames": 5,
+      "fps": 14,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1440,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Deep-reaching flying aerial kick for jump-in pressure and cross-up approaches."
+    },
+    {
+      "id": "sagar_30_sonic_pulse_charge",
+      "batch": 4,
+      "category": "Music-Based Special Abilities & VFX",
+      "name": "Sonic Pulse \u2014 Musical Charging",
+      "filename": "sagar_30_sonic_pulse_charge_6f.png",
+      "relative_path": "spritesheets/batch_04_special_abilities/sagar_30_sonic_pulse_charge_6f.png",
+      "asset_type": "character",
+      "frames": 6,
+      "fps": 12,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1728,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Sagar taps a beat, feels the melody, wraps curved staff lines around his arm, and forms a glowing musical eighth note above his open palm (F6 holdable).",
+      "vfx_trigger_frame": null
+    },
+    {
+      "id": "sagar_31_sonic_pulse_release",
+      "batch": 4,
+      "category": "Music-Based Special Abilities & VFX",
+      "name": "Sonic Pulse \u2014 Musical Release",
+      "filename": "sagar_31_sonic_pulse_release_5f.png",
+      "relative_path": "spritesheets/batch_04_special_abilities/sagar_31_sonic_pulse_release_5f.png",
+      "asset_type": "character",
+      "frames": 5,
+      "fps": 15,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1440,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Conducting-style forward palm thrust launching the concentrated musical note through an expanding turquoise rhythm ring and curved staff trail.",
+      "vfx_trigger_frame": {
+        "vfx_asset_id": "sagar_32_sonic_pulse_projectile_vfx",
+        "trigger_frame_index_0based": 3,
+        "trigger_frame_number_1based": 4,
+        "spawn_offset_from_pivot_px": {
+          "dx": 94,
+          "dy": -136
+        },
+        "notes": "Spawn Sonic Pulse Musical Note Projectile VFX at Sagar's open palm on Frame 4 (index 3)."
+      }
+    },
+    {
+      "id": "sagar_32_sonic_pulse_projectile_vfx",
+      "batch": 4,
+      "category": "Music-Based Special Abilities & VFX",
+      "name": "Sonic Pulse \u2014 Note VFX",
+      "filename": "sagar_32_sonic_pulse_projectile_vfx_8f.png",
+      "relative_path": "spritesheets/batch_04_special_abilities/sagar_32_sonic_pulse_projectile_vfx_8f.png",
+      "asset_type": "vfx",
+      "frames": 8,
+      "fps": 16,
+      "loop": true,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        2304,
+        288
+      ],
+      "pivot_px": [
+        144,
+        144
+      ],
+      "purpose": "Separate transparent looping glowing eighth-note projectile wrapped in flowing cyan/violet staff lines, golden beat sparks, and circular rhythm rings.",
+      "vfx_trigger_frame": {
+        "triggered_by_character_asset": "sagar_31_sonic_pulse_release",
+        "trigger_frame_number_1based": 4,
+        "engine_behavior": "Loops seamlessly while engine translates musical note projectile rightward."
+      }
+    },
+    {
+      "id": "sagar_33_rhythm_break",
+      "batch": 4,
+      "category": "Music-Based Special Abilities & VFX",
+      "name": "Rhythm Break \u2014 Dash Attack",
+      "filename": "sagar_33_rhythm_break_8f.png",
+      "relative_path": "spritesheets/batch_04_special_abilities/sagar_33_rhythm_break_8f.png",
+      "asset_type": "character",
+      "frames": 8,
+      "fps": 16,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        2304,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Beat-synchronized signature dash-strike: finger snap sets a golden note beat (F2\u2013F3), foot rhythm-ring launch (F4), staff-line dash trail (F5), punch with musical beat impact burst (F6\u2013F7), and guard recovery (F8).",
+      "vfx_trigger_frame": null
+    },
+    {
+      "id": "sagar_34_final_chorus_activation",
+      "batch": 4,
+      "category": "Music-Based Special Abilities & VFX",
+      "name": "Final Chorus \u2014 Musical Activation",
+      "filename": "sagar_34_final_chorus_activation_8f.png",
+      "relative_path": "spritesheets/batch_04_special_abilities/sagar_34_final_chorus_activation_8f.png",
+      "asset_type": "character",
+      "frames": 8,
+      "fps": 12,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        2304,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Ultimate activation where Sagar feels the rhythm, conducts glowing 5-line musical staves, golden treble clefs, and notes into a charged halo framing behind him.",
+      "vfx_trigger_frame": null
+    },
+    {
+      "id": "sagar_35_final_chorus_main_attack",
+      "batch": 4,
+      "category": "Music-Based Special Abilities & VFX",
+      "name": "Final Chorus \u2014 Main Attack",
+      "filename": "sagar_35_final_chorus_main_attack_8f.png",
+      "relative_path": "spritesheets/batch_04_special_abilities/sagar_35_final_chorus_main_attack_8f.png",
+      "asset_type": "character",
+      "frames": 8,
+      "fps": 13,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        2304,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Sagar converges staff lines into his palms, compresses glowing notes into a radiant chord (F5), and conducts a dramatic forward release with a golden treble-clef burst (F7).",
+      "vfx_trigger_frame": {
+        "vfx_asset_id": "sagar_35b_final_chorus_wave_vfx",
+        "trigger_frame_index_0based": 6,
+        "trigger_frame_number_1based": 7,
+        "spawn_offset_from_pivot_px": {
+          "dx": 96,
+          "dy": -138
+        },
+        "notes": "Trigger Final Chorus Musical Composition VFX on Frame 7 (index 6) at Sagar's treble-clef conducting release."
+      }
+    },
+    {
+      "id": "sagar_35b_final_chorus_wave_vfx",
+      "batch": 4,
+      "category": "Music-Based Special Abilities & VFX",
+      "name": "Final Chorus \u2014 Wave VFX",
+      "filename": "sagar_35b_final_chorus_wave_vfx_8f.png",
+      "relative_path": "spritesheets/batch_04_special_abilities/sagar_35b_final_chorus_wave_vfx_8f.png",
+      "asset_type": "vfx",
+      "frames": 8,
+      "fps": 14,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        2304,
+        288
+      ],
+      "pivot_px": [
+        144,
+        144
+      ],
+      "purpose": "Separate transparent ultimate projectile: golden chord -> treble clef core -> expanding 5-line musical staff -> massive interconnected note/clef/staff shockwave (F6) -> dissipating notes.",
+      "vfx_trigger_frame": {
+        "triggered_by_character_asset": "sagar_35_final_chorus_main_attack",
+        "trigger_frame_number_1based": 7,
+        "engine_behavior": "One-shot expanding musical composition wavefront layered ahead of Sagar facing RIGHT."
+      }
+    },
+    {
+      "id": "sagar_36_final_chorus_finisher",
+      "batch": 4,
+      "category": "Music-Based Special Abilities & VFX",
+      "name": "Final Chorus \u2014 Finisher",
+      "filename": "sagar_36_final_chorus_finisher_4f.png",
+      "relative_path": "spritesheets/batch_04_special_abilities/sagar_36_final_chorus_finisher_4f.png",
+      "asset_type": "character",
+      "frames": 4,
+      "fps": 10,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1152,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Confident post-ultimate finishing animation as tiny golden/cyan musical notes fade from Sagar's hand and he settles into a composed fighting stance.",
+      "vfx_trigger_frame": null
+    },
+    {
+      "id": "sagar_37_special_move_recovery",
+      "batch": 4,
+      "category": "Music-Based Special Abilities & VFX",
+      "name": "Special Move Recovery",
+      "filename": "sagar_37_special_move_recovery_5f.png",
+      "relative_path": "spritesheets/batch_04_special_abilities/sagar_37_special_move_recovery_5f.png",
+      "asset_type": "character",
+      "frames": 5,
+      "fps": 12,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1440,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Natural zero-effects recovery lowering arms, relaxing shoulders, and returning cleanly to Sagar's locked standing fighting guard.",
+      "vfx_trigger_frame": null
+    },
+    {
+      "id": "sagar_38_victory",
+      "batch": 5,
+      "category": "Character States (Victory, Defeat, KO, Taunt)",
+      "name": "Victory",
+      "filename": "sagar_38_victory_6f.png",
+      "relative_path": "spritesheets/batch_05_character_states/sagar_38_victory_6f.png",
+      "asset_type": "character",
+      "frames": 6,
+      "fps": 10,
+      "loop": false,
+      "hold_final": true,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1728,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Match-win celebration expressing Sagar's confidence, warmth, and musical personality without dancing or props."
+    },
+    {
+      "id": "sagar_39_defeat",
+      "batch": 5,
+      "category": "Character States (Victory, Defeat, KO, Taunt)",
+      "name": "Defeat",
+      "filename": "sagar_39_defeat_5f.png",
+      "relative_path": "spritesheets/batch_05_character_states/sagar_39_defeat_5f.png",
+      "asset_type": "character",
+      "frames": 5,
+      "fps": 10,
+      "loop": false,
+      "hold_final": true,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1440,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Match-loss standing exhaustion and disappointment reaction, distinct from hit stun and KO."
+    },
+    {
+      "id": "sagar_40_ko_collapse",
+      "batch": 5,
+      "category": "Character States (Victory, Defeat, KO, Taunt)",
+      "name": "KO / Collapse",
+      "filename": "sagar_40_ko_collapse_6f.png",
+      "relative_path": "spritesheets/batch_05_character_states/sagar_40_ko_collapse_6f.png",
+      "asset_type": "character",
+      "frames": 6,
+      "fps": 13,
+      "loop": false,
+      "hold_final": true,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1728,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Decisive match-ending knockout collapse ending in a permanent unconscious ground state."
+    },
+    {
+      "id": "sagar_41_taunt",
+      "batch": 5,
+      "category": "Character States (Victory, Defeat, KO, Taunt)",
+      "name": "Taunt",
+      "filename": "sagar_41_taunt_6f.png",
+      "relative_path": "spritesheets/batch_05_character_states/sagar_41_taunt_6f.png",
+      "asset_type": "character",
+      "frames": 6,
+      "fps": 11,
+      "loop": false,
+      "hold_final": false,
+      "cell_px": [
+        288,
+        288
+      ],
+      "sheet_px": [
+        1728,
+        288
+      ],
+      "pivot_px": [
+        144,
+        272
+      ],
+      "purpose": "Short, confident, playful music-inspired in-combat taunt showing Sagar's rhythm and songwriting personality."
+    }
+  ]
+}

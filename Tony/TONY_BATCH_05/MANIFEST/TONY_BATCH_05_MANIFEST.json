@@ -1,0 +1,448 @@
+{
+  "character": "TONY",
+  "batch": "BATCH_05_CHARACTER_STATES_FINISHING",
+  "total_character_animations": 13,
+  "total_character_frames": 83,
+  "total_independent_effect_sheets": 4,
+  "total_independent_effect_frames": 19,
+  "global_character_specs": {
+    "frame_width": 288,
+    "frame_height": 288,
+    "pivot_x": 144,
+    "pivot_y": 272,
+    "facing_direction": "RIGHT",
+    "file_format": "PNG",
+    "color_mode": "32-bit RGBA",
+    "background": "transparent",
+    "energy_palette": "Cyan / Electric Sky-Blue (#00E5FF / #38BDF8 / #FFFFFF)",
+    "rendering": "nearest-neighbor pixel-art (no anti-aliasing)"
+  },
+  "character_animations": [
+    {
+      "animation_name": "Intro / Entrance",
+      "category": "Introduction & Personality",
+      "filename": "CHARACTER_ANIMATIONS/Tony_Intro_Entrance.png",
+      "frame_count": 8,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": [
+        "EFFECT_ASSETS/FX_Holo_Interface_Activation.png"
+      ]
+    },
+    {
+      "animation_name": "Pre-Fight Ready Stance",
+      "category": "Introduction & Personality",
+      "filename": "CHARACTER_ANIMATIONS/Tony_PreFight_Ready.png",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": []
+    },
+    {
+      "animation_name": "Tech Interface Taunt",
+      "category": "Introduction & Personality",
+      "filename": "CHARACTER_ANIMATIONS/Tony_Tech_Interface_Taunt.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": [
+        "EFFECT_ASSETS/FX_Holo_Interface_Activation.png"
+      ]
+    },
+    {
+      "animation_name": "Drone Command Taunt",
+      "category": "Introduction & Personality",
+      "filename": "CHARACTER_ANIMATIONS/Tony_Drone_Command_Taunt.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": [
+        "EFFECT_ASSETS/FX_Drone_Movement.png"
+      ]
+    },
+    {
+      "animation_name": "Victory Pose 1",
+      "category": "Victory & Defeat States",
+      "filename": "CHARACTER_ANIMATIONS/Tony_Victory_Pose_01.png",
+      "frame_count": 8,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": [
+        "EFFECT_ASSETS/FX_Holo_Interface_Activation.png"
+      ]
+    },
+    {
+      "animation_name": "Victory Pose 2",
+      "category": "Victory & Defeat States",
+      "filename": "CHARACTER_ANIMATIONS/Tony_Victory_Pose_02.png",
+      "frame_count": 8,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": [
+        "EFFECT_ASSETS/FX_Drone_Movement.png"
+      ]
+    },
+    {
+      "animation_name": "Defeat Stagger",
+      "category": "Victory & Defeat States",
+      "filename": "CHARACTER_ANIMATIONS/Tony_Defeat_Stagger.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": []
+    },
+    {
+      "animation_name": "KO Collapse",
+      "category": "Victory & Defeat States",
+      "filename": "CHARACTER_ANIMATIONS/Tony_KO_Collapse.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": []
+    },
+    {
+      "animation_name": "KO Grounded State",
+      "category": "Victory & Defeat States",
+      "filename": "CHARACTER_ANIMATIONS/Tony_KO_Grounded.png",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": []
+    },
+    {
+      "animation_name": "Exhausted Idle",
+      "category": "Victory & Defeat States",
+      "filename": "CHARACTER_ANIMATIONS/Tony_Exhausted_Idle.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": []
+    },
+    {
+      "animation_name": "Finisher Preparation",
+      "category": "Signature Finishing Animations",
+      "filename": "CHARACTER_ANIMATIONS/Tony_Finisher_Preparation.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": [
+        "EFFECT_ASSETS/FX_Holo_Interface_Activation.png",
+        "EFFECT_ASSETS/FX_Drone_Movement.png"
+      ]
+    },
+    {
+      "animation_name": "Tech Finisher Execution",
+      "category": "Signature Finishing Animations",
+      "filename": "CHARACTER_ANIMATIONS/Tony_Tech_Finisher_Execution.png",
+      "frame_count": 10,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 2880,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": [
+        "EFFECT_ASSETS/FX_Drone_Movement.png",
+        "EFFECT_ASSETS/FX_Finisher_Targeting_Lock.png",
+        "EFFECT_ASSETS/FX_Finisher_Impact_Burst.png"
+      ]
+    },
+    {
+      "animation_name": "Finisher Recovery / Post-Finisher Pose",
+      "category": "Signature Finishing Animations",
+      "filename": "CHARACTER_ANIMATIONS/Tony_Finisher_Recovery.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_effect_assets": [
+        "EFFECT_ASSETS/FX_Drone_Movement.png",
+        "EFFECT_ASSETS/FX_Holo_Interface_Activation.png"
+      ]
+    }
+  ],
+  "independent_effect_assets": [
+    {
+      "asset_name": "Combat Drone Movement Loop",
+      "filename": "EFFECT_ASSETS/FX_Drone_Movement.png",
+      "category": "Independent Effect Asset \u2014 Drone",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 96,
+        "height": 96
+      },
+      "sheet_dimensions": {
+        "width": 384,
+        "height": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 48
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "asset_name": "Holographic Interface Activation",
+      "filename": "EFFECT_ASSETS/FX_Holo_Interface_Activation.png",
+      "category": "Independent Effect Asset \u2014 Hologram UI",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 128,
+        "height": 96
+      },
+      "sheet_dimensions": {
+        "width": 640,
+        "height": 96
+      },
+      "pivot": {
+        "x": 64,
+        "y": 48
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "asset_name": "Finisher Electronic Targeting Lock",
+      "filename": "EFFECT_ASSETS/FX_Finisher_Targeting_Lock.png",
+      "category": "Independent Effect Asset \u2014 Targeting Reticle",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 128,
+        "height": 128
+      },
+      "sheet_dimensions": {
+        "width": 640,
+        "height": 128
+      },
+      "pivot": {
+        "x": 64,
+        "y": 64
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "asset_name": "Finisher Electronic Impact Burst",
+      "filename": "EFFECT_ASSETS/FX_Finisher_Impact_Burst.png",
+      "category": "Independent Effect Asset \u2014 Finisher Impact",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 192,
+        "height": 192
+      },
+      "sheet_dimensions": {
+        "width": 960,
+        "height": 192
+      },
+      "pivot": {
+        "x": 96,
+        "y": 96
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    }
+  ]
+}

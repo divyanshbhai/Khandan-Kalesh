@@ -1,0 +1,319 @@
+{
+  "project": "Project Sagar \u2014 2D Fighting Game Animation Production",
+  "character": "Sagar",
+  "batch": 2,
+  "batch_name": "Basic Fighting Attacks",
+  "global_technical_spec": {
+    "cell_width_px": 288,
+    "cell_height_px": 288,
+    "ground_baseline_y_px": 272,
+    "horizontal_pivot_x_px": 144,
+    "default_facing": "right",
+    "format": "PNG (32-bit RGBA, transparent background)",
+    "scaling_method": "Nearest-Neighbor (crisp pixel art preserved)"
+  },
+  "total_animations_in_batch": 10,
+  "total_frames_in_batch": 54,
+  "animations": [
+    {
+      "id": "sagar_12_light_punch",
+      "name": "Standing Light Punch",
+      "filename": "sagar_12_light_punch_4f.png",
+      "relative_path": "spritesheets/sagar_12_light_punch_4f.png",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "frame_count": 4,
+      "frame_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1152,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 3)",
+      "recommended_fps": 18,
+      "frame_duration_ms": 55.6,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_ground_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "animation_purpose": "Fast jab poke for interrupting opponents, pressure checks, and starting light chains.",
+      "start_and_recovery_pose_notes": "Starts from neutral standing fighting guard (F1), peaks at crisp straight lead-fist contact (F3), and recovers directly into neutral standing guard (F4).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); both bare feet stay grounded with slight forward weight transfer on F2-F3."
+    },
+    {
+      "id": "sagar_13_heavy_punch",
+      "name": "Standing Heavy Punch",
+      "filename": "sagar_13_heavy_punch_6f.png",
+      "relative_path": "spritesheets/sagar_13_heavy_punch_6f.png",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "frame_count": 6,
+      "frame_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1728,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 5)",
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.9,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_ground_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "animation_purpose": "High-damage, weight-driven rear straight/haymaker for punishes and heavy combo enders.",
+      "start_and_recovery_pose_notes": "Starts from stable standing guard (F1), winds back deeply (F2), lunges into full impact (F4) with follow-through (F5), and recovers to standing guard (F6).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); front bare foot anchors heavy forward lunge while rear heel lifts on impact."
+    },
+    {
+      "id": "sagar_14_light_kick",
+      "name": "Standing Light Kick",
+      "filename": "sagar_14_light_kick_5f.png",
+      "relative_path": "spritesheets/sagar_14_light_kick_5f.png",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "frame_count": 5,
+      "frame_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1440,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 4)",
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_ground_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "animation_purpose": "Quick mid-low front snap kick for spacing control and fast hit-confirms.",
+      "start_and_recovery_pose_notes": "Starts from standing guard (F1), shifts weight (F2) and chambers knee (F3), snaps kick forward (F4), and retracts cleanly to standing guard (F5).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); rear supporting bare foot remains firmly planted on ground_y throughout kick."
+    },
+    {
+      "id": "sagar_15_heavy_kick",
+      "name": "Standing Heavy Kick",
+      "filename": "sagar_15_heavy_kick_7f.png",
+      "relative_path": "spritesheets/sagar_15_heavy_kick_7f.png",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "frame_count": 7,
+      "frame_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 2016,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 6)",
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.9,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_ground_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "animation_purpose": "Long-range high-impact roundhouse/side kick for heavy neutral pokes and knockback.",
+      "start_and_recovery_pose_notes": "Starts from standing guard (F1), pivots and chambers high (F2-F4), extends full high kick rightward (F5), retracts (F6), and lands back in standing guard (F7).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); supporting foot anchors firmly while torso counter-leans left during F5 impact."
+    },
+    {
+      "id": "sagar_16_crouch_punch",
+      "name": "Crouching Low Punch",
+      "filename": "sagar_16_crouch_punch_4f.png",
+      "relative_path": "spritesheets/sagar_16_crouch_punch_4f.png",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "frame_count": 4,
+      "frame_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1152,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 3)",
+      "recommended_fps": 18,
+      "frame_duration_ms": 55.6,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_ground_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "animation_purpose": "Fast crouching jab for low-profile pressure, tick throws, and close-range interrupts.",
+      "start_and_recovery_pose_notes": "Starts and ends in low crouching guard (F1, F4) with shoulder coil (F2) and crisp horizontal crouch-punch contact (F3).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); maintains consistent crouched height and planted feet across all 4 frames."
+    },
+    {
+      "id": "sagar_17_crouch_kick",
+      "name": "Crouching Low Kick",
+      "filename": "sagar_17_crouch_kick_5f.png",
+      "relative_path": "spritesheets/sagar_17_crouch_kick_5f.png",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "frame_count": 5,
+      "frame_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1440,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 4)",
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.7,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_ground_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "animation_purpose": "Quick low-hitting shin/ankle poke from crouch to force low blocks.",
+      "start_and_recovery_pose_notes": "Starts from crouching guard (F1), shifts weight onto rear leg (F2), snaps low kick out (F3-F4), and retracts to crouching guard (F5).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); rear crouched foot stays anchored while kicking leg extends low near floor."
+    },
+    {
+      "id": "sagar_18_sweep_attack",
+      "name": "Sweep Attack",
+      "filename": "sagar_18_sweep_attack_7f.png",
+      "relative_path": "spritesheets/sagar_18_sweep_attack_7f.png",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "frame_count": 7,
+      "frame_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 2016,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 6)",
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.9,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_ground_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "animation_purpose": "Traditional fighting-game knockdown low sweep with distinct ground-skimming reach.",
+      "start_and_recovery_pose_notes": "Drops from guard (F1-F2), coils and rotates low (F3-F4), extends full floor-skimming sweep with hand brace (F5), retracts (F6), and recovers (F7).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); supporting leg and bracing hand anchor low ground contact on F5."
+    },
+    {
+      "id": "sagar_19_anti_air_uppercut",
+      "name": "Anti-Air Uppercut",
+      "filename": "sagar_19_anti_air_uppercut_6f.png",
+      "relative_path": "spritesheets/sagar_19_anti_air_uppercut_6f.png",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "frame_count": 6,
+      "frame_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1728,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 5)",
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.4,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_ground_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "animation_purpose": "Dedicated upward anti-air punch to stuff jumping opponents.",
+      "start_and_recovery_pose_notes": "Starts from standing guard (F1), coils deep low (F2), drives vertically upward (F3) to full skyward uppercut impact (F4) and apex follow-through (F5), landing into guard (F6).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); F4-F5 vertical arm reach fits cleanly inside 288x288 cell with zero top clipping."
+    },
+    {
+      "id": "sagar_20_jumping_punch",
+      "name": "Jumping Punch",
+      "filename": "sagar_20_jumping_punch_5f.png",
+      "relative_path": "spritesheets/sagar_20_jumping_punch_5f.png",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "frame_count": 5,
+      "frame_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1440,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 4)",
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.7,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_ground_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "airborne"
+      },
+      "animation_purpose": "Fast aerial forward punch for air-to-air exchanges and jump-in combo starters.",
+      "start_and_recovery_pose_notes": "Starts in Batch 1 airborne tucked posture (F1), winds shoulder mid-air (F2), extends crisp aerial punch (F3-F4), and returns to airborne descent posture (F5).",
+      "pivot_consistency_notes": "Airborne center-balanced pivot within 288x288 cell; both feet stay completely off ground across all 5 frames."
+    },
+    {
+      "id": "sagar_21_jumping_kick",
+      "name": "Jumping Kick",
+      "filename": "sagar_21_jumping_kick_5f.png",
+      "relative_path": "spritesheets/sagar_21_jumping_kick_5f.png",
+      "batch": 2,
+      "category": "Basic Fighting Attacks",
+      "frame_count": 5,
+      "frame_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1440,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 4)",
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.4,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_ground_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "airborne"
+      },
+      "animation_purpose": "Deep-reaching flying aerial kick for jump-in pressure and cross-up approaches.",
+      "start_and_recovery_pose_notes": "Starts in airborne prep (F1), chambers knee (F2), thrusts leg forward-downward (F3) to full flying kick contact (F4), and retracts to airborne recovery (F5).",
+      "pivot_consistency_notes": "Airborne center-balanced pivot within 288x288 cell; no ground contact during sequence."
+    }
+  ]
+}

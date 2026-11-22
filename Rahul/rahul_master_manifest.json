@@ -1,0 +1,1491 @@
+{
+  "project": "Project Rahul \u2014 Complete 2D Pixel-Art Fighting Game Animation Library",
+  "character": "RAHUL",
+  "version": "1.0.0",
+  "generated_date": "2026-11-22",
+  "total_batches": 5,
+  "total_sheets": 42,
+  "total_character_sheets": 40,
+  "total_vfx_sheets": 2,
+  "total_frames": 221,
+  "global_specs": {
+    "frame_cell_size": {
+      "width": 288,
+      "height": 288
+    },
+    "character_pivot": {
+      "x": 144,
+      "y": 272
+    },
+    "format": "32-bit RGBA PNG",
+    "default_facing": "RIGHT",
+    "scaling_filter": "nearest_neighbor"
+  },
+  "animations": [
+    {
+      "animation_id": "rahul_01_idle",
+      "animation_name": "Idle Breathing",
+      "filename": "spritesheets/rahul_01_idle_8f.png",
+      "frame_count": 8,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "total_duration_ms": 800.0,
+      "loop": true,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Default neutral standing combat state; communicates Rahul's heavy muscular presence and readiness without excessive bounce.",
+      "starting_pose_notes": "F1: Stable wide standing fighting guard, knees slightly bent, lead left hand forward at chin/chest height, rear right hand guarding chest.",
+      "ending_pose_notes": "F8: Smoothly returns to F1 neutral fighting guard posture for seamless looping.",
+      "transition_compatibility_notes": "Connects directly to Forward Walk F1, Backward Walk F1, Forward Dash F1, Backward Dash F1, Crouch Transition F1, and Jump Take-Off F1; receives Return to Standing F2 and Landing F2.",
+      "batch": "Batch 01",
+      "batch_folder": "Rahul_Batch_01_Basic_Movement",
+      "display_name": "Idle Breathing",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_02_walk_forward",
+      "animation_name": "Forward Walking",
+      "filename": "spritesheets/rahul_02_walk_forward_6f.png",
+      "frame_count": 6,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "total_duration_ms": 600.0,
+      "loop": true,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Controlled forward combat advance toward the opponent with weighted muscular stride and natural arm counterbalance.",
+      "starting_pose_notes": "F1: Balanced standing guard matching Idle F1 before initiating lead-foot advance.",
+      "ending_pose_notes": "F6: Settled forward stance ready to cycle seamlessly back into F1 or exit cleanly into Idle F1.",
+      "transition_compatibility_notes": "Enters smoothly from Idle F1; returns cleanly to Idle F1 on directional input release.",
+      "batch": "Batch 01",
+      "batch_folder": "Rahul_Batch_01_Basic_Movement",
+      "display_name": "Forward Walking",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_03_walk_backward",
+      "animation_name": "Backward Walking",
+      "filename": "spritesheets/rahul_03_walk_backward_6f.png",
+      "frame_count": 6,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.1,
+      "total_duration_ms": 666.7,
+      "loop": true,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Defensive retreat while maintaining forward-facing guard toward the opponent (never turns away).",
+      "starting_pose_notes": "F1: Standard defensive fighting guard facing RIGHT.",
+      "ending_pose_notes": "F6: Compact retreating defensive guard facing RIGHT for seamless loop or return to Idle.",
+      "transition_compatibility_notes": "Maintains identical RIGHT-facing guard silhouette with Idle F1 and standing block states.",
+      "batch": "Batch 01",
+      "batch_folder": "Rahul_Batch_01_Basic_Movement",
+      "display_name": "Backward Walking",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_04_dash_forward",
+      "animation_name": "Forward Dash",
+      "filename": "spritesheets/rahul_04_dash_forward_6f.png",
+      "frame_count": 6,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.7,
+      "total_duration_ms": 400.0,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Rapid burst gap-closer driven by explosive rear-leg push-off, low athletic sprint lean, and planted braking recovery.",
+      "starting_pose_notes": "F1: Coiled low anticipation crouch ready to explode forward.",
+      "ending_pose_notes": "F6: Stabilized upright standing fighting guard after F5 hard braking lunge.",
+      "transition_compatibility_notes": "Enters from Idle F1 or Forward Walk; F6 recovery connects directly to Idle F1 or standing attack startups.",
+      "batch": "Batch 01",
+      "batch_folder": "Rahul_Batch_01_Basic_Movement",
+      "display_name": "Forward Dash",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_05_dash_backward",
+      "animation_name": "Backward Dash",
+      "filename": "spritesheets/rahul_05_dash_backward_5f.png",
+      "frame_count": 5,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.4,
+      "total_duration_ms": 357.1,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": false,
+        "per_frame_bottom_y": [
+          272,
+          272,
+          250,
+          272,
+          272
+        ],
+        "notes": "F3 features a brief 22 px airborne back-hop clearance while remaining facing RIGHT."
+      },
+      "gameplay_purpose": "Quick defensive evasive backstep to escape close pressure while keeping eyes and guard on the opponent.",
+      "starting_pose_notes": "F1: Ready standing fighting guard facing RIGHT.",
+      "ending_pose_notes": "F5: Stabilized defensive fighting guard facing RIGHT after F4 bent-knee landing.",
+      "transition_compatibility_notes": "Enters from Idle F1; F5 connects directly back to Idle F1 or Backward Walk F1.",
+      "batch": "Batch 01",
+      "batch_folder": "Rahul_Batch_01_Basic_Movement",
+      "display_name": "Backward Dash",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_06_crouch_enter",
+      "animation_name": "Crouch Transition",
+      "filename": "spritesheets/rahul_06_crouch_enter_2f.png",
+      "frame_count": 2,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "total_duration_ms": 125.0,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Fast grounded transition from standing guard into low crouching guard with natural muscular thigh compression.",
+      "starting_pose_notes": "F1: Standing fighting guard matching Idle F1.",
+      "ending_pose_notes": "F2: Deep low crouching fighting guard (~189 px height), both feet planted on Y=272.",
+      "transition_compatibility_notes": "F1 matches Idle F1; F2 matches Crouch Idle F1 in height, foot stance, and arm guard.",
+      "batch": "Batch 01",
+      "batch_folder": "Rahul_Batch_01_Basic_Movement",
+      "display_name": "Crouch Transition",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_07_crouch_idle",
+      "animation_name": "Crouch Idle",
+      "filename": "spritesheets/rahul_07_crouch_idle_4f.png",
+      "frame_count": 4,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 8,
+      "frame_duration_ms": 125.0,
+      "total_duration_ms": 500.0,
+      "loop": true,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Held low defensive posture with subtle muscular chest/shoulder breathing and stable low center of gravity.",
+      "starting_pose_notes": "F1: Low crouching defensive guard matching Crouch Transition F2.",
+      "ending_pose_notes": "F4: Settles back into initial low crouch guard for seamless looping.",
+      "transition_compatibility_notes": "Receives Crouch Transition F2; feeds directly into Return to Standing F1 and future Batch 2 crouching attacks.",
+      "batch": "Batch 01",
+      "batch_folder": "Rahul_Batch_01_Basic_Movement",
+      "display_name": "Crouch Idle",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_08_crouch_exit",
+      "animation_name": "Return to Standing",
+      "filename": "spritesheets/rahul_08_crouch_exit_2f.png",
+      "frame_count": 2,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "total_duration_ms": 125.0,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Crisp grounded recovery from crouching stance back to upright fighting guard upon releasing Down.",
+      "starting_pose_notes": "F1: Deep crouching fighting guard matching Crouch Idle F1.",
+      "ending_pose_notes": "F2: Full standing fighting guard matching Idle F1.",
+      "transition_compatibility_notes": "F1 connects from Crouch Idle; F2 transitions seamlessly into Idle F1.",
+      "batch": "Batch 01",
+      "batch_folder": "Rahul_Batch_01_Basic_Movement",
+      "display_name": "Return to Standing",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_09_jump_takeoff",
+      "animation_name": "Jump Take-Off",
+      "filename": "spritesheets/rahul_09_jump_takeoff_2f.png",
+      "frame_count": 2,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "total_duration_ms": 125.0,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": false,
+        "per_frame_bottom_y": [
+          272,
+          254
+        ],
+        "notes": "F1 grounded coiled anticipation at Y=272; F2 upward push-off with both feet 18 px clear of ground."
+      },
+      "gameplay_purpose": "Pre-jump knee compression and explosive upward vertical launch into aerial state.",
+      "starting_pose_notes": "F1: Deep coiled knee-bent jump preparation, arms swung back, both feet planted on Y=272.",
+      "ending_pose_notes": "F2: Full-body upward extension with arms driving upward and both feet visibly airborne.",
+      "transition_compatibility_notes": "F1 enters from standing/walking states; F2 connects directly into Jump Airborne F1.",
+      "batch": "Batch 01",
+      "batch_folder": "Rahul_Batch_01_Basic_Movement",
+      "display_name": "Jump Take-Off",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_10_jump_airborne",
+      "animation_name": "Jumping / Airborne Loop",
+      "filename": "spritesheets/rahul_10_jump_airborne_4f.png",
+      "frame_count": 4,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "total_duration_ms": 400.0,
+      "loop": false,
+      "playback_mode": "play_once_hold_last_frame_until_landing",
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": false,
+        "per_frame_bottom_y": [
+          248,
+          228,
+          220,
+          244
+        ],
+        "notes": "All 4 frames visibly airborne (24\u201352 px above Y=272); engine controls vertical jump arc."
+      },
+      "gameplay_purpose": "Full aerial arc visual progression (rising -> compact mid-air tuck -> apex -> beginning of descent) synced with engine jump physics.",
+      "starting_pose_notes": "F1: Rising airborne posture with lead knee driven high and trailing foot angled downward off the ground.",
+      "ending_pose_notes": "F4: Beginning of descent with legs opening downward and both feet still angled airborne, ready to hold until ground contact.",
+      "transition_compatibility_notes": "F1 follows Jump Take-Off F2; F4 connects smoothly into Landing F1 upon ground collision.",
+      "batch": "Batch 01",
+      "batch_folder": "Rahul_Batch_01_Basic_Movement",
+      "display_name": "Jumping / Airborne Loop",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_11_landing",
+      "animation_name": "Landing",
+      "filename": "spritesheets/rahul_11_landing_2f.png",
+      "frame_count": 2,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.7,
+      "total_duration_ms": 133.3,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Ground-impact shock absorption and recovery from aerial state back into neutral combat readiness.",
+      "starting_pose_notes": "F1: Both feet planted on Y=272 with bent knees/hips absorbing landing weight and muscular arms lowered for balance.",
+      "ending_pose_notes": "F2: Upright stabilized standing fighting guard matching Idle F1.",
+      "transition_compatibility_notes": "Triggered immediately on ground contact from Jump Airborne F4; F2 transitions seamlessly into Idle F1.",
+      "batch": "Batch 01",
+      "batch_folder": "Rahul_Batch_01_Basic_Movement",
+      "display_name": "Landing",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_12_light_punch",
+      "animation_name": "Standing Light Punch",
+      "filename": "spritesheets/rahul_12_light_punch_4f.png",
+      "frame_count": 4,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 18,
+      "frame_duration_ms": 55.6,
+      "total_duration_ms": 222.2,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Fast close-range jab poke and combo starter with minimal startup and recovery.",
+      "starting_pose_description": "F1: Standard standing fighting guard matching Batch 1 Idle F1.",
+      "ending_pose_description": "F4: Lead arm retracted cleanly back into standard standing fighting guard.",
+      "contact_frame": 3,
+      "cross_batch_transition_notes": "Enters directly from Batch 1 Standing Idle F1 (228 px height) and returns cleanly to Standing Idle F1 on F4.",
+      "batch": "Batch 02",
+      "batch_folder": "Rahul_Batch_02_Basic_Attacks",
+      "display_name": "Standing Light Punch",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_13_heavy_punch",
+      "animation_name": "Standing Heavy Punch",
+      "filename": "spritesheets/rahul_13_heavy_punch_6f.png",
+      "frame_count": 6,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.9,
+      "total_duration_ms": 461.5,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Signature high-impact body-driven cross punch with deep anticipation, full torso rotation, and heavy follow-through.",
+      "starting_pose_description": "F1: Stable standing fighting guard matching Batch 1 Idle F1.",
+      "ending_pose_description": "F6: Balanced upright recovery into standard standing fighting guard after F5 momentum absorption.",
+      "contact_frame": 4,
+      "cross_batch_transition_notes": "Enters from Batch 1 Standing Idle F1; F6 recovers cleanly into Standing Idle F1.",
+      "batch": "Batch 02",
+      "batch_folder": "Rahul_Batch_02_Basic_Attacks",
+      "display_name": "Standing Heavy Punch",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_14_light_kick",
+      "animation_name": "Standing Light Kick",
+      "filename": "spritesheets/rahul_14_light_kick_5f.png",
+      "frame_count": 5,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "total_duration_ms": 312.5,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Quick mid-low front snap kick for spacing control and fast hit confirms.",
+      "starting_pose_description": "F1: Standard standing fighting guard with both feet planted on Y=272.",
+      "ending_pose_description": "F5: Kicking leg retracted and planted firmly back in standing guard.",
+      "contact_frame": 4,
+      "cross_batch_transition_notes": "Seamless entry from and recovery back to Batch 1 Standing Idle F1.",
+      "batch": "Batch 02",
+      "batch_folder": "Rahul_Batch_02_Basic_Attacks",
+      "display_name": "Standing Light Kick",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_15_heavy_kick",
+      "animation_name": "Standing Heavy Kick",
+      "filename": "spritesheets/rahul_15_heavy_kick_7f.png",
+      "frame_count": 7,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 2016,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.9,
+      "total_duration_ms": 538.5,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "High-impact long-range heavy side/roundhouse kick showcasing Rahul's lower-body power and strong torso counter-lean.",
+      "starting_pose_description": "F1: Standing fighting guard matching Batch 1 Idle F1.",
+      "ending_pose_description": "F7: Both feet grounded in standard standing fighting guard following F6 chambered retraction.",
+      "contact_frame": 5,
+      "cross_batch_transition_notes": "Enters from Batch 1 Standing Idle F1 and recovers cleanly into Standing Idle F1 on F7.",
+      "batch": "Batch 02",
+      "batch_folder": "Rahul_Batch_02_Basic_Attacks",
+      "display_name": "Standing Heavy Kick",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_16_crouch_punch",
+      "animation_name": "Crouching Low Punch",
+      "filename": "spritesheets/rahul_16_crouch_punch_4f.png",
+      "frame_count": 4,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 18,
+      "frame_duration_ms": 55.6,
+      "total_duration_ms": 222.2,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Rapid low crouching jab to check approaches and link into crouching combos while maintaining low hurtbox.",
+      "starting_pose_description": "F1: Deep crouching defensive guard matching Batch 1 Crouch Idle F1 (~189 px height).",
+      "ending_pose_description": "F4: Arm retracted into identical deep crouching guard.",
+      "contact_frame": 3,
+      "cross_batch_transition_notes": "Matches Batch 1 Crouch Idle F1 height and stance on both F1 entry and F4 recovery.",
+      "batch": "Batch 02",
+      "batch_folder": "Rahul_Batch_02_Basic_Attacks",
+      "display_name": "Crouching Low Punch",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_17_crouch_kick",
+      "animation_name": "Crouching Low Kick",
+      "filename": "spritesheets/rahul_17_crouch_kick_5f.png",
+      "frame_count": 5,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.7,
+      "total_duration_ms": 333.3,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Fast low shin/ankle poke from crouch that forces opponents to block low.",
+      "starting_pose_description": "F1: Stable low crouching guard matching Batch 1 Crouch Idle F1.",
+      "ending_pose_description": "F5: Kicking leg retracted cleanly back into deep crouching guard.",
+      "contact_frame": 4,
+      "cross_batch_transition_notes": "Matches Batch 1 Crouch Idle F1 on F1 entry and F5 recovery with consistent 188\u2013191 px crouching height.",
+      "batch": "Batch 02",
+      "batch_folder": "Rahul_Batch_02_Basic_Attacks",
+      "display_name": "Crouching Low Kick",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_18_sweep_attack",
+      "animation_name": "Sweep Attack",
+      "filename": "spritesheets/rahul_18_sweep_attack_7f.png",
+      "frame_count": 7,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 2016,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.9,
+      "total_duration_ms": 538.5,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Long-reach ground-level knockdown sweep with rear-hand brace and full rightward leg extension.",
+      "starting_pose_description": "F1: Deep crouching guard matching Batch 1 Crouch Idle F1.",
+      "ending_pose_description": "F7: Recovered back into deep crouching guard after F6 upward pull-back.",
+      "contact_frame": 5,
+      "cross_batch_transition_notes": "Enters from and recovers cleanly into Batch 1 Crouch Idle F1; distinct ground-braced silhouette from Crouching Low Kick.",
+      "batch": "Batch 02",
+      "batch_folder": "Rahul_Batch_02_Basic_Attacks",
+      "display_name": "Sweep Attack",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_19_anti_air_uppercut",
+      "animation_name": "Anti-Air Uppercut",
+      "filename": "spritesheets/rahul_19_anti_air_uppercut_6f.png",
+      "frame_count": 6,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.4,
+      "total_duration_ms": 428.6,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true,
+        "per_frame_bottom_y": [
+          272,
+          272,
+          272,
+          268,
+          272,
+          272
+        ],
+        "notes": "F4 peaks with slight 4 px upward lift as Rahul drives skyward through his vertical fist extension."
+      },
+      "gameplay_purpose": "Explosive vertical anti-air uppercut designed to intercept jump-in opponents with strong upward leg drive.",
+      "starting_pose_description": "F1: Standard standing fighting guard matching Batch 1 Idle F1.",
+      "ending_pose_description": "F6: Stabilized grounded recovery into standard standing fighting guard.",
+      "contact_frame": 4,
+      "cross_batch_transition_notes": "Enters from Batch 1 Standing Guard / Idle F1 and recovers cleanly to Standing Guard F1 on F6.",
+      "batch": "Batch 02",
+      "batch_folder": "Rahul_Batch_02_Basic_Attacks",
+      "display_name": "Anti-Air Uppercut",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_20_jumping_punch",
+      "animation_name": "Jumping Punch",
+      "filename": "spritesheets/rahul_20_jumping_punch_5f.png",
+      "frame_count": 5,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.7,
+      "total_duration_ms": 333.3,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": false,
+        "per_frame_bottom_y": [
+          248,
+          228,
+          230,
+          238,
+          244
+        ],
+        "notes": "All 5 frames visibly airborne (24\u201344 px above Y=272), matching Batch 1 Jump Airborne convention."
+      },
+      "gameplay_purpose": "Fast aerial forward punch for air-to-air intercepts and jump-in pressure.",
+      "starting_pose_description": "F1: Airborne rising preparation matching Batch 1 Jump Airborne F1.",
+      "ending_pose_description": "F5: Controlled airborne recovery posture ready to transition to Jump Airborne F4 or Landing F1.",
+      "contact_frame": 4,
+      "cross_batch_transition_notes": "Seamless mid-air entry from Batch 1 Jump Airborne and clean exit back into Jump Airborne descent or Landing F1.",
+      "batch": "Batch 02",
+      "batch_folder": "Rahul_Batch_02_Basic_Attacks",
+      "display_name": "Jumping Punch",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_21_jumping_kick",
+      "animation_name": "Jumping Kick",
+      "filename": "spritesheets/rahul_21_jumping_kick_5f.png",
+      "frame_count": 5,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.4,
+      "total_duration_ms": 357.1,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": false,
+        "per_frame_bottom_y": [
+          248,
+          230,
+          232,
+          236,
+          244
+        ],
+        "notes": "All 5 frames visibly airborne (24\u201342 px above Y=272), matching Batch 1 Jump Airborne convention."
+      },
+      "gameplay_purpose": "Long-reach aerial jump-in kick with extended muscular leg and tucked counterbalance leg.",
+      "starting_pose_description": "F1: Airborne preparation matching Batch 1 Jump Airborne F1.",
+      "ending_pose_description": "F5: Retracted airborne recovery posture ready for Jump Airborne descent or Landing F1.",
+      "contact_frame": 4,
+      "cross_batch_transition_notes": "Compatible with Batch 1 Jump Airborne entry/exit and distinct silhouette from Jumping Punch.",
+      "batch": "Batch 02",
+      "batch_folder": "Rahul_Batch_02_Basic_Attacks",
+      "display_name": "Jumping Kick",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_22_standing_guard",
+      "animation_name": "Standing Guard",
+      "filename": "spritesheets/rahul_22_standing_guard_4f.png",
+      "frame_count": 4,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.1,
+      "total_duration_ms": 444.4,
+      "loop": true,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "High/mid standing defensive block stance absorbing incoming standing and jumping attacks.",
+      "starting_pose_notes": "F1: Braced standing X-guard with thick muscular forearms crossed across chest/jawline, sunglasses clearly visible above wrists, knees solidly bent.",
+      "ending_pose_notes": "F4: Settles back smoothly into F1 crossed-forearm block for seamless looping.",
+      "cross_batch_transition_notes": "Connects cleanly to and from Batch 1 Standing Idle F1 (228 px height) and leads directly into Guard-Break F1 if guard meter depletes.",
+      "batch": "Batch 03",
+      "batch_folder": "Rahul_Batch_03_Defence_Damage",
+      "display_name": "Standing Guard",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_23_crouching_guard",
+      "animation_name": "Crouching Guard",
+      "filename": "spritesheets/rahul_23_crouching_guard_4f.png",
+      "frame_count": 4,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.1,
+      "total_duration_ms": 444.4,
+      "loop": true,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Low defensive block stance protecting against crouching attacks and sweeps.",
+      "starting_pose_notes": "F1: Low crouching X-guard matching Batch 1 Crouch Idle height (~189 px) with forearms braced across chest.",
+      "ending_pose_notes": "F4: Maintains crossed-forearm low block to loop seamlessly back into F1.",
+      "cross_batch_transition_notes": "Matches Batch 1 Crouch Idle and Batch 2 crouching attacks in exact height (183\u2013190 px) and grounded stance.",
+      "batch": "Batch 03",
+      "batch_folder": "Rahul_Batch_03_Defence_Damage",
+      "display_name": "Crouching Guard",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_24_light_hit_reaction",
+      "animation_name": "Light Hit Reaction",
+      "filename": "spritesheets/rahul_24_light_hit_reaction_3f.png",
+      "frame_count": 3,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 864,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.4,
+      "total_duration_ms": 214.3,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Short hitstun reaction when struck by light jabs, quick pokes, or low-hitstun attacks from the right.",
+      "starting_pose_notes": "F1: Immediate upper-body jolt on contact with feet planted.",
+      "ending_pose_notes": "F3: Rapid stabilization back into upright standing fighting guard after F2 head/shoulder leftward recoil.",
+      "cross_batch_transition_notes": "Recovers cleanly into Batch 1 Standing Idle F1 or Standing Guard F1.",
+      "batch": "Batch 03",
+      "batch_folder": "Rahul_Batch_03_Defence_Damage",
+      "display_name": "Light Hit Reaction",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_25_heavy_hit_reaction",
+      "animation_name": "Heavy Hit Reaction",
+      "filename": "spritesheets/rahul_25_heavy_hit_reaction_5f.png",
+      "frame_count": 5,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.3,
+      "total_duration_ms": 416.7,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Extended grounded hitstun reaction for heavy punches, heavy kicks, and high-impact strikes.",
+      "starting_pose_notes": "F1: Violent impact head snap backward to the left as chest absorbs heavy force.",
+      "ending_pose_notes": "F5: Recovers into a slightly winded, weakened standing fighting stance following F2\u2013F4 arm blow-open and stumble.",
+      "cross_batch_transition_notes": "Clearly distinct from Light Hit; F5 transitions smoothly into Batch 1 Standing Idle F1 or Guard.",
+      "batch": "Batch 03",
+      "batch_folder": "Rahul_Batch_03_Defence_Damage",
+      "display_name": "Heavy Hit Reaction",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_26_launch_knockback",
+      "animation_name": "Launch / Knockback Reaction",
+      "filename": "spritesheets/rahul_26_launch_knockback_5f.png",
+      "frame_count": 5,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.9,
+      "total_duration_ms": 384.6,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": false,
+        "per_frame_bottom_y": [
+          272,
+          248,
+          226,
+          208,
+          230
+        ],
+        "notes": "F1 grounded impact; F2\u2013F5 fully airborne involuntary knockback toward the left (head left, feet right)."
+      },
+      "gameplay_purpose": "Involuntary airborne juggle/blowback state triggered by anti-air uppercuts, launchers, sweeps, or heavy blowback specials.",
+      "starting_pose_notes": "F1: Grounded heavy impact jolt before feet leave the ground on F2.",
+      "ending_pose_notes": "F5: Back-first airborne descent (bottom_y=230, head LEFT, feet RIGHT) positioned to hand off directly into Knockdown F1.",
+      "cross_batch_transition_notes": "F5 connects seamlessly into Knockdown / Falling F1 (identical bottom_y=230 and head-left/feet-right orientation).",
+      "batch": "Batch 03",
+      "batch_folder": "Rahul_Batch_03_Defence_Damage",
+      "display_name": "Launch / Knockback Reaction",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_27_knockdown_fall",
+      "animation_name": "Knockdown / Falling",
+      "filename": "spritesheets/rahul_27_knockdown_fall_6f.png",
+      "frame_count": 6,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.3,
+      "total_duration_ms": 500.0,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": false,
+        "per_frame_bottom_y": [
+          230,
+          246,
+          260,
+          264,
+          272,
+          272
+        ],
+        "notes": "F1\u2013F4 airborne descent toward floor; F5 ground slam impact at Y=272; F6 stable supine knocked-down pose (240 px wide, head LEFT, feet RIGHT)."
+      },
+      "gameplay_purpose": "Complete falling descent, floor impact slam, and knocked-down ground state.",
+      "starting_pose_notes": "F1: Continues back-first airborne descent directly from Launch / Knockback F5.",
+      "ending_pose_notes": "F6: Stable supine lying-down knocked-down pose resting flat on Y=272 (240 px wide, head LEFT, feet RIGHT).",
+      "cross_batch_transition_notes": "Receives Launch / Knockback F5; F6 matches Get-Up F1 in exact 240 px horizontal footprint, orientation, and ground baseline (and establishes reference footprint for future Batch 5 KO).",
+      "batch": "Batch 03",
+      "batch_folder": "Rahul_Batch_03_Defence_Damage",
+      "display_name": "Knockdown / Falling",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_28_get_up",
+      "animation_name": "Get-Up Animation",
+      "filename": "spritesheets/rahul_28_get_up_5f.png",
+      "frame_count": 5,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.9,
+      "total_duration_ms": 454.5,
+      "loop": false,
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Wake-up recovery sequence transitioning Rahul from knocked-down supine state back to active standing combat.",
+      "starting_pose_notes": "F1: Exact supine lying-down pose matching Knockdown F6 (240 px wide, head LEFT, feet RIGHT, grounded at Y=272).",
+      "ending_pose_notes": "F5: Fully recovered upright standard standing fighting guard (228 px height) matching Batch 1 Idle F1.",
+      "cross_batch_transition_notes": "F1 locks directly to Knockdown F6 with zero scale jump; F5 hands off cleanly to Batch 1 Standing Idle F1.",
+      "batch": "Batch 03",
+      "batch_folder": "Rahul_Batch_03_Defence_Damage",
+      "display_name": "Get-Up Animation",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_29_guard_break_stunned",
+      "animation_name": "Guard-Break / Stunned Reaction",
+      "filename": "spritesheets/rahul_29_guard_break_stunned_5f.png",
+      "frame_count": 5,
+      "frame_cell_size": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.9,
+      "total_duration_ms": 454.5,
+      "loop": false,
+      "playback_mode": "play_once_hold_final_frame",
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "High-vulnerability guard-shatter and dizzy/stunned hold state leaving Rahul wide open to punish combos.",
+      "starting_pose_notes": "F1: Crossed-forearm Standing Guard shattered by overwhelming incoming impact.",
+      "ending_pose_notes": "F5: Holdable stunned stance \u2014 weakened bent knees, slumped shoulders, head tilted dazed, arms hanging open at sides (zero cartoon stars/effects).",
+      "cross_batch_transition_notes": "Enters directly from Standing Guard; holds F5 cleanly for the duration of engine stun timer before recovering to Idle F1.",
+      "batch": "Batch 03",
+      "batch_folder": "Rahul_Batch_03_Defence_Damage",
+      "display_name": "Guard-Break / Stunned Reaction",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_30_iron_fist_charge",
+      "asset_name": "Iron Fist \u2014 Charging",
+      "filename": "spritesheets/rahul_30_iron_fist_charge_6f.png",
+      "asset_type": "character",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.9,
+      "total_duration_ms": 545.5,
+      "loop": false,
+      "playback_mode": "play_once_hold_final_frame",
+      "default_facing": "RIGHT",
+      "pivot_or_anchor": {
+        "type": "character_ground_pivot",
+        "x": 144,
+        "y": 272
+      },
+      "gameplay_purpose": "Charge-up phase for Rahul's Iron Fist power punch; communicates physical coiling and weight loading into the rear striking arm.",
+      "start_pose_notes": "F1: Standard standing fighting guard matching Batch 1 Idle F1.",
+      "recovery_or_end_pose_notes": "F6: Stable coiled maximum-charge stance with rear fist clenched tightly at hip/rib and subtle amber-white compressed air spark.",
+      "cross_batch_transition_notes": "Enters from Batch 1 Standing Guard / Idle F1; F6 transitions directly into Iron Fist Release F1.",
+      "vfx_trigger_frame": null,
+      "batch": "Batch 04",
+      "batch_folder": "Rahul_Batch_04_Special_Abilities",
+      "display_name": "Iron Fist \u2014 Charging"
+    },
+    {
+      "animation_id": "rahul_31_iron_fist_release",
+      "asset_name": "Iron Fist \u2014 Release",
+      "filename": "spritesheets/rahul_31_iron_fist_release_5f.png",
+      "asset_type": "character",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.7,
+      "total_duration_ms": 333.3,
+      "loop": false,
+      "playback_mode": "one_shot",
+      "default_facing": "RIGHT",
+      "pivot_or_anchor": {
+        "type": "character_ground_pivot",
+        "x": 144,
+        "y": 272
+      },
+      "gameplay_purpose": "Devastating close-to-mid-range physical power punch unleashing stored Iron Fist torque.",
+      "start_pose_notes": "F1: Coiled Iron Fist stance connecting from Charge F6.",
+      "recovery_or_end_pose_notes": "F5: Controlled recoil follow-through transitioning into Special Move Recovery or Idle.",
+      "cross_batch_transition_notes": "Receives Iron Fist Charge F6; F4 triggers Iron Fist Impact VFX (#32); F5 connects into Special Move Recovery (#37) or Batch 1 Standing Guard.",
+      "vfx_trigger_frame": {
+        "frame_index_1based": 4,
+        "triggers_asset_id": "rahul_32_iron_fist_impact_vfx",
+        "recommended_spawn_offset_from_pivot": {
+          "dx": 108,
+          "dy": -146
+        }
+      },
+      "batch": "Batch 04",
+      "batch_folder": "Rahul_Batch_04_Special_Abilities",
+      "display_name": "Iron Fist \u2014 Release"
+    },
+    {
+      "animation_id": "rahul_32_iron_fist_impact_vfx",
+      "asset_name": "Iron Fist \u2014 Kinetic Impact VFX",
+      "filename": "spritesheets/rahul_32_iron_fist_impact_vfx_8f.png",
+      "asset_type": "vfx",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 18,
+      "frame_duration_ms": 55.6,
+      "total_duration_ms": 444.4,
+      "loop": false,
+      "playback_mode": "one_shot",
+      "default_facing": "RIGHT",
+      "pivot_or_anchor": {
+        "type": "vfx_center_origin",
+        "x": 144,
+        "y": 144
+      },
+      "gameplay_purpose": "Layered physical kinetic shockwave burst spawned at the fist impact point on Iron Fist contact.",
+      "start_pose_notes": "F1: Small concentrated warm-white and amber impact flash.",
+      "recovery_or_end_pose_notes": "F8: Final dissipating dust wisps and tiny kinetic sparks.",
+      "cross_batch_transition_notes": "Triggered as a separate transparent layer on rahul_31_iron_fist_release F4 at offset (+108, -146) from Rahul's ground pivot.",
+      "vfx_trigger_frame": null,
+      "batch": "Batch 04",
+      "batch_folder": "Rahul_Batch_04_Special_Abilities",
+      "display_name": "Iron Fist \u2014 Kinetic Impact VFX"
+    },
+    {
+      "animation_id": "rahul_33_overload_rush",
+      "asset_name": "Overload Rush",
+      "filename": "spritesheets/rahul_33_overload_rush_8f.png",
+      "asset_type": "character",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.7,
+      "total_duration_ms": 533.3,
+      "loop": false,
+      "playback_mode": "one_shot",
+      "default_facing": "RIGHT",
+      "pivot_or_anchor": {
+        "type": "character_ground_pivot",
+        "x": 144,
+        "y": 272
+      },
+      "gameplay_purpose": "Explosive gap-closing shoulder-first rush tackle using Rahul's muscular legs and core momentum.",
+      "start_pose_notes": "F1: Standard standing fighting guard matching Batch 1 Idle F1.",
+      "recovery_or_end_pose_notes": "F8: Stabilized recovery directly back into Batch 1 standing fighting guard following F6 shoulder impact and F7 hard braking.",
+      "cross_batch_transition_notes": "Self-contained special move: enters from Batch 1 Standing Guard and returns directly to Standing Guard on F8 (no external recovery required).",
+      "vfx_trigger_frame": null,
+      "batch": "Batch 04",
+      "batch_folder": "Rahul_Batch_04_Special_Abilities",
+      "display_name": "Overload Rush"
+    },
+    {
+      "animation_id": "rahul_34_limit_breaker_activation",
+      "asset_name": "Limit Breaker \u2014 Activation",
+      "filename": "spritesheets/rahul_34_limit_breaker_activation_8f.png",
+      "asset_type": "character",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.9,
+      "total_duration_ms": 727.3,
+      "loop": false,
+      "playback_mode": "one_shot",
+      "default_facing": "RIGHT",
+      "pivot_or_anchor": {
+        "type": "character_ground_pivot",
+        "x": 144,
+        "y": 272
+      },
+      "gameplay_purpose": "Ultimate activation cinematic startup showing Rahul planting wide, cracking the floor under his feet, and hoisting both clenched fists overhead.",
+      "start_pose_notes": "F1: Commanding wide ultimate activation stance compatible with Batch 1 Standing Guard.",
+      "recovery_or_end_pose_notes": "F8: Fully prepared overhead double-fist stance ready to slam violently downward.",
+      "cross_batch_transition_notes": "Enters from Batch 1 Standing Guard; F8 connects directly into Limit Breaker Main Attack (#35) F1.",
+      "vfx_trigger_frame": null,
+      "batch": "Batch 04",
+      "batch_folder": "Rahul_Batch_04_Special_Abilities",
+      "display_name": "Limit Breaker \u2014 Activation"
+    },
+    {
+      "animation_id": "rahul_35_limit_breaker_main_attack",
+      "asset_name": "Limit Breaker \u2014 Main Attack",
+      "filename": "spritesheets/rahul_35_limit_breaker_main_attack_8f.png",
+      "asset_type": "character",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.4,
+      "total_duration_ms": 571.4,
+      "loop": false,
+      "playback_mode": "one_shot",
+      "default_facing": "RIGHT",
+      "pivot_or_anchor": {
+        "type": "character_ground_pivot",
+        "x": 144,
+        "y": 272
+      },
+      "gameplay_purpose": "Rahul's signature ultimate double-fist ground smash unleashing a massive rightward ground-level kinetic shockwave.",
+      "start_pose_notes": "F1: Exact overhead double-fist stance matching Limit Breaker Activation F8.",
+      "recovery_or_end_pose_notes": "F8: Lifting torso from ground smash into post-ultimate finishing posture.",
+      "cross_batch_transition_notes": "Receives Activation F8; triggers Ground Shockwave VFX (#35b) on F5/F6 impact; F8 connects into Limit Breaker Finisher (#36) F1.",
+      "vfx_trigger_frame": {
+        "frame_index_1based": 5,
+        "peak_impact_frame_1based": 6,
+        "triggers_asset_id": "rahul_35b_limit_breaker_shockwave_vfx",
+        "recommended_spawn_offset_from_pivot": {
+          "dx": 96,
+          "dy": 0
+        },
+        "notes": "Triggering #35b on F5 starts its F1 initial floor crack right as Rahul slams down into F6 peak ground contact."
+      },
+      "batch": "Batch 04",
+      "batch_folder": "Rahul_Batch_04_Special_Abilities",
+      "display_name": "Limit Breaker \u2014 Main Attack"
+    },
+    {
+      "animation_id": "rahul_35b_limit_breaker_shockwave_vfx",
+      "asset_name": "Limit Breaker \u2014 Ground Shockwave VFX",
+      "filename": "spritesheets/rahul_35b_limit_breaker_shockwave_vfx_8f.png",
+      "asset_type": "vfx",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "total_duration_ms": 500.0,
+      "loop": false,
+      "playback_mode": "one_shot",
+      "default_facing": "RIGHT",
+      "pivot_or_anchor": {
+        "type": "vfx_ground_anchor",
+        "x": 144,
+        "y": 272
+      },
+      "gameplay_purpose": "Separately layerable ground-level kinetic shockwave, cracked earth, and rock-debris surge traveling rightward along the arena floor.",
+      "start_pose_notes": "F1: Concentrated floor crack and warm-white impact flash on Y=272.",
+      "recovery_or_end_pose_notes": "F8: Final fading low dust wisps along the floor.",
+      "cross_batch_transition_notes": "Spawned on rahul_35_limit_breaker_main_attack F5 at ground offset (+96, 0) from Rahul's pivot; game engine may translate horizontally right during F3\u2013F6.",
+      "vfx_trigger_frame": null,
+      "batch": "Batch 04",
+      "batch_folder": "Rahul_Batch_04_Special_Abilities",
+      "display_name": "Limit Breaker \u2014 Ground Shockwave VFX"
+    },
+    {
+      "animation_id": "rahul_36_limit_breaker_finisher",
+      "asset_name": "Limit Breaker \u2014 Finishing Pose",
+      "filename": "spritesheets/rahul_36_limit_breaker_finisher_4f.png",
+      "asset_type": "character",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.9,
+      "total_duration_ms": 363.6,
+      "loop": false,
+      "playback_mode": "play_once_hold_final_frame",
+      "default_facing": "RIGHT",
+      "pivot_or_anchor": {
+        "type": "character_ground_pivot",
+        "x": 144,
+        "y": 272
+      },
+      "gameplay_purpose": "Commanding post-ultimate aftermath rising from the ground smash into a holdable confident fighter stance.",
+      "start_pose_notes": "F1: Low post-smash stance with fists lowered matching Main Attack F8.",
+      "recovery_or_end_pose_notes": "F4: Squared-shoulder, clenched-fist commanding hold pose (no bodybuilding flex).",
+      "cross_batch_transition_notes": "Receives Limit Breaker Main Attack F8; F4 connects directly into Special Move Recovery (#37) F1.",
+      "vfx_trigger_frame": null,
+      "batch": "Batch 04",
+      "batch_folder": "Rahul_Batch_04_Special_Abilities",
+      "display_name": "Limit Breaker \u2014 Finishing Pose"
+    },
+    {
+      "animation_id": "rahul_37_special_move_recovery",
+      "asset_name": "Special Move Recovery",
+      "filename": "spritesheets/rahul_37_special_move_recovery_5f.png",
+      "asset_type": "character",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.9,
+      "total_duration_ms": 454.5,
+      "loop": false,
+      "playback_mode": "one_shot",
+      "default_facing": "RIGHT",
+      "pivot_or_anchor": {
+        "type": "character_ground_pivot",
+        "x": 144,
+        "y": 272
+      },
+      "gameplay_purpose": "Shared post-special recovery returning Rahul naturally from heavy exertion back to his neutral standing fighting guard.",
+      "start_pose_notes": "F1: Post-special squared stance with clenched fists low, compatible with Finisher F4 and Iron Fist post-release.",
+      "recovery_or_end_pose_notes": "F5: Exact standard Batch 1 standing fighting guard (228 px height).",
+      "cross_batch_transition_notes": "Receives Limit Breaker Finisher F4 or Iron Fist Release F5; F5 returns seamlessly to Batch 1 Standing Idle F1.",
+      "vfx_trigger_frame": null,
+      "batch": "Batch 04",
+      "batch_folder": "Rahul_Batch_04_Special_Abilities",
+      "display_name": "Special Move Recovery"
+    },
+    {
+      "animation_id": "rahul_38_victory",
+      "animation_name": "Victory",
+      "filename": "spritesheets/rahul_38_victory_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "total_duration_ms": 600.0,
+      "loop": false,
+      "playback_mode": "play_once_hold_final_frame",
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Match-winning celebration reflecting Rahul's gym-enthusiast confidence and muscular strength without becoming a stage bodybuilding routine.",
+      "starting_pose_description": "F1: Combat completion settling into upright standing stance.",
+      "ending_pose_description": "F6: Commanding, relaxed standing victory hold pose with squared shoulders, clenched fists at sides, and a confident slight smile.",
+      "cross_batch_transition_notes": "Enters smoothly from any completed attack or Batch 1/4 standing stance; F6 holds indefinitely on the victory screen.",
+      "batch": "Batch 05",
+      "batch_folder": "Rahul_Batch_05_Character_States",
+      "display_name": "Victory",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_39_defeat",
+      "animation_name": "Defeat",
+      "filename": "spritesheets/rahul_39_defeat_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "total_duration_ms": 500.0,
+      "loop": false,
+      "playback_mode": "play_once_hold_final_frame",
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Standing match-loss reaction (e.g. time-over defeat) communicating genuine physical exhaustion and disappointment without collapsing.",
+      "starting_pose_description": "F1: Fighting guard dropping as Rahul registers the match loss.",
+      "ending_pose_description": "F5: Stable exhausted standing defeat hold with slumped shoulders, bowed head, and hand braced near lead thigh/knee.",
+      "cross_batch_transition_notes": "Enters from Batch 1 Standing Guard; visually distinct from Batch 3 Heavy Hit Reaction and Batch 5 KO; F5 holds cleanly on the defeat screen.",
+      "batch": "Batch 05",
+      "batch_folder": "Rahul_Batch_05_Character_States",
+      "display_name": "Defeat",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_40_ko_collapse",
+      "animation_name": "KO / Collapse",
+      "filename": "spritesheets/rahul_40_ko_collapse_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.9,
+      "total_duration_ms": 461.5,
+      "loop": false,
+      "playback_mode": "play_once_hold_final_frame",
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": false,
+        "per_frame_bottom_y": [
+          272,
+          272,
+          272,
+          260,
+          272,
+          272
+        ],
+        "notes": "F1\u2013F3 standing impact & backward buckle on Y=272; F4 back-first fall inches above floor; F5 ground slam impact; F6 motionless supine KO pose (240x73 px, head LEFT, feet RIGHT)."
+      },
+      "gameplay_purpose": "Permanent match-ending knockout collapse triggered when Rahul's health reaches zero.",
+      "starting_pose_description": "F1: Final knockout impact jolt snapping head and chest back to the left.",
+      "ending_pose_description": "F6: Motionless supine unconscious KO state lying flat on Y=272 (240 px wide, head LEFT, feet RIGHT), holdable indefinitely.",
+      "cross_batch_transition_notes": "F6 matches Batch 3 rahul_27_knockdown_fall_6f.png F6 in exact 240 px horizontal footprint, supine head-left/feet-right orientation, scale, and Y=272 ground baseline.",
+      "batch": "Batch 05",
+      "batch_folder": "Rahul_Batch_05_Character_States",
+      "display_name": "KO / Collapse",
+      "asset_type": "character"
+    },
+    {
+      "animation_id": "rahul_41_taunt",
+      "animation_name": "Taunt",
+      "filename": "spritesheets/rahul_41_taunt_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.9,
+      "total_duration_ms": 545.5,
+      "loop": false,
+      "playback_mode": "one_shot_return_to_guard",
+      "default_facing": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_y": 272,
+        "grounded": true
+      },
+      "gameplay_purpose": "Personality-defining in-match taunt expressing Rahul's gym-enthusiast pride via a controlled biceps flex and playful 'bring it on' beckoning challenge.",
+      "starting_pose_description": "F1: Standard standing fighting guard matching Batch 1 Idle F1.",
+      "ending_pose_description": "F6: Smooth return to exact Batch 1 standing fighting guard (228 px height).",
+      "cross_batch_transition_notes": "Seamless entry from and recovery back to Batch 1 rahul_01_idle_8f.png F1 (228 px standing height across all 6 frames).",
+      "batch": "Batch 05",
+      "batch_folder": "Rahul_Batch_05_Character_States",
+      "display_name": "Taunt",
+      "asset_type": "character"
+    }
+  ]
+}

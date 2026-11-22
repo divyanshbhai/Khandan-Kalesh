@@ -1,0 +1,249 @@
+{
+  "character": "TONY",
+  "batch": "BATCH_02_BASIC_ATTACKS",
+  "total_animations": 10,
+  "total_frames": 57,
+  "global_specs": {
+    "frame_width": 288,
+    "frame_height": 288,
+    "pivot_x": 144,
+    "pivot_y": 272,
+    "facing_direction": "RIGHT",
+    "file_format": "PNG",
+    "color_mode": "32-bit RGBA",
+    "background": "transparent",
+    "rendering": "nearest-neighbor pixel-art (no anti-aliasing)"
+  },
+  "animations": [
+    {
+      "animation_name": "Jab Punch",
+      "category": "Punch",
+      "filename": "Tony_Jab_Punch.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Heavy Straight Punch",
+      "category": "Punch",
+      "filename": "Tony_Heavy_Straight_Punch.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Hook Punch",
+      "category": "Punch",
+      "filename": "Tony_Hook_Punch.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Uppercut",
+      "category": "Punch",
+      "filename": "Tony_Uppercut.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Body Punch",
+      "category": "Punch",
+      "filename": "Tony_Body_Punch.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Crouching Low Punch",
+      "category": "Punch",
+      "filename": "Tony_Crouching_Low_Punch.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Front Kick",
+      "category": "Kick",
+      "filename": "Tony_Front_Kick.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Low Kick",
+      "category": "Kick",
+      "filename": "Tony_Low_Kick.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Roundhouse Kick",
+      "category": "Kick",
+      "filename": "Tony_Roundhouse_Kick.png",
+      "frame_count": 7,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 2016,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "animation_name": "Jumping Front Kick",
+      "category": "Kick",
+      "filename": "Tony_Jumping_Front_Kick.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    }
+  ]
+}

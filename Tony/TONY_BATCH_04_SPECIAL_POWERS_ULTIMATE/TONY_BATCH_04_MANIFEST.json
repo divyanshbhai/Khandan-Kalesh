@@ -1,0 +1,392 @@
+{
+  "character": "TONY",
+  "batch": "BATCH_04_SPECIAL_POWERS_ULTIMATE",
+  "total_character_animations": 10,
+  "total_character_frames": 61,
+  "total_independent_vfx_sheets": 5,
+  "total_independent_vfx_frames": 23,
+  "global_character_specs": {
+    "frame_width": 288,
+    "frame_height": 288,
+    "pivot_x": 144,
+    "pivot_y": 272,
+    "facing_direction": "RIGHT",
+    "file_format": "PNG",
+    "color_mode": "32-bit RGBA",
+    "background": "transparent",
+    "energy_palette": "Cyan / Electric Sky-Blue (#00E5FF / #38BDF8 / #FFFFFF)",
+    "rendering": "nearest-neighbor pixel-art (no anti-aliasing)"
+  },
+  "character_animations": [
+    {
+      "animation_name": "Tech Interface Activation",
+      "category": "Special Power",
+      "filename": "Tony_Tech_Interface_Activation.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_vfx_assets": []
+    },
+    {
+      "animation_name": "Holographic Shield Deployment",
+      "category": "Special Power",
+      "filename": "Tony_Holographic_Shield.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_vfx_assets": []
+    },
+    {
+      "animation_name": "Energy Pulse Charging",
+      "category": "Special Power",
+      "filename": "Tony_Energy_Pulse_Charging.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_vfx_assets": [
+        "FX_Energy_Pulse_Projectile.png"
+      ]
+    },
+    {
+      "animation_name": "Energy Pulse Release",
+      "category": "Special Power",
+      "filename": "Tony_Energy_Pulse_Release.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_vfx_assets": [
+        "FX_Energy_Pulse_Projectile.png"
+      ]
+    },
+    {
+      "animation_name": "Electric Gauntlet Punch",
+      "category": "Special Power",
+      "filename": "Tony_Electric_Gauntlet_Punch.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_vfx_assets": []
+    },
+    {
+      "animation_name": "Ground Shockwave Discharge",
+      "category": "Special Power",
+      "filename": "Tony_Ground_Shockwave.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_vfx_assets": [
+        "FX_Ground_Shockwave.png"
+      ]
+    },
+    {
+      "animation_name": "Drone Summon & Control",
+      "category": "Special Power",
+      "filename": "Tony_Drone_Summon_Control.png",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_vfx_assets": [
+        "FX_Combat_Drone.png"
+      ]
+    },
+    {
+      "animation_name": "Drone-Assisted Strike",
+      "category": "Special Power",
+      "filename": "Tony_Drone_Assisted_Strike.png",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_vfx_assets": [
+        "FX_Combat_Drone.png",
+        "FX_Drone_Strike_Beam.png"
+      ]
+    },
+    {
+      "animation_name": "Ultimate \u2014 System Overload",
+      "category": "Ultimate",
+      "filename": "Tony_Ultimate_System_Overload.png",
+      "frame_count": 8,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_vfx_assets": []
+    },
+    {
+      "animation_name": "Ultimate \u2014 Mega Energy Blast",
+      "category": "Ultimate",
+      "filename": "Tony_Ultimate_Mega_Blast.png",
+      "frame_count": 8,
+      "frame_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "sheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "pivot": {
+        "x": 144,
+        "y": 272
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row",
+      "associated_vfx_assets": [
+        "FX_Ultimate_Mega_Beam.png"
+      ]
+    }
+  ],
+  "independent_vfx_assets": [
+    {
+      "asset_name": "Energy Pulse Projectile",
+      "filename": "FX_Energy_Pulse_Projectile.png",
+      "category": "Independent VFX \u2014 Projectile",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 128,
+        "height": 128
+      },
+      "sheet_dimensions": {
+        "width": 512,
+        "height": 128
+      },
+      "pivot": {
+        "x": 64,
+        "y": 64
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "asset_name": "Combat Drone (Hover Loop)",
+      "filename": "FX_Combat_Drone.png",
+      "category": "Independent VFX \u2014 Drone",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 96,
+        "height": 96
+      },
+      "sheet_dimensions": {
+        "width": 384,
+        "height": 96
+      },
+      "pivot": {
+        "x": 48,
+        "y": 48
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "asset_name": "Drone Strike Laser & Impact",
+      "filename": "FX_Drone_Strike_Beam.png",
+      "category": "Independent VFX \u2014 Drone Attack",
+      "frame_count": 4,
+      "frame_dimensions": {
+        "width": 160,
+        "height": 96
+      },
+      "sheet_dimensions": {
+        "width": 640,
+        "height": 96
+      },
+      "pivot": {
+        "x": 24,
+        "y": 48
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "asset_name": "Ground Shockwave Discharge",
+      "filename": "FX_Ground_Shockwave.png",
+      "category": "Independent VFX \u2014 Ground Wave",
+      "frame_count": 5,
+      "frame_dimensions": {
+        "width": 192,
+        "height": 128
+      },
+      "sheet_dimensions": {
+        "width": 960,
+        "height": 128
+      },
+      "pivot": {
+        "x": 32,
+        "y": 112
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    },
+    {
+      "asset_name": "Ultimate Mega Energy Beam",
+      "filename": "FX_Ultimate_Mega_Beam.png",
+      "category": "Independent VFX \u2014 Ultimate Beam",
+      "frame_count": 6,
+      "frame_dimensions": {
+        "width": 384,
+        "height": 192
+      },
+      "sheet_dimensions": {
+        "width": 2304,
+        "height": 192
+      },
+      "pivot": {
+        "x": 16,
+        "y": 96
+      },
+      "facing_direction": "RIGHT",
+      "format": "PNG",
+      "color_mode": "32-bit RGBA",
+      "background": "transparent",
+      "layout": "horizontal_single_row"
+    }
+  ]
+}
