@@ -201,8 +201,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 <span className="block font-pixel-ui text-[10px] text-[#b39e84] uppercase mb-1.5">
                   CPU DIFFICULTY
                 </span>
-                <div className="grid grid-cols-3 gap-1.5">
-                  {(['easy', 'normal', 'hard'] as Difficulty[]).map((diff) => (
+                <div className="grid grid-cols-4 gap-1.5">
+                  {(['easy', 'normal', 'hard', 'master'] as Difficulty[]).map((diff) => (
                     <button
                       key={diff}
                       type="button"
@@ -212,7 +212,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                       }}
                       className={`py-1.5 font-pixel-ui text-[10px] font-bold uppercase tracking-wider border-2 cursor-pointer ${
                         settings.difficulty === diff
-                          ? 'bg-[#f5a623] text-[#120a04] border-[#ffe38f]'
+                          ? diff === 'master'
+                            ? 'bg-[#e03126] text-[#fff5e0] border-[#ff9b8a]'
+                            : 'bg-[#f5a623] text-[#120a04] border-[#ffe38f]'
                           : 'bg-[#1c140e] text-[#ebd8b7] border-[#4a3624]'
                       }`}
                     >

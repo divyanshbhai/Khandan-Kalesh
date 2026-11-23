@@ -1,4 +1,5 @@
 import { CharacterId } from '../config/animations';
+import { MatchRankGrade } from '../config/arcadeProgression';
 import { Difficulty, GameMode, TrainingOptions } from '../config/game';
 import { StageId } from '../config/stages';
 
@@ -17,11 +18,15 @@ export type RoundPhase = 'intro' | 'fighting' | 'ko_slowmo' | 'round_over' | 'ma
 export type FighterSlot = 1 | 2;
 
 export type CombatFeedbackType =
+  | 'first_attack'
   | 'counter'
+  | 'punish'
   | 'critical'
   | 'guard_break'
   | 'special'
   | 'ultimate'
+  | 'comeback'
+  | 'perfect'
   | 'block';
 
 export interface CombatCallout {
@@ -60,6 +65,7 @@ export interface FighterHudSnapshot {
   isBlocking: boolean;
   isGuardBroken: boolean;
   isCriticalHealth: boolean;
+  momentumTier: 0 | 1 | 2;
   x: number;
   facing: 1 | -1;
 }
@@ -76,6 +82,19 @@ export interface MatchStats {
   p1MaxCombo: number;
   p2MaxCombo: number;
   totalRoundsPlayed: number;
+  // V4 Living Arcade tactical breakdown
+  p1Score: number;
+  rankGrade: MatchRankGrade;
+  p1CounterHits: number;
+  p1Punishes: number;
+  p1GuardBreaks: number;
+  p1FirstAttacks: number;
+  p1PerfectRounds: number;
+  p1ComebackRounds: number;
+  p1RemainingHealthPct: number;
+  detectedPlaystyle: string;
+  cpuAdaptationSummary: string;
+  victoryQuote: string;
 }
 
 export interface HudSnapshot {
@@ -87,12 +106,15 @@ export interface HudSnapshot {
   phase: RoundPhase;
   announcement: string | null;
   subAnnouncement: string | null;
+  rivalIntroLine: string | null;
   callout: CombatCallout | null;
+  p1Score: number;
   cameraX: number;
   stageId: StageId;
   stageName: string;
   mode: GameMode;
   difficulty: Difficulty;
+  arcadeBoutLabel: string | null;
   trainingOptions: TrainingOptions;
   matchStats: MatchStats | null;
 }

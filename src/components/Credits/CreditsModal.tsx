@@ -19,7 +19,7 @@ export const CreditsModal: React.FC<CreditsModalProps> = ({ onClose }) => {
         <div className="px-5 py-3 border-b-2 border-[#6b533b] bg-[#110c09] flex items-center justify-between">
           <div>
             <p className="font-pixel-ui text-[10px] font-bold uppercase tracking-[0.22em] text-[#f5a623]">
-              EDITION V3 · RETRO ARCADE
+              EDITION V4 · LIVING ARCADE
             </p>
             <h2 className="font-pixel text-sm sm:text-base uppercase tracking-wider text-[#fff5e0] mt-0.5">
               CREDITS
@@ -78,10 +78,10 @@ export const CreditsModal: React.FC<CreditsModalProps> = ({ onClose }) => {
 
           <div className="bg-[#110c09] border-2 border-[#4a3624] p-3 text-xs text-[#b39e84] space-y-1">
             <div className="font-pixel-ui text-[11px] font-bold uppercase tracking-wider text-[#ffd873]">
-              V3 RETRO ARCADE UPGRADES
+              V4 LIVING ARCADE EXPERIENCE
             </div>
-            <div>Calibrated per-fighter pushbox spacing &amp; non-overlapping combat hitboxes.</div>
-            <div>Cohesive 1990s pixel-art arcade UI, optional CRT presentation modes, and mobile-first tactile arcade touch controls.</div>
+            <div>Adaptive multi-round AI with human reaction timing, character combo routes, footsies, okizeme &amp; whiff punishes.</div>
+            <div>3-Stage Arcade Tournament, Survival Gauntlet, S–C Style Ranking, Rival Banter &amp; Live Attract Sparring.</div>
           </div>
         </div>
       </div>

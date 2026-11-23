@@ -41,18 +41,20 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
   onOpenMoveList,
   onBack,
 }) => {
+  const isSoloRun = mode === 'arcade' || mode === 'survival';
   const [p1, setP1] = useState<CharacterId>(initialP1);
   const [p2, setP2] = useState<CharacterId>(initialP2);
   const [activeSlot, setActiveSlot] = useState<1 | 2>(1);
 
+  const effectiveSlot: 1 | 2 = isSoloRun ? 1 : activeSlot;
   const p1Profile = getCharacterProfile(p1);
   const p2Profile = getCharacterProfile(p2);
-  const activeProfile = activeSlot === 1 ? p1Profile : p2Profile;
+  const activeProfile = effectiveSlot === 1 ? p1Profile : p2Profile;
   const activeTouch = getCharacterControlProfile(activeProfile.id);
 
   const handleSelectCharacter = (id: CharacterId) => {
     soundEngine.playUiSelect();
-    if (activeSlot === 1) {
+    if (effectiveSlot === 1) {
       setP1(id);
     } else {
       setP2(id);
@@ -60,7 +62,26 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
   };
 
   const p2Title =
-    mode === 'pvp' ? 'PLAYER 2' : mode === 'training' ? 'DUMMY' : 'CPU RIVAL';
+    mode === 'pvp'
+      ? 'PLAYER 2'
+      : mode === 'training'
+        ? 'DUMMY'
+        : mode === 'arcade'
+          ? '3-STAGE LADDER'
+          : mode === 'survival'
+            ? 'ENDLESS RIVALS'
+            : 'CPU RIVAL';
+
+  const modeBadge =
+    mode === 'pvp'
+      ? 'LOCAL 2P'
+      : mode === 'training'
+        ? 'TRAINING DOJO'
+        : mode === 'arcade'
+          ? 'ARCADE TOURNAMENT'
+          : mode === 'survival'
+            ? 'SURVIVAL GAUNTLET'
+            : '1P VS CPU';
 
   return (
     <div className="absolute inset-0 z-20 flex flex-col justify-between p-3 sm:p-5 md:p-6 bg-[#090605]/94">
@@ -68,7 +89,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-[#6b533b] pb-2.5">
         <div>
           <p className="font-pixel-ui text-[10px] font-bold uppercase tracking-[0.22em] text-[#f5a623]">
-            STAGE 2 OF 3 · {mode === 'pvp' ? 'LOCAL 2P' : mode === 'training' ? 'TRAINING DOJO' : '1P VS CPU'}
+            {isSoloRun ? 'CHOOSE YOUR CHAMPION' : 'STAGE 2 OF 3'} · {modeBadge}
           </p>
           <h1 className="font-pixel text-sm sm:text-lg md:text-xl uppercase tracking-wider text-[#fff5e0] mt-0.5 hud-text-stroke-sm">
             PLAYER SELECT
@@ -335,8 +356,17 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
       {/* Bottom Confirm Strip */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-t-2 border-[#6b533b] pt-2.5">
         <div className="font-pixel-ui text-[10px] sm:text-xs text-[#ebd8b7] uppercase">
-          TAP <span className="text-[#ffd873]">1P</span> OR{' '}
-          <span className="text-[#ff6a5c]">{p2Title}</span> PANEL TO SWITCH SIDE
+          {isSoloRun ? (
+            <>
+              FACE ALL 3 FAMILY RIVALS ·{' '}
+              <span className="text-[#ffd873]">ESCALATING ADAPTIVE CPU</span>
+            </>
+          ) : (
+            <>
+              TAP <span className="text-[#ffd873]">1P</span> OR{' '}
+              <span className="text-[#ff6a5c]">{p2Title}</span> PANEL TO SWITCH SIDE
+            </>
+          )}
         </div>
 
         <button
@@ -347,7 +377,11 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
           }}
           className="arcade-btn-primary px-6 py-2 font-pixel text-xs sm:text-sm uppercase tracking-wider cursor-pointer"
         >
-          SELECT STAGE &gt;
+          {mode === 'arcade'
+            ? 'START TOURNAMENT >'
+            : mode === 'survival'
+              ? 'START SURVIVAL >'
+              : 'SELECT STAGE >'}
         </button>
       </div>
     </div>

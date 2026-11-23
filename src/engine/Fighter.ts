@@ -135,6 +135,11 @@ export class Fighter {
   public comboResetTimer = 0;
   public totalDamageDealt = 0;
   public maxCombo = 0;
+  public counterHitsLanded = 0;
+  public punishesLanded = 0;
+  public guardBreaksLanded = 0;
+  public firstAttacksLanded = 0;
+  public momentumHeat = 0;
 
   // Tony's autonomous hovering combat drone visual state
   public dronePlayer: AnimationPlayer | null = null;
@@ -200,6 +205,7 @@ export class Fighter {
     this.squashY = 1;
     this.afterimages.length = 0;
     this.lastFootstepFrame = -1;
+    this.momentumHeat = 0;
 
     if (playIntro) {
       this.setState('intro', 'intro');
@@ -243,6 +249,17 @@ export class Fighter {
     if (this.state === 'special_charge') return true;
     if (this.state === 'attack' && this.currentAttackData) {
       return this.animPlayer.getFrame() < this.currentAttackData.activeStartFrame;
+    }
+    return false;
+  }
+
+  /** True during vulnerable post-whiff or post-special recovery — eligible for Punish bonus */
+  isInRecovery(): boolean {
+    if (this.state === 'special_recovery' || this.state === 'landing' || this.state === 'guard_break') {
+      return true;
+    }
+    if (this.state === 'attack' && this.currentAttackData && !this.attackHasConnected) {
+      return this.animPlayer.getFrame() > this.currentAttackData.activeEndFrame;
     }
     return false;
   }
@@ -809,6 +826,7 @@ export class Fighter {
     this.hitFlashTimer = opts.isHeavy ? 0.11 : 0.075;
     this.squashX = opts.isHeavy ? 0.84 : 0.92;
     this.squashY = opts.isHeavy ? 1.12 : 1.06;
+    this.momentumHeat = Math.max(0, this.momentumHeat - (opts.isHeavy ? 32 : 18));
     this.currentMove = null;
     this.currentAttackData = null;
     this.pendingSpecialMove = null;
@@ -882,6 +900,7 @@ export class Fighter {
     }
     this.comboResetTimer = 1.55;
     this.maxCombo = Math.max(this.maxCombo, this.comboCount);
+    this.momentumHeat = Math.min(100, this.momentumHeat + 16 + Math.min(20, this.comboCount * 4));
   }
 
   enterVictory(): void {
@@ -912,13 +931,15 @@ export class Fighter {
       this.trailHealth = this.health;
     }
 
-    // Combo decay timer
+    // Combo decay timer & subtle momentum cool-down
     if (this.comboCount > 0) {
       this.comboResetTimer -= dt;
       if (this.comboResetTimer <= 0) {
         this.comboCount = 0;
         this.comboDamage = 0;
       }
+    } else if (this.momentumHeat > 0) {
+      this.momentumHeat = Math.max(0, this.momentumHeat - dt * 10);
     }
 
     // Guard regenerates gently when not blocking and not guard-broken
@@ -1171,6 +1192,7 @@ export class Fighter {
       isBlocking: this.isBlocking(),
       isGuardBroken: this.state === 'guard_break',
       isCriticalHealth: this.health > 0 && this.health / this.maxHealth <= 0.26,
+      momentumTier: this.momentumHeat >= 72 ? 2 : this.momentumHeat >= 36 ? 1 : 0,
       x: Math.round(this.x),
       facing: this.facing,
     };

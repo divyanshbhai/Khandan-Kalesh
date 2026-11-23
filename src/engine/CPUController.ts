@@ -1,9 +1,17 @@
 import { Difficulty, TrainingDummyBehavior } from '../config/game';
 import { StageConfig } from '../config/stages';
+import { AdaptationSummary } from './ai/PlayerBehaviorAnalyzer';
 import { AIState, UtilityAI } from './ai/UtilityAI';
 import { EffectsManager } from './EffectsManager';
 import { Fighter } from './Fighter';
 import { createEmptyInput, PlayerInputState } from './InputManager';
+
+export interface CPUMatchContext {
+  roundNumber?: number;
+  cpuRoundWins?: number;
+  opponentRoundWins?: number;
+  timerSeconds?: number;
+}
 
 export class CPUController {
   private difficulty: Difficulty;
@@ -22,8 +30,19 @@ export class CPUController {
     return this.utilityAI.getState();
   }
 
+  getAdaptationSummary(): AdaptationSummary {
+    return this.utilityAI.getLastAdaptationSummary();
+  }
+
+  /** Full match reset (clears multi-round player behavior memory) */
   reset(): void {
     this.utilityAI.reset();
+    this.trainingAttackTimer = 1.1;
+  }
+
+  /** Round boundary reset: preserves learned player habits across Round 1 -> Round 2 -> Round 3! */
+  resetForNewRound(): void {
+    this.utilityAI.resetForNewRound();
     this.trainingAttackTimer = 1.1;
   }
 
@@ -32,6 +51,8 @@ export class CPUController {
     dummy: Fighter,
     player: Fighter,
     behavior: TrainingDummyBehavior,
+    effects?: EffectsManager,
+    stage?: StageConfig,
   ): PlayerInputState {
     const input = createEmptyInput();
     if (dummy.isIncapacitated()) return input;
@@ -48,12 +69,16 @@ export class CPUController {
       return input;
     }
 
+    if (behavior === 'cpu' && effects) {
+      return this.update(dt, dummy, player, effects, true, stage);
+    }
+
     // behavior === 'attack'
     const dx = player.x - dummy.x;
     const dist = Math.abs(dx);
     const dirToOpp: 1 | -1 = dx >= 0 ? 1 : -1;
 
-    if (dist > 265) {
+    if (dist > 275) {
       if (dirToOpp === 1) input.right = true;
       else input.left = true;
       return input;
@@ -74,6 +99,7 @@ export class CPUController {
     effects: EffectsManager,
     combatAllowed: boolean,
     stage?: StageConfig,
+    matchCtx?: CPUMatchContext,
   ): PlayerInputState {
     if (!combatAllowed || cpu.isIncapacitated()) return createEmptyInput();
 
@@ -83,9 +109,14 @@ export class CPUController {
     const incomingProjectile = effects.projectiles.some(
       (p) =>
         p.ownerSlot !== cpu.slot &&
-        Math.abs(p.x - cpu.x) < 440 &&
+        Math.abs(p.x - cpu.x) < 460 &&
         Math.sign(p.vx) === -dirToOpp,
     );
+
+    const opponentInRecovery =
+      opponent.state === 'special_recovery' ||
+      opponent.state === 'landing' ||
+      opponent.state === 'guard_break';
 
     const decision = this.utilityAI.decide({
       dt,
@@ -95,6 +126,7 @@ export class CPUController {
       cpuX: cpu.x,
       cpuY: cpu.y,
       cpuHealthPct: cpu.health / Math.max(1, cpu.maxHealth),
+      cpuGuardPct: cpu.guard / Math.max(1, cpu.maxGuard),
       cpuMeter: cpu.meter,
       cpuSpecial1Ready: cpu.special1Cooldown <= 0,
       cpuSpecial2Ready: cpu.special2Cooldown <= 0,
@@ -106,15 +138,22 @@ export class CPUController {
       opponentX: opponent.x,
       opponentY: opponent.y,
       opponentHealthPct: opponent.health / Math.max(1, opponent.maxHealth),
+      opponentGuardPct: opponent.guard / Math.max(1, opponent.maxGuard),
       opponentGrounded: opponent.isGrounded,
       opponentState: opponent.state,
       opponentMove: opponent.currentMove,
       opponentAttacking: opponent.isAttacking(),
       opponentBlocking: opponent.isBlocking(),
       opponentAttackConnected: opponent.attackHasConnected,
+      opponentInvuln: opponent.invulnTimer > 0,
+      opponentInRecovery,
       incomingProjectile,
       stageLeftBound: stage?.leftBound ?? 130,
       stageRightBound: stage?.rightBound ?? 3110,
+      roundNumber: matchCtx?.roundNumber,
+      cpuRoundWins: matchCtx?.cpuRoundWins,
+      opponentRoundWins: matchCtx?.opponentRoundWins,
+      timerSeconds: matchCtx?.timerSeconds,
     });
 
     return decision.input;

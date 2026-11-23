@@ -79,6 +79,11 @@ const FighterHealthBar: React.FC<{
                 {labelSuffix}
               </span>
             )}
+            {fighter.momentumTier >= 2 && (
+              <span className="hidden sm:inline px-1 py-0.5 bg-[#e03126] text-[#fff5e0] border border-[#090605] font-pixel text-[7px] uppercase tracking-wider leading-none shrink-0">
+                HEAT
+              </span>
+            )}
           </div>
 
           {/* Square Arcade Round-Win Gems */}
@@ -240,7 +245,7 @@ export const GameHUD: React.FC<GameHUDProps> = ({
   onTrainingResetPos,
 }) => {
   const isTraining = hud.mode === 'training';
-  const dummyBehaviors: TrainingDummyBehavior[] = ['idle', 'guard', 'attack'];
+  const dummyBehaviors: TrainingDummyBehavior[] = ['idle', 'guard', 'attack', 'cpu'];
 
   return (
     <div className="pointer-events-none absolute inset-0 z-20 flex flex-col justify-between safe-pad-hud pb-2">
@@ -256,9 +261,13 @@ export const GameHUD: React.FC<GameHUDProps> = ({
 
           {/* Classic Center Pixel Timer & Compact Utility Controls */}
           <div className="flex flex-col items-center shrink-0">
-            <div className="bg-[#110c09] border-2 border-[#f5b324] px-2.5 sm:px-3.5 py-0.5 sm:py-1 shadow-[0_0_0_2px_#090605,3px_3px_0_0_#090605] text-center min-w-[58px] sm:min-w-[76px]">
+            <div className="bg-[#110c09] border-2 border-[#f5b324] px-2.5 sm:px-3.5 py-0.5 sm:py-1 shadow-[0_0_0_2px_#090605,3px_3px_0_0_#090605] text-center min-w-[64px] sm:min-w-[82px]">
               <div className="font-pixel-ui text-[8px] sm:text-[9px] font-bold uppercase tracking-widest text-[#ffd873] leading-none">
-                {isTraining ? 'DOJO' : `RND ${hud.roundNumber}`}
+                {isTraining
+                  ? 'DOJO'
+                  : hud.arcadeBoutLabel
+                    ? hud.arcadeBoutLabel
+                    : `RND ${hud.roundNumber}`}
               </div>
               <div
                 data-testid="hud-timer"
@@ -270,6 +279,14 @@ export const GameHUD: React.FC<GameHUDProps> = ({
               >
                 {isTraining ? '∞' : String(hud.timerSeconds).padStart(2, '0')}
               </div>
+              {!isTraining && hud.mode !== 'pvp' && (
+                <div
+                  data-testid="hud-score"
+                  className="hidden sm:block font-pixel-ui text-[8px] font-bold tracking-wider text-[#b39e84] leading-none mt-1"
+                >
+                  {String(hud.p1Score).padStart(6, '0')}
+                </div>
+              )}
             </div>
 
             {/* Compact Arcade Utility Buttons */}
@@ -313,7 +330,7 @@ export const GameHUD: React.FC<GameHUDProps> = ({
                 ? '2P'
                 : isTraining
                   ? 'DUMMY'
-                  : `CPU ${hud.difficulty.slice(0, 3).toUpperCase()}`
+                  : `CPU ${hud.difficulty.toUpperCase()}`
             }
           />
         </div>
@@ -460,8 +477,23 @@ export const GameHUD: React.FC<GameHUDProps> = ({
         </div>
       </div>
 
+      {/* Pre-Fight Rival Intro Banter Strip (Strictly Round 1 Intro, Auto-clears on FIGHT!) */}
+      {hud.rivalIntroLine && (
+        <div className="pointer-events-none mx-auto max-w-[92%] bg-[#110c09]/94 border-2 border-[#f5b324] px-3 sm:px-4 py-1.5 text-center shadow-[0_0_0_2px_#090605,3px_3px_0_0_#090605]">
+          <span
+            className="font-pixel text-[8px] sm:text-[10px] uppercase tracking-wider mr-2"
+            style={{ color: hud.p1.accentColor }}
+          >
+            {hud.p1.name}:
+          </span>
+          <span className="font-pixel-ui text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#fff5e0]">
+            &ldquo;{hud.rivalIntroLine}&rdquo;
+          </span>
+        </div>
+      )}
+
       {/* Bottom First-Match Quick Control Hint (Desktop Only, Dismissible) */}
-      {!touchActive && showFirstMatchHint && (
+      {!touchActive && showFirstMatchHint && !hud.rivalIntroLine && (
         <div className="pointer-events-auto mx-auto bg-[#110c09]/92 border-2 border-[#6b533b] px-3 py-1 flex items-center gap-2.5 text-[10px] font-pixel-ui text-[#ebd8b7] shadow-[2px_2px_0_0_#090605]">
           <span className="font-bold uppercase text-[#ffd873]">1P:</span>
           <span>A/D MOVE · W JUMP · S CROUCH · F/G/H ATTACK · R GUARD · T SPECIAL · Y ULT</span>

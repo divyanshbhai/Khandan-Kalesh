@@ -7,6 +7,8 @@ interface MainMenuProps {
   audioUnlocked: boolean;
   muted: boolean;
   modalOpen?: boolean;
+  highScore?: number;
+  totalArcadeClears?: number;
   onUnlockAudio: () => void;
   onToggleMute: () => void;
   onPlay: () => void;
@@ -22,6 +24,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({
   audioUnlocked,
   muted,
   modalOpen = false,
+  highScore = 0,
+  totalArcadeClears = 0,
   onUnlockAudio,
   onToggleMute,
   onPlay,
@@ -60,12 +64,15 @@ export const MainMenu: React.FC<MainMenuProps> = ({
     <div className="absolute inset-0 z-20 flex flex-col justify-between p-3 sm:p-5 md:p-7 bg-gradient-to-b from-[#090605]/86 via-[#090605]/42 to-[#090605]/94">
       {/* Top Arcade Cabinet Status Strip */}
       <div className="flex items-center justify-between gap-2 border-b-2 border-[#4a3624] pb-2">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <span className="bg-[#f5a623] text-[#090605] px-2 py-0.5 font-pixel text-[9px] sm:text-[10px] tracking-wider border-2 border-[#090605]">
             1P / 2P
           </span>
-          <span className="font-pixel-ui text-[10px] sm:text-xs uppercase tracking-[0.18em] text-[#ffd873] hud-text-stroke-sm">
-            CREDIT 09 · VER 3.0
+          <span className="font-pixel-ui text-[10px] sm:text-xs uppercase tracking-[0.16em] text-[#ffd873] hud-text-stroke-sm">
+            HI-SCORE {String(highScore).padStart(6, '0')}
+          </span>
+          <span className="hidden sm:inline font-pixel-ui text-[10px] sm:text-xs uppercase tracking-[0.16em] text-[#b39e84] hud-text-stroke-sm">
+            · VER 4.0{totalArcadeClears > 0 ? ` · ${totalArcadeClears} CLEAR${totalArcadeClears > 1 ? 'S' : ''}` : ''}
           </span>
         </div>
 
@@ -189,8 +196,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({
         </div>
 
         {/* Blinking Classic Arcade Prompt */}
-        <p className="animate-arcade-blink font-pixel text-[10px] sm:text-xs text-[#ffe38f] tracking-[0.2em] uppercase mt-1.5 hud-text-stroke-sm">
-          PRESS START · SELECT MODE
+        <p className="mt-1.5 px-3 py-0.5 bg-[#090605]/85 border border-[#4a3624] font-pixel text-[10px] sm:text-xs text-[#ffe38f] tracking-[0.2em] uppercase hud-text-stroke-sm">
+          <span className="animate-arcade-blink">PRESS START · SELECT MODE</span>
         </p>
 
         {/* Primary Arcade Command Stack */}

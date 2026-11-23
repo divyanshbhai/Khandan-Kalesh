@@ -1,6 +1,6 @@
 export const GAME_CONFIG = {
   title: 'FAMILY FIGHTERS',
-  subtitle: 'Arcade Family Showdown',
+  subtitle: 'Living Arcade Edition',
   logicalWidth: 1920,
   logicalHeight: 1080,
   roundsToWin: 2,
@@ -16,11 +16,11 @@ export const GAME_CONFIG = {
   defaultScale: 1.75,
 } as const;
 
-export type GameMode = 'cpu' | 'pvp' | 'training';
-export type Difficulty = 'easy' | 'normal' | 'hard';
+export type GameMode = 'arcade' | 'cpu' | 'pvp' | 'survival' | 'training';
+export type Difficulty = 'easy' | 'normal' | 'hard' | 'master';
 export type ScalingMode = 'fit' | 'pixel';
 export type CrtMode = 'off' | 'subtle' | 'arcade';
-export type TrainingDummyBehavior = 'idle' | 'guard' | 'attack';
+export type TrainingDummyBehavior = 'idle' | 'guard' | 'attack' | 'cpu';
 
 export interface TrainingOptions {
   dummyBehavior: TrainingDummyBehavior;

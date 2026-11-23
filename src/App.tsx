@@ -15,6 +15,16 @@ import { SettingsModal } from './components/Settings/SettingsModal';
 import { StageSelect } from './components/StageSelect/StageSelect';
 import { TouchControlsOverlay } from './components/TouchControls/TouchControlsOverlay';
 import { CharacterId } from './config/animations';
+import {
+  advanceSurvivalRun,
+  ArcadeProfileRecord,
+  ArcadeRunState,
+  createArcadeRun,
+  createSurvivalRun,
+  loadArcadeProfile,
+  saveArcadeProfile,
+  SurvivalRunState,
+} from './config/arcadeProgression';
 import { ControlScheme, loadControls, saveControls } from './config/controls';
 import {
   CrtMode,
@@ -61,14 +71,21 @@ export function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const engineRef = useRef<GameEngine | null>(null);
   const screenRef = useRef<ScreenState>('TITLE');
+  const modeRef = useRef<GameMode>('arcade');
+  const arcadeRunRef = useRef<ArcadeRunState | null>(null);
+  const survivalRunRef = useRef<SurvivalRunState | null>(null);
 
   const [screen, setScreen] = useState<ScreenState>('TITLE');
-  const [mode, setMode] = useState<GameMode>('cpu');
+  const [mode, setMode] = useState<GameMode>('arcade');
   const [p1Char, setP1Char] = useState<CharacterId>('rahul');
   const [p2Char, setP2Char] = useState<CharacterId>('sagar');
   const [stageId, setStageId] = useState<StageId>('katra');
   const [settings, setSettings] = useState<GameSettings>(loadSettings);
   const [controls, setControls] = useState<ControlScheme>(loadControls);
+  const [arcadeProfile, setArcadeProfile] = useState<ArcadeProfileRecord>(loadArcadeProfile);
+  const [arcadeRun, setArcadeRun] = useState<ArcadeRunState | null>(null);
+  const [survivalRun, setSurvivalRun] = useState<SurvivalRunState | null>(null);
+
   const [muted, setMuted] = useState(false);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const [forceTouchParam, setForceTouchParam] = useState(false);
@@ -96,6 +113,18 @@ export function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [showCredits, setShowCredits] = useState(false);
   const [moveListChar, setMoveListChar] = useState<CharacterId | null>(null);
+
+  useEffect(() => {
+    modeRef.current = mode;
+  }, [mode]);
+
+  useEffect(() => {
+    arcadeRunRef.current = arcadeRun;
+  }, [arcadeRun]);
+
+  useEffect(() => {
+    survivalRunRef.current = survivalRun;
+  }, [survivalRun]);
 
   useEffect(() => {
     const mq = window.matchMedia?.('(pointer: coarse)');
@@ -220,7 +249,12 @@ export function App() {
       nextStage: StageId,
       nextMode: GameMode,
       nextDiff: Difficulty,
-      autoEnableBoxes = false,
+      opts?: {
+        autoEnableBoxes?: boolean;
+        arcadeBoutLabel?: string | null;
+        startingP1HealthPct?: number;
+        carryScore?: number;
+      },
     ) => {
       setScreen('LOADING');
       setMatchStats(null);
@@ -240,9 +274,12 @@ export function App() {
         stageId: nextStage,
         mode: nextMode,
         difficulty: nextDiff,
+        arcadeBoutLabel: opts?.arcadeBoutLabel ?? null,
+        startingP1HealthPct: opts?.startingP1HealthPct ?? 1,
+        carryScore: opts?.carryScore ?? 0,
       });
 
-      if (autoEnableBoxes && nextMode === 'training') {
+      if (opts?.autoEnableBoxes && nextMode === 'training') {
         engine.setTrainingOptions({ showHitboxes: true, showHurtboxes: true });
       }
 
@@ -253,6 +290,75 @@ export function App() {
     },
     [],
   );
+
+  const startArcadeRunFlow = useCallback(
+    (playerId: CharacterId, diff: Difficulty) => {
+      const run = createArcadeRun(playerId, diff);
+      const first = run.bouts[0];
+      setArcadeRun(run);
+      setSurvivalRun(null);
+      setP1Char(playerId);
+      setP2Char(first.opponentCharId);
+      setStageId(first.stageId);
+      void launchMatch(playerId, first.opponentCharId, first.stageId, 'arcade', first.difficulty, {
+        arcadeBoutLabel: `STG 1/${run.bouts.length}`,
+        carryScore: 0,
+      });
+    },
+    [launchMatch],
+  );
+
+  const startSurvivalRunFlow = useCallback(
+    (playerId: CharacterId, diff: Difficulty) => {
+      const run = createSurvivalRun(playerId, diff);
+      setSurvivalRun(run);
+      setArcadeRun(null);
+      setP1Char(playerId);
+      setP2Char(run.currentOpponent);
+      setStageId(run.currentStage);
+      void launchMatch(playerId, run.currentOpponent, run.currentStage, 'survival', run.currentDifficulty, {
+        arcadeBoutLabel: `WAVE ${run.wave}`,
+        startingP1HealthPct: run.carryHealthPct,
+        carryScore: 0,
+      });
+    },
+    [launchMatch],
+  );
+
+  // Persist high scores, combo records, arcade clears & survival streaks
+  const recordMatchOutcome = useCallback((stats: MatchStats) => {
+    const activeMode = modeRef.current;
+    const currentArcade = arcadeRunRef.current;
+    const currentSurvival = survivalRunRef.current;
+
+    setArcadeProfile((prev) => {
+      const next: ArcadeProfileRecord = {
+        ...prev,
+        arcadeClears: { ...prev.arcadeClears },
+      };
+      if (activeMode !== 'pvp') {
+        next.highScore = Math.max(next.highScore, stats.p1Score);
+        next.bestCombo = Math.max(next.bestCombo, stats.p1MaxCombo);
+        if (stats.winnerSlot === 1) {
+          next.totalWins += 1;
+          next.totalKOs += stats.p1Rounds;
+          if (
+            activeMode === 'arcade' &&
+            currentArcade &&
+            currentArcade.currentBoutIndex >= currentArcade.bouts.length - 1
+          ) {
+            next.arcadeClears[currentArcade.playerCharId] =
+              (next.arcadeClears[currentArcade.playerCharId] ?? 0) + 1;
+          }
+          if (activeMode === 'survival' && currentSurvival) {
+            next.bestSurvivalStreak = Math.max(next.bestSurvivalStreak, currentSurvival.wave);
+          }
+        }
+      }
+      saveArcadeProfile(next);
+      return next;
+    });
+  }, []);
 
   // Mount persistent GameEngine once; never tear down canvas on React HUD updates
   useEffect(() => {
@@ -278,6 +384,7 @@ export function App() {
       },
       onMatchComplete: (stats) => {
         setMatchStats(stats);
+        recordMatchOutcome(stats);
         setScreen('RESULT');
       },
     });
@@ -289,13 +396,27 @@ export function App() {
     void assetManager.preloadUrls([
       '/assets/stages/stage_01.png',
       '/assets/characters/rahul/rahul_01_idle_8f.png',
+      '/assets/characters/rahul/rahul_02_walk_forward_6f.png',
+      '/assets/characters/rahul/rahul_03_walk_backward_6f.png',
+      '/assets/characters/rahul/rahul_12_light_punch_4f.png',
+      '/assets/characters/rahul/rahul_13_heavy_punch_6f.png',
+      '/assets/characters/rahul/rahul_14_light_kick_5f.png',
+      '/assets/characters/rahul/rahul_22_standing_guard_4f.png',
+      '/assets/characters/rahul/rahul_24_light_hit_reaction_3f.png',
       '/assets/characters/sagar/sagar_01_idle_8f.png',
+      '/assets/characters/sagar/sagar_02_walk_forward_6f.png',
+      '/assets/characters/sagar/sagar_03_walk_backward_6f.png',
+      '/assets/characters/sagar/sagar_12_light_punch_4f.png',
+      '/assets/characters/sagar/sagar_13_heavy_punch_6f.png',
+      '/assets/characters/sagar/sagar_14_light_kick_5f.png',
+      '/assets/characters/sagar/sagar_22_standing_guard_4f.png',
+      '/assets/characters/sagar/sagar_24_light_hit_reaction_3f.png',
       '/assets/characters/jatin/jatin_01_idle_8f.png',
       '/assets/characters/tony/Tony_Idle.png',
       '/assets/effects/tony_FX_Combat_Drone.png',
     ]);
 
-    // Support ?autostart=1&mode=cpu|pvp|training&touch=1&crt=off|subtle|arcade&boxes=1&p1=...&p2=...&stage=...
+    // Support ?autostart=1&mode=arcade|cpu|pvp|survival|training&difficulty=easy|normal|hard|master&touch=1&crt=off|subtle|arcade&boxes=1
     const params = new URLSearchParams(window.location.search);
     if (params.get('touch') === '1') {
       setForceTouchParam(true);
@@ -304,24 +425,39 @@ export function App() {
     if (crtParam === 'off' || crtParam === 'subtle' || crtParam === 'arcade') {
       setSettings((prev) => ({ ...prev, crtMode: crtParam as CrtMode }));
     }
+    const diffParam = params.get('difficulty') as Difficulty | null;
+    const effectiveDiff: Difficulty =
+      diffParam === 'easy' || diffParam === 'normal' || diffParam === 'hard' || diffParam === 'master'
+        ? diffParam
+        : initialSettings.difficulty;
+    if (diffParam && effectiveDiff !== initialSettings.difficulty) {
+      setSettings((prev) => ({ ...prev, difficulty: effectiveDiff }));
+    }
+
     if (params.get('autostart') === '1') {
       const qStage = (params.get('stage') as StageId) || 'katra';
       const qP1 = (params.get('p1') as CharacterId) || 'rahul';
       const qP2 = (params.get('p2') as CharacterId) || 'sagar';
       const qMode = (params.get('mode') as GameMode) || 'cpu';
       const qBoxes = params.get('boxes') === '1';
-      setP1Char(qP1);
-      setP2Char(qP2);
-      setStageId(qStage);
       setMode(qMode);
-      void launchMatch(qP1, qP2, qStage, qMode, initialSettings.difficulty, qBoxes);
+      if (qMode === 'arcade') {
+        startArcadeRunFlow(qP1, effectiveDiff);
+      } else if (qMode === 'survival') {
+        startSurvivalRunFlow(qP1, effectiveDiff);
+      } else {
+        setP1Char(qP1);
+        setP2Char(qP2);
+        setStageId(qStage);
+        void launchMatch(qP1, qP2, qStage, qMode, effectiveDiff, { autoEnableBoxes: qBoxes });
+      }
     }
 
     return () => {
       engine.stop();
       engineRef.current = null;
     };
-  }, [launchMatch]);
+  }, [launchMatch, recordMatchOutcome, startArcadeRunFlow, startSurvivalRunFlow]);
 
   const handleResume = useCallback(() => {
     engineRef.current?.setPaused(false);
@@ -342,6 +478,8 @@ export function App() {
     setShowCredits(false);
     setMoveListChar(null);
     setMatchStats(null);
+    setArcadeRun(null);
+    setSurvivalRun(null);
     engineRef.current?.setupAttractStage('katra', 'rahul', 'sagar');
     setScreen('TITLE');
   }, []);
@@ -349,6 +487,107 @@ export function App() {
   const handleTrainingOptionsChange = useCallback((partial: Partial<TrainingOptions>) => {
     engineRef.current?.setTrainingOptions(partial);
   }, []);
+
+  const handleAdvanceRun = useCallback(() => {
+    if (mode === 'arcade' && arcadeRun && matchStats) {
+      const nextIdx = arcadeRun.currentBoutIndex + 1;
+      if (nextIdx < arcadeRun.bouts.length) {
+        const nextBout = arcadeRun.bouts[nextIdx];
+        const updated: ArcadeRunState = {
+          ...arcadeRun,
+          currentBoutIndex: nextIdx,
+          totalScore: matchStats.p1Score,
+          wins: arcadeRun.wins + 1,
+        };
+        setArcadeRun(updated);
+        setP2Char(nextBout.opponentCharId);
+        setStageId(nextBout.stageId);
+        void launchMatch(
+          arcadeRun.playerCharId,
+          nextBout.opponentCharId,
+          nextBout.stageId,
+          'arcade',
+          nextBout.difficulty,
+          {
+            arcadeBoutLabel: nextBout.isFinalBoss
+              ? 'FINAL'
+              : `STG ${nextIdx + 1}/${arcadeRun.bouts.length}`,
+            carryScore: matchStats.p1Score,
+          },
+        );
+      }
+      return;
+    }
+
+    if (mode === 'survival' && survivalRun && matchStats) {
+      const nextRun = advanceSurvivalRun(
+        survivalRun,
+        matchStats.p1RemainingHealthPct,
+        matchStats.p1Score - survivalRun.totalScore,
+        settings.difficulty,
+      );
+      setSurvivalRun(nextRun);
+      setP2Char(nextRun.currentOpponent);
+      setStageId(nextRun.currentStage);
+      void launchMatch(
+        nextRun.playerCharId,
+        nextRun.currentOpponent,
+        nextRun.currentStage,
+        'survival',
+        nextRun.currentDifficulty,
+        {
+          arcadeBoutLabel: `WAVE ${nextRun.wave}`,
+          startingP1HealthPct: nextRun.carryHealthPct,
+          carryScore: matchStats.p1Score,
+        },
+      );
+    }
+  }, [arcadeRun, launchMatch, matchStats, mode, settings.difficulty, survivalRun]);
+
+  const handleResultRematch = useCallback(() => {
+    if (mode === 'arcade' && arcadeRun) {
+      const clearedAll =
+        matchStats?.winnerSlot === 1 && arcadeRun.currentBoutIndex >= arcadeRun.bouts.length - 1;
+      if (clearedAll) {
+        startArcadeRunFlow(arcadeRun.playerCharId, settings.difficulty);
+      } else {
+        const bout = arcadeRun.bouts[arcadeRun.currentBoutIndex];
+        setArcadeRun({ ...arcadeRun, continuesUsed: arcadeRun.continuesUsed + 1 });
+        void launchMatch(
+          arcadeRun.playerCharId,
+          bout.opponentCharId,
+          bout.stageId,
+          'arcade',
+          bout.difficulty,
+          {
+            arcadeBoutLabel: bout.isFinalBoss
+              ? 'FINAL'
+              : `STG ${arcadeRun.currentBoutIndex + 1}/${arcadeRun.bouts.length}`,
+            carryScore: arcadeRun.totalScore,
+          },
+        );
+      }
+      return;
+    }
+
+    if (mode === 'survival') {
+      startSurvivalRunFlow(p1Char, settings.difficulty);
+      return;
+    }
+
+    void launchMatch(p1Char, p2Char, stageId, mode, settings.difficulty);
+  }, [
+    arcadeRun,
+    launchMatch,
+    matchStats,
+    mode,
+    p1Char,
+    p2Char,
+    settings.difficulty,
+    stageId,
+    startArcadeRunFlow,
+    startSurvivalRunFlow,
+  ]);
 
   const touchOverlayActive =
     screen === 'PLAYING' &&
@@ -358,6 +597,23 @@ export function App() {
   const p1TouchLayout = hud ? getTouchLayoutFor(1, hud.p1.characterId) : getTouchLayoutFor(1, p1Char);
   const p2TouchLayout = hud ? getTouchLayoutFor(2, hud.p2.characterId) : getTouchLayoutFor(2, p2Char);
   const anyModalOpen = Boolean(showControls || showSettings || showCredits || moveListChar);
+  const totalArcadeClears = Object.values(arcadeProfile.arcadeClears).reduce((a, b) => a + b, 0);
+
+  const canAdvanceArcade = Boolean(
+    mode === 'arcade' &&
+      arcadeRun &&
+      matchStats?.winnerSlot === 1 &&
+      arcadeRun.currentBoutIndex < arcadeRun.bouts.length - 1,
+  );
+  const arcadeChampionCleared = Boolean(
+    mode === 'arcade' &&
+      arcadeRun &&
+      matchStats?.winnerSlot === 1 &&
+      arcadeRun.currentBoutIndex >= arcadeRun.bouts.length - 1,
+  );
+  const canAdvanceSurvival = Boolean(
+    mode === 'survival' && survivalRun && matchStats?.winnerSlot === 1,
+  );
 
   return (
     <main
@@ -391,6 +647,8 @@ export function App() {
             audioUnlocked={audioUnlocked}
             muted={muted}
             modalOpen={anyModalOpen}
+            highScore={arcadeProfile.highScore}
+            totalArcadeClears={totalArcadeClears}
             onUnlockAudio={handleUnlockAudio}
             onToggleMute={() => setMuted((m) => !m)}
             onPlay={() => setScreen('MODE_SELECT')}
@@ -398,7 +656,10 @@ export function App() {
               setMode('training');
               setScreen('CHARACTER_SELECT');
             }}
-            onCharacterSelect={() => setScreen('CHARACTER_SELECT')}
+            onCharacterSelect={() => {
+              setMode('cpu');
+              setScreen('CHARACTER_SELECT');
+            }}
             onStageSelect={() => setScreen('STAGE_SELECT')}
             onControls={() => setShowControls(true)}
             onSettings={() => setShowSettings(true)}
@@ -409,6 +670,7 @@ export function App() {
         {screen === 'MODE_SELECT' && (
           <ModeSelect
             difficulty={settings.difficulty}
+            profile={arcadeProfile}
             onDifficultyChange={(difficulty) => setSettings((prev) => ({ ...prev, difficulty }))}
             onSelectMode={(nextMode) => {
               setMode(nextMode);
@@ -426,7 +688,13 @@ export function App() {
             onConfirm={(c1, c2) => {
               setP1Char(c1);
               setP2Char(c2);
-              setScreen('STAGE_SELECT');
+              if (mode === 'arcade') {
+                startArcadeRunFlow(c1, settings.difficulty);
+              } else if (mode === 'survival') {
+                startSurvivalRunFlow(c1, settings.difficulty);
+              } else {
+                setScreen('STAGE_SELECT');
+              }
             }}
             onOpenMoveList={(charId) => setMoveListChar(charId)}
             onBack={() => setScreen('MODE_SELECT')}
@@ -508,7 +776,21 @@ export function App() {
         {screen === 'RESULT' && matchStats && (
           <ResultScreen
             stats={matchStats}
-            onRematch={() => void launchMatch(p1Char, p2Char, stageId, mode, settings.difficulty)}
+            mode={mode}
+            highScore={arcadeProfile.highScore}
+            arcadeProgressLabel={
+              mode === 'arcade' && arcadeRun
+                ? `ARCADE STAGE ${arcadeRun.currentBoutIndex + 1} OF ${arcadeRun.bouts.length}`
+                : mode === 'survival' && survivalRun
+                  ? `SURVIVAL WAVE ${survivalRun.wave}`
+                  : null
+            }
+            canAdvanceArcade={canAdvanceArcade}
+            arcadeChampionCleared={arcadeChampionCleared}
+            canAdvanceSurvival={canAdvanceSurvival}
+            survivalWaveReached={survivalRun?.wave}
+            onAdvanceRun={handleAdvanceRun}
+            onRematch={handleResultRematch}
             onCharacterSelect={() => {
               setMatchStats(null);
               setScreen('CHARACTER_SELECT');

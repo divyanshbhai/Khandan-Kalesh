@@ -10,15 +10,18 @@ export interface CombatTickResult {
   koTriggered: boolean;
   callout: CombatCallout | null;
   screenFlash?: { color: string; alpha: number };
+  p1ScoreDelta: number;
 }
 
 let nextCalloutId = 1;
 
 export class CombatSystem {
   private resolvedInstances = new Set<number>();
+  private firstAttackAwarded = false;
 
   reset(): void {
     this.resolvedInstances.clear();
+    this.firstAttackAwarded = false;
   }
 
   private makeCallout(slot: FighterSlot, text: string, type: CombatFeedbackType): CombatCallout {
@@ -27,7 +30,7 @@ export class CombatSystem {
       slot,
       text,
       type,
-      ttl: 1.05,
+      ttl: 1.1,
     };
   }
 
@@ -41,6 +44,7 @@ export class CombatSystem {
     let koTriggered = false;
     let callout: CombatCallout | null = null;
     let screenFlash: { color: string; alpha: number } | undefined;
+    let p1ScoreDelta = 0;
 
     // 1. Melee attack resolution (P1 -> P2, P2 -> P1)
     const pairs: Array<[Fighter, Fighter]> = [
@@ -105,6 +109,9 @@ export class CombatSystem {
         });
         attacker.meter = Math.min(attacker.maxMeter, attacker.meter + Math.round(data.meterGainOnHit * 0.55));
         if (guardBroken) {
+          attacker.guardBreaksLanded++;
+          attacker.momentumHeat = Math.min(100, attacker.momentumHeat + 26);
+          if (attacker.slot === 1) p1ScoreDelta += 1200;
           soundEngine.playGuardBreak(defender.slot);
           soundEngine.triggerHaptic([25, 15, 35]);
           effects.spawnHitSparks(contactX, contactY, '#ef4444', 24, true);
@@ -115,6 +122,7 @@ export class CombatSystem {
           callout = this.makeCallout(attacker.slot, 'GUARD BREAK!', 'guard_break');
           screenFlash = { color: '#ef4444', alpha: 0.22 };
         } else {
+          if (defender.slot === 1) p1ScoreDelta += 80;
           soundEngine.playBlock(defender.slot);
           soundEngine.triggerHaptic(10);
           effects.spawnHitSparks(contactX, contactY, '#7dd3fc', 12, false);
@@ -124,16 +132,29 @@ export class CombatSystem {
           callout = this.makeCallout(defender.slot, 'BLOCKED', 'block');
         }
       } else {
+        const isFirstAttack = !this.firstAttackAwarded;
+        if (isFirstAttack) {
+          this.firstAttackAwarded = true;
+          attacker.firstAttacksLanded++;
+          attacker.meter = Math.min(attacker.maxMeter, attacker.meter + 10);
+          if (attacker.slot === 1) p1ScoreDelta += 750;
+        }
+
         const isCounter = defender.isInStartup();
+        const isPunish = !isCounter && defender.isInRecovery();
         const isLowHpClutch = attacker.health / attacker.maxHealth <= 0.28 && Boolean(data.isHeavy);
         const isCritical = isLowHpClutch || (attacker.comboCount >= 3 && Boolean(data.isHeavy));
 
-        const damageMult = (isCounter ? 1.15 : 1) * (isCritical ? 1.12 : 1);
+        if (isCounter) attacker.counterHitsLanded++;
+        if (isPunish) attacker.punishesLanded++;
+
+        const damageMult =
+          (isCounter ? 1.15 : 1) * (isPunish ? 1.12 : 1) * (isCritical ? 1.12 : 1);
         const finalDamage = Math.round(data.damage * damageMult);
 
         const { isKO } = defender.receiveHit({
           damage: finalDamage,
-          hitstun: data.hitstun * (isCounter ? 1.15 : 1),
+          hitstun: data.hitstun * (isCounter || isPunish ? 1.15 : 1),
           knockbackX: data.knockbackX * (isCritical ? 1.12 : 1),
           knockbackY: data.knockbackY,
           attackerX: attacker.x,
@@ -144,8 +165,21 @@ export class CombatSystem {
 
         attacker.meter = Math.min(attacker.maxMeter, attacker.meter + data.meterGainOnHit);
         attacker.recordHitDealt(finalDamage);
+        if (attacker.slot === 1) {
+          p1ScoreDelta +=
+            finalDamage * 10 +
+            (isCounter ? 650 : 0) +
+            (isPunish ? 900 : 0) +
+            (attacker.comboCount >= 2 ? attacker.comboCount * 220 : 0);
+        }
 
-        const sparkColor = isCritical ? '#ffd67a' : isCounter ? '#fb7185' : attacker.profile.accentColor;
+        const sparkColor = isCritical
+          ? '#ffd67a'
+          : isPunish
+            ? '#38bdf8'
+            : isCounter
+              ? '#fb7185'
+              : attacker.profile.accentColor;
         effects.spawnHitSparks(
           contactX,
           contactY,
@@ -170,7 +204,7 @@ export class CombatSystem {
           screenFlash = { color: '#ffffff', alpha: 0.42 };
         } else {
           soundEngine.playHit(Boolean(data.isHeavy), {
-            counter: isCounter,
+            counter: isCounter || isPunish,
             critical: isCritical,
             attackerId: attacker.characterId,
             slot: attacker.slot,
@@ -180,10 +214,14 @@ export class CombatSystem {
           if (data.key === 'ultimate') {
             camera.addZoomImpulse(0.016);
           }
-          hitstop = Math.max(hitstop, data.hitstop + (isCounter ? 0.018 : 0));
+          hitstop = Math.max(hitstop, data.hitstop + (isCounter || isPunish ? 0.018 : 0));
 
           if (data.key === 'ultimate') {
             callout = this.makeCallout(attacker.slot, attacker.profile.kit.ultimateName.toUpperCase(), 'ultimate');
+          } else if (isFirstAttack) {
+            callout = this.makeCallout(attacker.slot, 'FIRST ATTACK!', 'first_attack');
+          } else if (isPunish) {
+            callout = this.makeCallout(attacker.slot, 'PUNISH!', 'punish');
           } else if (isCritical) {
             callout = this.makeCallout(attacker.slot, 'CRITICAL HIT!', 'critical');
           } else if (isCounter) {
@@ -250,6 +288,8 @@ export class CombatSystem {
           attackerX: proj.x,
         });
         if (guardBroken) {
+          attacker.guardBreaksLanded++;
+          if (attacker.slot === 1) p1ScoreDelta += 1200;
           soundEngine.playGuardBreak(defender.slot);
           effects.spawnHitSparks(proj.x, proj.y, '#ef4444', 22, true);
           effects.spawnImpactRing(proj.x, proj.y, '#ef4444', 86);
@@ -257,6 +297,7 @@ export class CombatSystem {
           hitstop = Math.max(hitstop, 0.08);
           callout = this.makeCallout(attacker.slot, 'GUARD BREAK!', 'guard_break');
         } else {
+          if (defender.slot === 1) p1ScoreDelta += 80;
           soundEngine.playBlock(defender.slot);
           effects.spawnHitSparks(proj.x, proj.y, '#7dd3fc', 12, false);
           effects.spawnImpactRing(proj.x, proj.y, '#93c5fd', 56);
@@ -264,6 +305,14 @@ export class CombatSystem {
           hitstop = Math.max(hitstop, 0.036);
         }
       } else {
+        const isFirstAttack = !this.firstAttackAwarded;
+        if (isFirstAttack) {
+          this.firstAttackAwarded = true;
+          attacker.firstAttacksLanded++;
+          attacker.meter = Math.min(attacker.maxMeter, attacker.meter + 10);
+          if (attacker.slot === 1) p1ScoreDelta += 750;
+        }
+
         const { isKO } = defender.receiveHit({
           damage: proj.damage,
           hitstun: proj.hitstun,
@@ -276,6 +325,7 @@ export class CombatSystem {
         });
 
         attacker.recordHitDealt(proj.damage);
+        if (attacker.slot === 1) p1ScoreDelta += proj.damage * 10;
         effects.spawnHitSparks(proj.x, proj.y, proj.accentColor, 22, true);
         effects.spawnImpactRing(proj.x, proj.y, proj.accentColor, 82);
 
@@ -290,7 +340,11 @@ export class CombatSystem {
           soundEngine.playHit(true, { attackerId: attacker.characterId, slot: attacker.slot });
           camera.addTrauma(0.4);
           hitstop = Math.max(hitstop, 0.065);
-          callout = this.makeCallout(attacker.slot, proj.piercing ? 'ULTIMATE IMPACT!' : 'SPECIAL HIT!', proj.piercing ? 'ultimate' : 'special');
+          callout = this.makeCallout(
+            attacker.slot,
+            proj.piercing ? 'ULTIMATE IMPACT!' : isFirstAttack ? 'FIRST ATTACK!' : 'SPECIAL HIT!',
+            proj.piercing ? 'ultimate' : isFirstAttack ? 'first_attack' : 'special',
+          );
         }
       }
     }
@@ -299,6 +353,6 @@ export class CombatSystem {
       this.resolvedInstances.clear();
     }
 
-    return { hitstop, koTriggered, callout, screenFlash };
+    return { hitstop, koTriggered, callout, screenFlash, p1ScoreDelta };
   }
 }

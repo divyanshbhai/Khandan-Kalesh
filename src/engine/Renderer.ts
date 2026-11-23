@@ -210,11 +210,21 @@ export class Renderer {
 
   private drawFighter(fighter: Fighter, camera: Camera): void {
     const ctx = this.ctx;
-    const def = fighter.animPlayer.getDefinition();
-    const img = assetManager.getImage(def.url);
-    if (!img) return;
+    let def = fighter.animPlayer.getDefinition();
+    let img = assetManager.getImage(def.url);
+    let { sx, sy, sw, sh } = fighter.animPlayer.getSourceRect();
 
-    const { sx, sy, sw, sh } = fighter.animPlayer.getSourceRect();
+    // Never blink invisible if a secondary sheet is still streaming in (e.g. Title attract demo)
+    if (!img) {
+      def = fighter.anims.idle;
+      img = assetManager.getImage(def.url);
+      if (!img) return;
+      sx = 0;
+      sy = 0;
+      sw = def.frameWidth;
+      sh = def.frameHeight;
+    }
+
     const scale = fighter.profile.renderScale;
     const drawW = sw * scale * fighter.squashX;
     const drawH = sh * scale * fighter.squashY;

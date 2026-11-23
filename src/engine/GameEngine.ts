@@ -1,4 +1,9 @@
 import { CharacterId } from '../config/animations';
+import {
+  computeArcadeScore,
+  getMatchupIntroLine,
+  getVictoryQuote,
+} from '../config/arcadeProgression';
 import { ControlScheme } from '../config/controls';
 import {
   DEFAULT_TRAINING_OPTIONS,
@@ -34,6 +39,8 @@ export class GameEngine {
   private effects = new EffectsManager();
   private combat = new CombatSystem();
   private cpu: CPUController;
+  private attractCpuP1 = new CPUController('normal');
+  private attractCpuP2 = new CPUController('normal');
   private roundManager: RoundManager;
   private callbacks: EngineCallbacks;
 
@@ -42,8 +49,16 @@ export class GameEngine {
   private p2: Fighter;
   private mode: GameMode = 'cpu';
   private difficulty: Difficulty = 'normal';
+  private arcadeBoutLabel: string | null = null;
+  private startingP1HealthPct = 1;
   private trainingOptions: TrainingOptions = { ...DEFAULT_TRAINING_OPTIONS };
   private trainingRefillTimer = 0;
+
+  // V4 match-scoped scoring & highlights
+  private p1LiveScore = 0;
+  private p1PerfectRounds = 0;
+  private p1ComebackRounds = 0;
+  private rivalIntroLine: string | null = null;
 
   private rafId: number | null = null;
   private lastTime = 0;
@@ -94,6 +109,27 @@ export class GameEngine {
         if (winner === 1) {
           this.p1.enterVictory();
           if (this.p2.health > 0) this.p2.enterDefeat();
+          if (this.p1.health >= this.p1.maxHealth && this.startingP1HealthPct >= 0.99) {
+            this.p1PerfectRounds++;
+            this.p1LiveScore += 4000;
+            this.activeCallout = {
+              id: Date.now(),
+              slot: 1,
+              text: 'PERFECT!',
+              type: 'perfect',
+              ttl: 1.5,
+            };
+          } else if (this.p1.health / this.p1.maxHealth <= 0.25) {
+            this.p1ComebackRounds++;
+            this.p1LiveScore += 2500;
+            this.activeCallout = {
+              id: Date.now() + 1,
+              slot: 1,
+              text: 'COMEBACK!',
+              type: 'comeback',
+              ttl: 1.5,
+            };
+          }
         } else if (winner === 2) {
           this.p2.enterVictory();
           if (this.p1.health > 0) this.p1.enterDefeat();
@@ -101,7 +137,8 @@ export class GameEngine {
         this.emitHudSnapshot();
       },
       onNextRound: () => {
-        this.resetFightersForRound(false);
+        // V4: Preserve CPU's learned player behavior habits across rounds of the match!
+        this.resetFightersForRound(false, true);
         this.emitHudSnapshot();
       },
       onMatchOver: (winnerSlot) => {
@@ -113,7 +150,7 @@ export class GameEngine {
       },
     });
 
-    this.setupAttractStage('katra', 'rahul', 'tony');
+    this.setupAttractStage('katra', 'rahul', 'sagar');
   }
 
   setupAttractStage(stageId: StageId, p1Char: CharacterId, p2Char: CharacterId): void {
@@ -123,6 +160,9 @@ export class GameEngine {
     this.stage = getStageById(stageId);
     this.p1 = new Fighter(1, p1Char);
     this.p2 = new Fighter(2, p2Char);
+    this.attractCpuP1.reset();
+    this.attractCpuP2.reset();
+    this.combat.reset();
     this.effects.clear();
     this.activeCallout = null;
     this.camera.configure(this.stage);
@@ -137,11 +177,16 @@ export class GameEngine {
     stageId: StageId;
     mode: GameMode;
     difficulty: Difficulty;
+    arcadeBoutLabel?: string | null;
+    startingP1HealthPct?: number;
+    carryScore?: number;
   }): void {
     this.attractMode = false;
     this.paused = false;
     this.mode = opts.mode;
     this.difficulty = opts.difficulty;
+    this.arcadeBoutLabel = opts.arcadeBoutLabel ?? null;
+    this.startingP1HealthPct = opts.startingP1HealthPct ?? 1;
     this.stage = getStageById(opts.stageId);
     this.p1 = new Fighter(1, opts.p1Char);
     this.p2 = new Fighter(2, opts.p2Char);
@@ -153,20 +198,39 @@ export class GameEngine {
     this.activeCallout = null;
     this.hitstopTimer = 0;
     this.trainingRefillTimer = 0;
+    this.p1LiveScore = opts.carryScore ?? 0;
+    this.p1PerfectRounds = 0;
+    this.p1ComebackRounds = 0;
+    this.rivalIntroLine =
+      opts.mode === 'training' ? null : getMatchupIntroLine(opts.p1Char, opts.p2Char);
 
     if (opts.mode === 'training') {
       this.roundManager.resetMatch();
       this.roundManager.phase = 'fighting';
       this.roundManager.announcement = null;
       this.roundManager.subAnnouncement = null;
-      this.resetFightersForRound(false);
+      this.resetFightersForRound(false, false);
       this.p1.meter = 100;
       this.p2.meter = 100;
       soundEngine.setMusicScene('battle', this.stage.id);
       soundEngine.setMusicIntensity('normal');
+    } else if (opts.mode === 'survival') {
+      // Survival Gauntlet: single decisive round per wave with carried-over health
+      this.roundManager.resetMatch();
+      this.roundManager.p1Rounds = GAME_CONFIG.roundsToWin - 1;
+      this.roundManager.p2Rounds = GAME_CONFIG.roundsToWin - 1;
+      this.resetFightersForRound(true, false);
+      const startHp = Math.max(
+        Math.round(this.p1.maxHealth * 0.25),
+        Math.round(this.p1.maxHealth * this.startingP1HealthPct),
+      );
+      this.p1.health = startHp;
+      this.p1.trailHealth = startHp;
+      soundEngine.setMusicScene('battle', this.stage.id);
+      soundEngine.setMusicIntensity('normal');
     } else {
       this.roundManager.resetMatch();
-      this.resetFightersForRound(true);
+      this.resetFightersForRound(true, false);
       soundEngine.setMusicScene('battle', this.stage.id);
       soundEngine.setMusicIntensity('normal');
     }
@@ -183,14 +247,22 @@ export class GameEngine {
     this.activeCallout = null;
     this.combat.reset();
     this.effects.clear();
-    this.cpu.reset();
+    this.cpu.resetForNewRound();
     if (this.mode === 'training') {
-      this.resetFightersForRound(false);
+      this.resetFightersForRound(false, true);
       this.p1.meter = 100;
       this.p2.meter = 100;
     } else {
       this.roundManager.restartCurrentRound();
-      this.resetFightersForRound(false);
+      this.resetFightersForRound(false, true);
+      if (this.mode === 'survival') {
+        const startHp = Math.max(
+          Math.round(this.p1.maxHealth * 0.25),
+          Math.round(this.p1.maxHealth * this.startingP1HealthPct),
+        );
+        this.p1.health = startHp;
+        this.p1.trailHealth = startHp;
+      }
     }
     this.input.clearAll();
     this.input.setEnabled(true);
@@ -217,16 +289,20 @@ export class GameEngine {
 
   resetTrainingPositions(): void {
     if (this.mode !== 'training') return;
-    this.resetFightersForRound(false);
+    this.resetFightersForRound(false, false);
     this.p1.meter = 100;
     this.p2.meter = 100;
     this.emitHudSnapshot();
   }
 
-  private resetFightersForRound(playIntro: boolean): void {
+  private resetFightersForRound(playIntro: boolean, preserveAiMemory: boolean): void {
     this.effects.clear();
     this.combat.reset();
-    this.cpu.reset();
+    if (preserveAiMemory) {
+      this.cpu.resetForNewRound();
+    } else {
+      this.cpu.reset();
+    }
     this.p1.resetForRound(this.stage.initialP1X, this.stage.groundY, 1, playIntro);
     this.p2.resetForRound(this.stage.initialP2X, this.stage.groundY, -1, playIntro);
     this.camera.configure(this.stage);
@@ -303,14 +379,44 @@ export class GameEngine {
     this.rafId = requestAnimationFrame(this.loop);
   };
 
+  /**
+   * V4 Living Arcade Title-Screen Attract Mode:
+   * Two AI fighters actually spar dynamically on Katra Market in the background
+   * (with silent auto-recovery so the cabinet demo never stalls!).
+   */
   private updateAttract(dt: number): void {
     this.attractTime += dt;
-    const maxCam = this.camera.getMaxX();
-    const panProgress = 0.5 + 0.5 * Math.sin(this.attractTime * 0.22);
-    this.camera.setPositionDirect(panProgress * maxCam);
     this.effects.updateAmbient(dt, this.stage.worldWidth, this.stage.ambienceKind);
+
+    this.p1.updateFacing(this.p2.x);
+    this.p2.updateFacing(this.p1.x);
+
+    const p1Demo = this.attractCpuP1.update(dt, this.p1, this.p2, this.effects, true, this.stage);
+    const p2Demo = this.attractCpuP2.update(dt, this.p2, this.p1, this.effects, true, this.stage);
+    this.p1.handleInput(p1Demo, true, this.effects);
+    this.p2.handleInput(p2Demo, true, this.effects);
+
     this.p1.update(dt, this.stage, this.effects);
     this.p2.update(dt, this.stage, this.effects);
+    PhysicsEngine.resolveFighterPushbox(this.p1, this.p2, this.stage);
+
+    this.effects.update(dt, this.stage.worldWidth, {
+      1: { x: this.p1.x, y: this.p1.y, facing: this.p1.facing },
+      2: { x: this.p2.x, y: this.p2.y, facing: this.p2.facing },
+    });
+
+    // Allow hits to land visually in attract demo while keeping fighters alive
+    this.combat.resolveCombat(this.p1, this.p2, this.effects, this.camera);
+    if (this.p1.health < this.p1.maxHealth * 0.35) {
+      this.p1.health = this.p1.maxHealth;
+      this.p1.trailHealth = this.p1.maxHealth;
+    }
+    if (this.p2.health < this.p2.maxHealth * 0.35) {
+      this.p2.health = this.p2.maxHealth;
+      this.p2.trailHealth = this.p2.maxHealth;
+    }
+
+    this.camera.update(dt, this.p1.x, this.p2.x);
   }
 
   private updateGameplay(dt: number): void {
@@ -362,6 +468,8 @@ export class GameEngine {
         this.p2,
         this.p1,
         this.trainingOptions.dummyBehavior,
+        this.effects,
+        this.stage,
       );
       this.p2.handleInput(dummyInput, combatAllowed, this.effects);
     } else {
@@ -372,6 +480,12 @@ export class GameEngine {
         this.effects,
         combatAllowed,
         this.stage,
+        {
+          roundNumber: this.roundManager.roundNumber,
+          cpuRoundWins: this.roundManager.p2Rounds,
+          opponentRoundWins: this.roundManager.p1Rounds,
+          timerSeconds: this.roundManager.timerSeconds,
+        },
       );
       this.p2.handleInput(cpuInput, combatAllowed, this.effects);
     }
@@ -392,6 +506,9 @@ export class GameEngine {
     // Combat collision detection
     if (combatAllowed) {
       const result = this.combat.resolveCombat(this.p1, this.p2, this.effects, this.camera);
+      if (result.p1ScoreDelta > 0) {
+        this.p1LiveScore += result.p1ScoreDelta;
+      }
       if (result.hitstop > 0) {
         this.hitstopTimer = result.hitstop;
       }
@@ -460,6 +577,24 @@ export class GameEngine {
   private buildMatchStats(winnerSlot: FighterSlot): MatchStats {
     const winner = winnerSlot === 1 ? this.p1 : this.p2;
     const loser = winnerSlot === 1 ? this.p2 : this.p1;
+    const remainingHealthPct = Math.max(0, Math.min(1, this.p1.health / Math.max(1, this.p1.maxHealth)));
+
+    const scoreResult = computeArcadeScore({
+      wonMatch: winnerSlot === 1,
+      p1DamageDealt: Math.round(this.p1.totalDamageDealt),
+      p1MaxCombo: this.p1.maxCombo,
+      counterHits: this.p1.counterHitsLanded,
+      punishes: this.p1.punishesLanded,
+      guardBreaks: this.p1.guardBreaksLanded,
+      firstAttacks: this.p1.firstAttacksLanded,
+      perfectRounds: this.p1PerfectRounds,
+      comebackRounds: this.p1ComebackRounds,
+      remainingHealthPct,
+      difficulty: this.difficulty,
+    });
+
+    const adapt = this.cpu.getAdaptationSummary();
+
     return {
       winnerSlot,
       winnerCharId: winner.characterId,
@@ -472,10 +607,31 @@ export class GameEngine {
       p1MaxCombo: this.p1.maxCombo,
       p2MaxCombo: this.p2.maxCombo,
       totalRoundsPlayed: this.roundManager.roundNumber,
+      p1Score: Math.max(this.p1LiveScore, scoreResult.totalScore),
+      rankGrade: scoreResult.rank,
+      p1CounterHits: this.p1.counterHitsLanded,
+      p1Punishes: this.p1.punishesLanded,
+      p1GuardBreaks: this.p1.guardBreaksLanded,
+      p1FirstAttacks: this.p1.firstAttacksLanded,
+      p1PerfectRounds: this.p1PerfectRounds,
+      p1ComebackRounds: this.p1ComebackRounds,
+      p1RemainingHealthPct: remainingHealthPct,
+      detectedPlaystyle: this.mode === 'pvp' ? 'LOCAL 2P VERSUS' : adapt.detectedPlaystyle,
+      cpuAdaptationSummary: this.mode === 'pvp' ? 'HEAD-TO-HEAD DUEL' : adapt.summaryText,
+      victoryQuote: getVictoryQuote(
+        winner.characterId,
+        Math.round(this.p1.totalDamageDealt + this.p2.totalDamageDealt),
+      ),
     };
   }
 
   getHudSnapshot(): HudSnapshot {
+    const showRivalBanner =
+      this.mode !== 'training' &&
+      this.roundManager.phase === 'intro' &&
+      this.roundManager.roundNumber === 1 &&
+      this.roundManager.announcement !== 'FIGHT!';
+
     return {
       p1: this.p1.toHudSnapshot(this.roundManager.p1Rounds),
       p2: this.p2.toHudSnapshot(this.roundManager.p2Rounds),
@@ -485,12 +641,15 @@ export class GameEngine {
       phase: this.mode === 'training' ? 'fighting' : this.roundManager.phase,
       announcement: this.mode === 'training' ? null : this.roundManager.announcement,
       subAnnouncement: this.mode === 'training' ? null : this.roundManager.subAnnouncement,
+      rivalIntroLine: showRivalBanner ? this.rivalIntroLine : null,
       callout: this.activeCallout ? { ...this.activeCallout } : null,
+      p1Score: this.p1LiveScore,
       cameraX: Math.round(this.camera.x),
       stageId: this.stage.id,
       stageName: this.stage.name,
       mode: this.mode,
       difficulty: this.difficulty,
+      arcadeBoutLabel: this.arcadeBoutLabel,
       trainingOptions: { ...this.trainingOptions },
       matchStats: this.lastMatchStats,
     };
