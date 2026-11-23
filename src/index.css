@@ -8,15 +8,16 @@
     --font-body: 'Barlow Condensed', system-ui, sans-serif;
     --font-mono: 'Silkscreen', monospace;
 
-    --ff-ink-950: #090605;
-    --ff-surface-900: #18110c;
-    --ff-surface-850: #211811;
-    --ff-surface-800: #2d2118;
-    --ff-border-warm: #6b533b;
+    --ff-ink-950: #090609;
+    --ff-indigo-900: #151020;
+    --ff-surface-900: #181116;
+    --ff-surface-850: #22171b;
+    --ff-surface-800: #2e2021;
+    --ff-border-warm: #755b42;
     --ff-border-brass: #f5b324;
     --ff-cream-100: #fff5e0;
     --ff-cream-200: #ebd8b7;
-    --ff-cream-400: #b39e84;
+    --ff-cream-400: #b8a391;
     --ff-brass-500: #f5a623;
     --ff-brass-400: #ffc947;
     --ff-crimson-500: #e03126;
@@ -25,8 +26,10 @@
   html,
   body,
   #root {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -37,6 +40,13 @@
     -webkit-user-select: none;
     -webkit-touch-callout: none;
     overscroll-behavior: none;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #ffc947;
+    outline-offset: 2px;
   }
 }
 

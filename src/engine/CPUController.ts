@@ -17,6 +17,7 @@ export class CPUController {
   private difficulty: Difficulty;
   private utilityAI = new UtilityAI();
   private trainingAttackTimer = 1.2;
+  private adaptiveEnabled = true;
 
   constructor(difficulty: Difficulty = 'normal') {
     this.difficulty = difficulty;
@@ -24,6 +25,13 @@ export class CPUController {
 
   setDifficulty(difficulty: Difficulty): void {
     this.difficulty = difficulty;
+  }
+
+  setAdaptiveEnabled(enabled: boolean): void {
+    this.adaptiveEnabled = enabled;
+    if (!enabled) {
+      this.utilityAI.reset();
+    }
   }
 
   getState(): AIState {
@@ -102,6 +110,10 @@ export class CPUController {
     matchCtx?: CPUMatchContext,
   ): PlayerInputState {
     if (!combatAllowed || cpu.isIncapacitated()) return createEmptyInput();
+
+    if (!this.adaptiveEnabled) {
+      this.utilityAI.reset();
+    }
 
     const dx = opponent.x - cpu.x;
     const dirToOpp: 1 | -1 = dx >= 0 ? 1 : -1;

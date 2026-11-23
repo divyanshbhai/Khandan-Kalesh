@@ -92,6 +92,10 @@ export class AnimationPlayer {
     return this.currentFrame;
   }
 
+  setFrame(frameIndex: number): void {
+    this.currentFrame = Math.max(0, Math.min(Math.max(0, this.def.frames - 1), Math.floor(frameIndex)));
+  }
+
   getDefinition(): SpriteSheetDef {
     return this.def;
   }

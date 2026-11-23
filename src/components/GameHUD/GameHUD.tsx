@@ -256,7 +256,13 @@ export const GameHUD: React.FC<GameHUDProps> = ({
             fighter={hud.p1}
             align="left"
             roundsToWin={hud.roundsToWin}
-            labelSuffix="1P"
+            labelSuffix={
+              hud.mode === 'local_net'
+                ? hud.networkRole === 'host'
+                  ? 'HOST (YOU)'
+                  : 'HOST'
+                : '1P'
+            }
           />
 
           {/* Classic Center Pixel Timer & Compact Utility Controls */}
@@ -279,7 +285,7 @@ export const GameHUD: React.FC<GameHUDProps> = ({
               >
                 {isTraining ? '∞' : String(hud.timerSeconds).padStart(2, '0')}
               </div>
-              {!isTraining && hud.mode !== 'pvp' && (
+              {!isTraining && hud.mode !== 'pvp' && hud.mode !== 'local_net' && (
                 <div
                   data-testid="hud-score"
                   className="hidden sm:block font-pixel-ui text-[8px] font-bold tracking-wider text-[#b39e84] leading-none mt-1"
@@ -326,11 +332,15 @@ export const GameHUD: React.FC<GameHUDProps> = ({
             align="right"
             roundsToWin={hud.roundsToWin}
             labelSuffix={
-              hud.mode === 'pvp'
-                ? '2P'
-                : isTraining
-                  ? 'DUMMY'
-                  : `CPU ${hud.difficulty.toUpperCase()}`
+              hud.mode === 'local_net'
+                ? hud.networkRole === 'guest'
+                  ? 'GUEST (YOU)'
+                  : 'GUEST'
+                : hud.mode === 'pvp'
+                  ? '2P'
+                  : isTraining
+                    ? 'DUMMY'
+                    : `CPU ${hud.difficulty.toUpperCase()}`
             }
           />
         </div>

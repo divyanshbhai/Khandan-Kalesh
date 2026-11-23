@@ -10,6 +10,7 @@ export interface RoundCallbacks {
 
 export class RoundManager {
   public roundNumber = 1;
+  public roundsToWin: number = GAME_CONFIG.roundsToWin;
   public p1Rounds = 0;
   public p2Rounds = 0;
   public timerSeconds: number = GAME_CONFIG.roundTimeSeconds;
@@ -23,6 +24,10 @@ export class RoundManager {
 
   constructor(callbacks: RoundCallbacks = {}) {
     this.callbacks = callbacks;
+  }
+
+  setRoundsToWin(rounds: number): void {
+    this.roundsToWin = Math.max(1, Math.min(3, Math.round(rounds)));
   }
 
   resetMatch(): void {
@@ -118,9 +123,9 @@ export class RoundManager {
     if (this.phase === 'round_over') {
       this.phaseTimer -= dt;
       if (this.phaseTimer <= 0) {
-        if (this.p1Rounds >= GAME_CONFIG.roundsToWin || this.p2Rounds >= GAME_CONFIG.roundsToWin) {
+        if (this.p1Rounds >= this.roundsToWin || this.p2Rounds >= this.roundsToWin) {
           this.phase = 'match_over';
-          this.matchWinner = this.p1Rounds >= GAME_CONFIG.roundsToWin ? 1 : 2;
+          this.matchWinner = this.p1Rounds >= this.roundsToWin ? 1 : 2;
           const name = this.matchWinner === 1 ? p1Name : p2Name;
           this.announcement = `${name.toUpperCase()} WINS!`;
           this.subAnnouncement = 'MATCH COMPLETE';
@@ -146,8 +151,8 @@ export class RoundManager {
       this.p2Rounds++;
     } else {
       // Draw awards a point unless it would double-end
-      if (this.p1Rounds < GAME_CONFIG.roundsToWin - 1) this.p1Rounds++;
-      if (this.p2Rounds < GAME_CONFIG.roundsToWin - 1) this.p2Rounds++;
+      if (this.p1Rounds < this.roundsToWin - 1) this.p1Rounds++;
+      if (this.p2Rounds < this.roundsToWin - 1) this.p2Rounds++;
     }
 
     this.callbacks.onRoundEnd?.(winner, reason);

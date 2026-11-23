@@ -1,4 +1,4 @@
-import { CharacterId } from '../config/animations';
+import { AnimationKey, CharacterId } from '../config/animations';
 import {
   computeArcadeScore,
   getMatchupIntroLine,
@@ -13,12 +13,17 @@ import {
   TrainingOptions,
 } from '../config/game';
 import { getStageById, StageConfig, StageId } from '../config/stages';
+import {
+  CompactFighterSnapshot,
+  CompactInputPacket,
+  CompactMatchSnapshot,
+} from '../network/protocol';
 import { Camera } from './Camera';
 import { CombatSystem } from './CombatSystem';
 import { CPUController } from './CPUController';
 import { EffectsManager } from './EffectsManager';
-import { Fighter } from './Fighter';
-import { createEmptyInput, InputManager } from './InputManager';
+import { Fighter, FighterState } from './Fighter';
+import { createEmptyInput, InputManager, PlayerInputState } from './InputManager';
 import { PhysicsEngine } from './PhysicsEngine';
 import { Renderer } from './Renderer';
 import { RoundManager } from './RoundManager';
@@ -29,6 +34,8 @@ export interface EngineCallbacks {
   onHudUpdate: (snapshot: HudSnapshot) => void;
   onPauseToggle: () => void;
   onMatchComplete: (stats: MatchStats) => void;
+  onSendInputPacket?: (packet: CompactInputPacket) => void;
+  onSendMatchSnapshot?: (snapshot: CompactMatchSnapshot) => void;
 }
 
 export class GameEngine {
@@ -53,6 +60,15 @@ export class GameEngine {
   private startingP1HealthPct = 1;
   private trainingOptions: TrainingOptions = { ...DEFAULT_TRAINING_OPTIONS };
   private trainingRefillTimer = 0;
+
+  // V5 Two-Device Local Wi-Fi Multiplayer State
+  private networkRole: 'host' | 'guest' | null = null;
+  private remoteGuestInput: PlayerInputState = createEmptyInput();
+  private lastRemoteSeq = -1;
+  private localInputSeq = 0;
+  private localSnapshotSeq = 0;
+  private netSyncAccumulator = 0;
+  private guestMatchCompleted = false;
 
   // V4 match-scoped scoring & highlights
   private p1LiveScore = 0;
@@ -135,17 +151,25 @@ export class GameEngine {
           if (this.p1.health > 0) this.p1.enterDefeat();
         }
         this.emitHudSnapshot();
+        if (this.mode === 'local_net' && this.networkRole === 'host') {
+          this.emitNetworkSnapshot(null);
+        }
       },
       onNextRound: () => {
-        // V4: Preserve CPU's learned player behavior habits across rounds of the match!
         this.resetFightersForRound(false, true);
         this.emitHudSnapshot();
+        if (this.mode === 'local_net' && this.networkRole === 'host') {
+          this.emitNetworkSnapshot(null);
+        }
       },
       onMatchOver: (winnerSlot) => {
         const stats = this.buildMatchStats(winnerSlot);
         this.lastMatchStats = stats;
         soundEngine.setMusicScene('victory');
         this.emitHudSnapshot();
+        if (this.mode === 'local_net' && this.networkRole === 'host') {
+          this.emitNetworkSnapshot(winnerSlot);
+        }
         this.callbacks.onMatchComplete(stats);
       },
     });
@@ -156,6 +180,7 @@ export class GameEngine {
   setupAttractStage(stageId: StageId, p1Char: CharacterId, p2Char: CharacterId): void {
     this.attractMode = true;
     this.paused = false;
+    this.networkRole = null;
     this.input.setEnabled(false);
     this.stage = getStageById(stageId);
     this.p1 = new Fighter(1, p1Char);
@@ -180,6 +205,8 @@ export class GameEngine {
     arcadeBoutLabel?: string | null;
     startingP1HealthPct?: number;
     carryScore?: number;
+    networkRole?: 'host' | 'guest' | null;
+    roundsToWin?: number;
   }): void {
     this.attractMode = false;
     this.paused = false;
@@ -187,6 +214,18 @@ export class GameEngine {
     this.difficulty = opts.difficulty;
     this.arcadeBoutLabel = opts.arcadeBoutLabel ?? null;
     this.startingP1HealthPct = opts.startingP1HealthPct ?? 1;
+    this.networkRole = opts.mode === 'local_net' ? (opts.networkRole ?? 'host') : null;
+    this.remoteGuestInput = createEmptyInput();
+    this.lastRemoteSeq = -1;
+    this.localInputSeq = 0;
+    this.localSnapshotSeq = 0;
+    this.netSyncAccumulator = 0;
+    this.guestMatchCompleted = false;
+
+    if (opts.roundsToWin) {
+      this.roundManager.setRoundsToWin(opts.roundsToWin);
+    }
+
     this.stage = getStageById(opts.stageId);
     this.p1 = new Fighter(1, opts.p1Char);
     this.p2 = new Fighter(2, opts.p2Char);
@@ -215,10 +254,9 @@ export class GameEngine {
       soundEngine.setMusicScene('battle', this.stage.id);
       soundEngine.setMusicIntensity('normal');
     } else if (opts.mode === 'survival') {
-      // Survival Gauntlet: single decisive round per wave with carried-over health
       this.roundManager.resetMatch();
-      this.roundManager.p1Rounds = GAME_CONFIG.roundsToWin - 1;
-      this.roundManager.p2Rounds = GAME_CONFIG.roundsToWin - 1;
+      this.roundManager.p1Rounds = this.roundManager.roundsToWin - 1;
+      this.roundManager.p2Rounds = this.roundManager.roundsToWin - 1;
       this.resetFightersForRound(true, false);
       const startHp = Math.max(
         Math.round(this.p1.maxHealth * 0.25),
@@ -240,8 +278,128 @@ export class GameEngine {
     this.emitHudSnapshot();
   }
 
+  /** Host receives guest's live input packet from WebRTC DataChannel or WS relay */
+  setRemoteGuestInput(packet: CompactInputPacket): void {
+    if (this.mode !== 'local_net' || this.networkRole !== 'host') return;
+    if (packet.seq <= this.lastRemoteSeq) return;
+    this.lastRemoteSeq = packet.seq;
+
+    this.remoteGuestInput = {
+      left: packet.left,
+      right: packet.right,
+      jump: packet.up,
+      jumpPressed: packet.up || this.remoteGuestInput.jumpPressed,
+      crouch: packet.down,
+      block: packet.guard,
+      lightPunchPressed: packet.lp || this.remoteGuestInput.lightPunchPressed,
+      heavyPunchPressed: packet.hp || this.remoteGuestInput.heavyPunchPressed,
+      kickPressed: packet.kick || this.remoteGuestInput.kickPressed,
+      specialPressed: packet.special || this.remoteGuestInput.specialPressed,
+      special2Pressed: packet.special2 || this.remoteGuestInput.special2Pressed,
+      ultimatePressed: packet.ult || this.remoteGuestInput.ultimatePressed,
+      dashLeftPressed: packet.dashLeft || this.remoteGuestInput.dashLeftPressed,
+      dashRightPressed: packet.dashRight || this.remoteGuestInput.dashRightPressed,
+    };
+  }
+
+  /** Guest applies authoritative state snapshot streamed from the host */
+  applyNetworkSnapshot(snapshot: CompactMatchSnapshot): void {
+    if (this.mode !== 'local_net' || this.networkRole !== 'guest') return;
+
+    this.applyFighterSnapshot(this.p1, snapshot.p1);
+    this.applyFighterSnapshot(this.p2, snapshot.p2);
+
+    this.roundManager.roundNumber = snapshot.roundNumber;
+    this.roundManager.p1Rounds = snapshot.p1Rounds;
+    this.roundManager.p2Rounds = snapshot.p2Rounds;
+    this.roundManager.timerSeconds = snapshot.timerSeconds;
+    this.roundManager.phase = snapshot.phase;
+    this.roundManager.announcement = snapshot.announcement;
+    this.roundManager.subAnnouncement = snapshot.subAnnouncement;
+    this.camera.x = snapshot.cameraX;
+
+    this.emitHudSnapshot();
+
+    if (snapshot.winnerSlot && !this.guestMatchCompleted) {
+      this.guestMatchCompleted = true;
+      const stats = this.buildMatchStats(snapshot.winnerSlot);
+      this.lastMatchStats = stats;
+      soundEngine.setMusicScene('victory');
+      this.callbacks.onMatchComplete(stats);
+    }
+  }
+
+  private applyFighterSnapshot(f: Fighter, snap: CompactFighterSnapshot): void {
+    f.x = snap.x;
+    f.y = snap.y;
+    f.vx = snap.vx;
+    f.vy = snap.vy;
+    f.facing = snap.facing;
+    f.state = snap.state as FighterState;
+    const animKey = snap.animKey as AnimationKey;
+    if (f.currentAnimKey !== animKey && f.anims[animKey]) {
+      f.currentAnimKey = animKey;
+      f.animPlayer.play(f.anims[animKey], { restart: true });
+    }
+    f.animPlayer.setFrame(snap.animFrame);
+    f.health = snap.health;
+    f.maxHealth = snap.maxHealth;
+    f.trailHealth = snap.trailHealth;
+    f.guard = snap.guard;
+    f.meter = snap.meter;
+    f.comboCount = snap.comboCount;
+    f.comboDamage = snap.comboDamage;
+    f.hitFlashTimer = snap.hitFlashTimer;
+    f.special1Cooldown = snap.special1Cooldown;
+    f.special2Cooldown = snap.special2Cooldown;
+  }
+
+  private toCompactFighterSnapshot(f: Fighter): CompactFighterSnapshot {
+    return {
+      x: Math.round(f.x),
+      y: Math.round(f.y),
+      vx: Math.round(f.vx),
+      vy: Math.round(f.vy),
+      facing: f.facing,
+      state: f.state,
+      animKey: f.currentAnimKey,
+      animFrame: f.animPlayer.getFrame(),
+      health: Math.round(f.health),
+      maxHealth: f.maxHealth,
+      trailHealth: Math.round(f.trailHealth),
+      guard: Math.round(f.guard),
+      meter: Math.round(f.meter),
+      comboCount: f.comboCount,
+      comboDamage: Math.round(f.comboDamage),
+      hitFlashTimer: Math.round(f.hitFlashTimer * 100) / 100,
+      special1Cooldown: Math.round(f.special1Cooldown * 100) / 100,
+      special2Cooldown: Math.round(f.special2Cooldown * 100) / 100,
+    };
+  }
+
+  private emitNetworkSnapshot(winnerSlot: 1 | 2 | null): void {
+    if (!this.callbacks.onSendMatchSnapshot) return;
+    this.localSnapshotSeq += 1;
+    this.callbacks.onSendMatchSnapshot({
+      type: 'net_snapshot',
+      seq: this.localSnapshotSeq,
+      ts: Date.now(),
+      roundNumber: this.roundManager.roundNumber,
+      p1Rounds: this.roundManager.p1Rounds,
+      p2Rounds: this.roundManager.p2Rounds,
+      timerSeconds: Math.ceil(this.roundManager.timerSeconds),
+      phase: this.roundManager.phase,
+      announcement: this.roundManager.announcement,
+      subAnnouncement: this.roundManager.subAnnouncement,
+      cameraX: Math.round(this.camera.x),
+      p1: this.toCompactFighterSnapshot(this.p1),
+      p2: this.toCompactFighterSnapshot(this.p2),
+      winnerSlot,
+    });
+  }
+
   restartRound(): void {
-    if (this.attractMode) return;
+    if (this.attractMode || this.mode === 'local_net') return;
     this.paused = false;
     this.hitstopTimer = 0;
     this.activeCallout = null;
@@ -328,6 +486,14 @@ export class GameEngine {
     this.cpu.setDifficulty(difficulty);
   }
 
+  setRoundsToWin(rounds: number): void {
+    this.roundManager.setRoundsToWin(rounds);
+  }
+
+  setAdaptiveAiEnabled(enabled: boolean): void {
+    this.cpu.setAdaptiveEnabled(enabled);
+  }
+
   setReducedMotion(reduced: boolean): void {
     this.camera.setReducedMotion(reduced);
     this.renderer.setReducedMotion(reduced);
@@ -379,11 +545,6 @@ export class GameEngine {
     this.rafId = requestAnimationFrame(this.loop);
   };
 
-  /**
-   * V4 Living Arcade Title-Screen Attract Mode:
-   * Two AI fighters actually spar dynamically on Katra Market in the background
-   * (with silent auto-recovery so the cabinet demo never stalls!).
-   */
   private updateAttract(dt: number): void {
     this.attractTime += dt;
     this.effects.updateAmbient(dt, this.stage.worldWidth, this.stage.ambienceKind);
@@ -405,7 +566,6 @@ export class GameEngine {
       2: { x: this.p2.x, y: this.p2.y, facing: this.p2.facing },
     });
 
-    // Allow hits to land visually in attract demo while keeping fighters alive
     this.combat.resolveCombat(this.p1, this.p2, this.effects, this.camera);
     if (this.p1.health < this.p1.maxHealth * 0.35) {
       this.p1.health = this.p1.maxHealth;
@@ -423,6 +583,42 @@ export class GameEngine {
     this.input.tickBuffers(dt);
     this.effects.updateAmbient(dt, this.stage.worldWidth, this.stage.ambienceKind);
 
+    // Guest client in Two-Device Local Wi-Fi Multiplayer: sends local inputs and renders host snapshots
+    if (this.mode === 'local_net' && this.networkRole === 'guest') {
+      this.netSyncAccumulator += dt;
+      if (this.netSyncAccumulator >= 0.033) {
+        this.netSyncAccumulator = 0;
+        const local = this.input.readPlayerInput(1);
+        this.localInputSeq += 1;
+        this.callbacks.onSendInputPacket?.({
+          type: 'net_input',
+          seq: this.localInputSeq,
+          ts: Date.now(),
+          left: local.left,
+          right: local.right,
+          up: local.jumpPressed,
+          down: local.crouch,
+          guard: local.block,
+          lp: local.lightPunchPressed,
+          hp: local.heavyPunchPressed,
+          kick: local.kickPressed,
+          special: local.specialPressed,
+          special2: local.special2Pressed,
+          ult: local.ultimatePressed,
+          dashLeft: local.dashLeftPressed,
+          dashRight: local.dashRightPressed,
+        });
+        this.input.consumePlayerAction(1, 'jump');
+        this.input.consumePlayerAction(1, 'lightPunch');
+        this.input.consumePlayerAction(1, 'heavyPunch');
+        this.input.consumePlayerAction(1, 'kick');
+        this.input.consumePlayerAction(1, 'special1');
+        this.input.consumePlayerAction(1, 'special2');
+        this.input.consumePlayerAction(1, 'ultimate');
+      }
+      return;
+    }
+
     if (this.activeCallout) {
       this.activeCallout.ttl -= dt;
       if (this.activeCallout.ttl <= 0) {
@@ -430,7 +626,6 @@ export class GameEngine {
       }
     }
 
-    // Sim-level hitstop freeze: camera shake & hit flash still tick while simulation pauses
     if (this.hitstopTimer > 0) {
       this.hitstopTimer = Math.max(0, this.hitstopTimer - dt);
       if (this.p1.hitFlashTimer > 0) this.p1.hitFlashTimer = Math.max(0, this.p1.hitFlashTimer - dt);
@@ -446,18 +641,30 @@ export class GameEngine {
     const simDt = dt * timeScale;
     const combatAllowed = this.mode === 'training' ? true : this.roundManager.isCombatActive();
 
-    // Update facing directions before reading input
     this.p1.updateFacing(this.p2.x);
     this.p2.updateFacing(this.p1.x);
 
-    // Read Player 1 input
+    // Player 1 input
     const p1Input = combatAllowed ? this.input.readPlayerInput(1) : createEmptyInput();
     this.p1.handleInput(p1Input, combatAllowed, this.effects, (act) =>
       this.input.consumePlayerAction(1, act),
     );
 
-    // Read Player 2, CPU, or Training Dummy input
-    if (this.mode === 'pvp') {
+    // Player 2 input (Local Network Guest, Local Same-Device PvP, Training Dummy, or Adaptive CPU)
+    if (this.mode === 'local_net' && this.networkRole === 'host') {
+      const guestInput = combatAllowed ? { ...this.remoteGuestInput } : createEmptyInput();
+      this.p2.handleInput(guestInput, combatAllowed, this.effects);
+      // Clear edge-triggered guest presses after simulation step
+      this.remoteGuestInput.jumpPressed = false;
+      this.remoteGuestInput.lightPunchPressed = false;
+      this.remoteGuestInput.heavyPunchPressed = false;
+      this.remoteGuestInput.kickPressed = false;
+      this.remoteGuestInput.specialPressed = false;
+      this.remoteGuestInput.special2Pressed = false;
+      this.remoteGuestInput.ultimatePressed = false;
+      this.remoteGuestInput.dashLeftPressed = false;
+      this.remoteGuestInput.dashRightPressed = false;
+    } else if (this.mode === 'pvp') {
       const p2Input = combatAllowed ? this.input.readPlayerInput(2) : createEmptyInput();
       this.p2.handleInput(p2Input, combatAllowed, this.effects, (act) =>
         this.input.consumePlayerAction(2, act),
@@ -490,20 +697,15 @@ export class GameEngine {
       this.p2.handleInput(cpuInput, combatAllowed, this.effects);
     }
 
-    // Update fighters
     this.p1.update(simDt, this.stage, this.effects);
     this.p2.update(simDt, this.stage, this.effects);
-
-    // Pushbox separation
     PhysicsEngine.resolveFighterPushbox(this.p1, this.p2, this.stage);
 
-    // Update independent VFX, projectiles & pooled particles
     this.effects.update(simDt, this.stage.worldWidth, {
       1: { x: this.p1.x, y: this.p1.y, facing: this.p1.facing },
       2: { x: this.p2.x, y: this.p2.y, facing: this.p2.facing },
     });
 
-    // Combat collision detection
     if (combatAllowed) {
       const result = this.combat.resolveCombat(this.p1, this.p2, this.effects, this.camera);
       if (result.p1ScoreDelta > 0) {
@@ -519,7 +721,6 @@ export class GameEngine {
         this.renderer.triggerScreenFlash(result.screenFlash.color, result.screenFlash.alpha);
       }
 
-      // Dynamic music tension layer when either fighter hits critical health
       if (this.mode !== 'training') {
         const lowHp =
           this.p1.health / this.p1.maxHealth <= 0.28 ||
@@ -530,7 +731,6 @@ export class GameEngine {
       }
     }
 
-    // Training Mode infinite health/meter regeneration after brief neutral pause
     if (this.mode === 'training') {
       if (this.p2.health <= 0) {
         this.p2.health = this.p2.maxHealth;
@@ -553,7 +753,6 @@ export class GameEngine {
         }
       }
     } else {
-      // Standard Round & match timer logic
       this.roundManager.update(
         dt,
         this.p1.health,
@@ -563,10 +762,17 @@ export class GameEngine {
       );
     }
 
-    // Update side-scrolling camera
     this.camera.update(dt, this.p1.x, this.p2.x);
 
-    // Throttle HUD state snapshot updates (~20Hz)
+    // Host streams authoritative snapshot to guest (~30Hz)
+    if (this.mode === 'local_net' && this.networkRole === 'host') {
+      this.netSyncAccumulator += dt;
+      if (this.netSyncAccumulator >= 0.033) {
+        this.netSyncAccumulator = 0;
+        this.emitNetworkSnapshot(null);
+      }
+    }
+
     this.hudEmitAccumulator += dt;
     if (this.hudEmitAccumulator >= 0.05) {
       this.hudEmitAccumulator = 0;
@@ -594,6 +800,7 @@ export class GameEngine {
     });
 
     const adapt = this.cpu.getAdaptationSummary();
+    const isHumanVsHuman = this.mode === 'pvp' || this.mode === 'local_net';
 
     return {
       winnerSlot,
@@ -616,8 +823,12 @@ export class GameEngine {
       p1PerfectRounds: this.p1PerfectRounds,
       p1ComebackRounds: this.p1ComebackRounds,
       p1RemainingHealthPct: remainingHealthPct,
-      detectedPlaystyle: this.mode === 'pvp' ? 'LOCAL 2P VERSUS' : adapt.detectedPlaystyle,
-      cpuAdaptationSummary: this.mode === 'pvp' ? 'HEAD-TO-HEAD DUEL' : adapt.summaryText,
+      detectedPlaystyle: isHumanVsHuman
+        ? this.mode === 'local_net'
+          ? 'LOCAL WI-FI 2P'
+          : 'LOCAL 2P VERSUS'
+        : adapt.detectedPlaystyle,
+      cpuAdaptationSummary: isHumanVsHuman ? 'HEAD-TO-HEAD DUEL' : adapt.summaryText,
       victoryQuote: getVictoryQuote(
         winner.characterId,
         Math.round(this.p1.totalDamageDealt + this.p2.totalDamageDealt),
@@ -636,7 +847,7 @@ export class GameEngine {
       p1: this.p1.toHudSnapshot(this.roundManager.p1Rounds),
       p2: this.p2.toHudSnapshot(this.roundManager.p2Rounds),
       roundNumber: this.roundManager.roundNumber,
-      roundsToWin: GAME_CONFIG.roundsToWin,
+      roundsToWin: this.roundManager.roundsToWin,
       timerSeconds: this.mode === 'training' ? 99 : Math.ceil(this.roundManager.timerSeconds),
       phase: this.mode === 'training' ? 'fighting' : this.roundManager.phase,
       announcement: this.mode === 'training' ? null : this.roundManager.announcement,
@@ -650,6 +861,7 @@ export class GameEngine {
       mode: this.mode,
       difficulty: this.difficulty,
       arcadeBoutLabel: this.arcadeBoutLabel,
+      networkRole: this.networkRole,
       trainingOptions: { ...this.trainingOptions },
       matchStats: this.lastMatchStats,
     };

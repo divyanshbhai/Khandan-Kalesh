@@ -1,6 +1,9 @@
 export const GAME_CONFIG = {
-  title: 'FAMILY FIGHTERS',
-  subtitle: 'Living Arcade Edition',
+  title: '39 BHARAT NAGAR',
+  tagline: 'ONE HOUSE. SEVEN CLAIMS.',
+  subtitle: 'Version 1.0 Release',
+  creator: 'Divyansh Ama QIM',
+  appVersion: '1.0.0',
   logicalWidth: 1920,
   logicalHeight: 1080,
   roundsToWin: 2,
@@ -16,10 +19,18 @@ export const GAME_CONFIG = {
   defaultScale: 1.75,
 } as const;
 
-export type GameMode = 'arcade' | 'cpu' | 'pvp' | 'survival' | 'training';
+export type GameMode =
+  | 'arcade'
+  | 'tournament'
+  | 'local_net'
+  | 'cpu'
+  | 'pvp'
+  | 'survival'
+  | 'training';
 export type Difficulty = 'easy' | 'normal' | 'hard' | 'master';
 export type ScalingMode = 'fit' | 'pixel';
 export type CrtMode = 'off' | 'subtle' | 'arcade';
+export type VfxIntensity = 'full' | 'balanced' | 'low';
 export type TrainingDummyBehavior = 'idle' | 'guard' | 'attack' | 'cpu';
 
 export interface TrainingOptions {
@@ -44,8 +55,12 @@ export interface GameSettings {
   uiVolume: number;
   hapticsEnabled: boolean;
   reducedMotion: boolean;
+  vfxIntensity: VfxIntensity;
   showTouchControlsDesktop: boolean;
   difficulty: Difficulty;
+  roundsToWin: 1 | 2 | 3;
+  defaultMode: 'arcade' | 'tournament' | 'training';
+  adaptiveAiEnabled: boolean;
   scalingMode: ScalingMode;
   crtMode: CrtMode;
   crtCurvature: boolean;
@@ -59,8 +74,12 @@ export const DEFAULT_SETTINGS: GameSettings = {
   uiVolume: 0.72,
   hapticsEnabled: true,
   reducedMotion: false,
+  vfxIntensity: 'full',
   showTouchControlsDesktop: false,
   difficulty: 'normal',
+  roundsToWin: 2,
+  defaultMode: 'arcade',
+  adaptiveAiEnabled: true,
   scalingMode: 'pixel',
   crtMode: 'off',
   crtCurvature: false,

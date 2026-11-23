@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { CharacterId } from '../../config/animations';
 import { getCharacterControlProfile } from '../../config/characterControlProfiles';
-import { CHARACTERS, getCharacterProfile } from '../../config/characters';
+import {
+  getPlayableRegistryEntries,
+  getUpcomingRegistryEntries,
+} from '../../config/characterRegistry';
+import { getCharacterProfile } from '../../config/characters';
 import { GameMode } from '../../config/game';
 import { soundEngine } from '../../engine/SoundEngine';
 import { SpritePreview } from '../SpritePreview';
@@ -23,9 +27,9 @@ const PixelStatBlocks: React.FC<{ value: number; color: string }> = ({ value, co
       {Array.from({ length: 10 }).map((_, i) => (
         <span
           key={i}
-          className="h-2 flex-1 border border-[#090605]"
+          className="h-1.5 flex-1 border border-[#090609]"
           style={{
-            backgroundColor: i < filled ? color : '#1c140e',
+            backgroundColor: i < filled ? color : '#1c141c',
           }}
         />
       ))}
@@ -41,7 +45,9 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
   onOpenMoveList,
   onBack,
 }) => {
-  const isSoloRun = mode === 'arcade' || mode === 'survival';
+  const playable = getPlayableRegistryEntries();
+  const upcoming = getUpcomingRegistryEntries();
+  const isSoloRun = mode === 'arcade' || mode === 'tournament' || mode === 'survival';
   const [p1, setP1] = useState<CharacterId>(initialP1);
   const [p2, setP2] = useState<CharacterId>(initialP2);
   const [activeSlot, setActiveSlot] = useState<1 | 2>(1);
@@ -54,56 +60,45 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
 
   const handleSelectCharacter = (id: CharacterId) => {
     soundEngine.playUiSelect();
-    if (effectiveSlot === 1) {
-      setP1(id);
-    } else {
-      setP2(id);
-    }
+    if (effectiveSlot === 1) setP1(id);
+    else setP2(id);
   };
 
-  const p2Title =
-    mode === 'pvp'
-      ? 'PLAYER 2'
-      : mode === 'training'
-        ? 'DUMMY'
-        : mode === 'arcade'
-          ? '3-STAGE LADDER'
-          : mode === 'survival'
-            ? 'ENDLESS RIVALS'
-            : 'CPU RIVAL';
-
   const modeBadge =
-    mode === 'pvp'
-      ? 'LOCAL 2P'
-      : mode === 'training'
-        ? 'TRAINING DOJO'
-        : mode === 'arcade'
-          ? 'ARCADE TOURNAMENT'
+    mode === 'tournament'
+      ? 'TOURNAMENT MODE'
+      : mode === 'arcade'
+        ? 'ARCADE MODE'
+        : mode === 'training'
+          ? 'TRAINING DOJO'
           : mode === 'survival'
             ? 'SURVIVAL GAUNTLET'
-            : '1P VS CPU';
+            : 'VERSUS MATCH';
 
   return (
-    <div className="absolute inset-0 z-20 flex flex-col justify-between p-3 sm:p-5 md:p-6 bg-[#090605]/94">
+    <div
+      className="absolute inset-0 z-20 flex flex-col justify-between p-2.5 sm:p-4 bg-[#090609]/95 overflow-hidden"
+      data-testid="character-select-screen"
+    >
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-[#6b533b] pb-2.5">
+      <div className="flex items-center justify-between gap-2 border-b-2 border-[#755b42] pb-2">
         <div>
-          <p className="font-pixel-ui text-[10px] font-bold uppercase tracking-[0.22em] text-[#f5a623]">
-            {isSoloRun ? 'CHOOSE YOUR CHAMPION' : 'STAGE 2 OF 3'} · {modeBadge}
+          <p className="font-pixel-ui text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-[#ffc947]">
+            39 BHARAT NAGAR · {modeBadge}
           </p>
-          <h1 className="font-pixel text-sm sm:text-lg md:text-xl uppercase tracking-wider text-[#fff5e0] mt-0.5 hud-text-stroke-sm">
-            PLAYER SELECT
+          <h1 className="font-pixel text-xs sm:text-base md:text-lg uppercase text-[#fff5e0] hud-text-stroke-sm">
+            {isSoloRun ? 'CHOOSE YOUR CLAIMANT' : 'SELECT FIGHTERS'}
           </h1>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <button
             type="button"
             onClick={() => {
               soundEngine.playUiSelect();
               onOpenMoveList(activeProfile.id);
             }}
-            className="arcade-btn-secondary px-3 py-1.5 font-pixel-ui text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#ffd873] border-[#c68a2b] cursor-pointer"
+            className="arcade-btn-secondary px-2.5 py-1 font-pixel-ui text-[9px] sm:text-[10px] font-bold uppercase text-[#ffd873] border-[#c68a2b] cursor-pointer"
           >
             MOVES: {activeProfile.name}
           </button>
@@ -113,63 +108,52 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
               soundEngine.playUiSelect();
               onBack();
             }}
-            className="arcade-btn-secondary px-3 py-1.5 font-pixel-ui text-[10px] sm:text-xs font-bold uppercase tracking-wider cursor-pointer"
+            className="arcade-btn-secondary px-2.5 py-1 font-pixel-ui text-[9px] sm:text-[10px] font-bold uppercase cursor-pointer"
           >
             BACK
           </button>
         </div>
       </div>
 
-      {/* Main Matchup Arena Preview & Classic 4-Fighter Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 my-auto py-2 items-stretch overflow-y-auto">
+      {/* Main 3-Column Non-Scrolling Landscape Layout */}
+      <div className="flex-1 grid grid-cols-12 gap-2.5 sm:gap-3 py-2 min-h-0 items-stretch">
         {/* P1 Preview Panel */}
         <div
           onClick={() => setActiveSlot(1)}
-          className={`md:col-span-4 p-3 sm:p-4 flex flex-col justify-between cursor-pointer ${
-            activeSlot === 1 ? 'arcade-panel-brass' : 'arcade-panel'
+          className={`col-span-4 p-2.5 sm:p-3 flex flex-col justify-between cursor-pointer min-h-0 ${
+            effectiveSlot === 1 ? 'arcade-panel-brass' : 'arcade-panel'
           }`}
         >
           <div className="flex items-center justify-between gap-1">
-            <button
-              type="button"
-              onClick={() => setActiveSlot(1)}
-              className={`px-2 py-0.5 font-pixel text-[9px] uppercase tracking-wider border-2 border-[#090605] cursor-pointer ${
-                activeSlot === 1
-                  ? 'bg-[#f5a623] text-[#120a04]'
-                  : 'bg-[#261b13] text-[#ebd8b7]'
-              }`}
-            >
-              1P {activeSlot === 1 ? '<' : ''}
-            </button>
+            <span className="px-1.5 py-0.5 bg-[#f5a623] text-[#120a04] font-pixel text-[8px] uppercase">
+              1P SELECTED
+            </span>
             <span
-              className="font-pixel-ui text-[10px] font-bold uppercase tracking-wider"
+              className="font-pixel-ui text-[9px] font-bold uppercase truncate"
               style={{ color: p1Profile.accentColor }}
             >
               {p1Profile.archetype}
             </span>
           </div>
 
-          <div className="flex items-center justify-center my-1 bg-[#110c09] border-2 border-[#3b2c1e] py-2">
+          <div className="flex-1 flex items-center justify-center my-1 bg-[#110c14] border-2 border-[#3b2c1e] min-h-0 overflow-hidden">
             <SpritePreview
               sheetUrl={p1Profile.idleSheetUrl}
               frames={p1Profile.idleFrames}
               fps={10}
               ariaLabel={`${p1Profile.name} Player 1 preview`}
-              className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 object-contain"
+              className="w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 object-contain"
             />
           </div>
 
           <div>
             <h2
-              className="font-pixel text-base sm:text-lg uppercase tracking-wider leading-none hud-text-stroke-sm"
+              className="font-pixel text-sm sm:text-base uppercase leading-none hud-text-stroke-sm"
               style={{ color: p1Profile.accentColor }}
             >
               {p1Profile.name}
             </h2>
-            <p className="font-pixel-ui text-[10px] text-[#ebd8b7] mt-1 uppercase">{p1Profile.title}</p>
-
-            {/* Segmented Pixel Stat Bars */}
-            <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1.5">
+            <div className="mt-1.5 grid grid-cols-2 gap-x-2.5 gap-y-1">
               {(
                 [
                   ['PWR', p1Profile.stats.power],
@@ -179,7 +163,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
                 ] as const
               ).map(([label, val]) => (
                 <div key={label}>
-                  <div className="flex justify-between font-pixel-ui text-[10px] text-[#b39e84]">
+                  <div className="flex justify-between font-pixel-ui text-[9px] text-[#b8a391]">
                     <span>{label}</span>
                     <span className="text-[#fff5e0]">{val}</span>
                   </div>
@@ -190,13 +174,14 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
           </div>
         </div>
 
-        {/* Center Roster Portrait Grid & Signature Kit */}
-        <div className="md:col-span-4 flex flex-col justify-between gap-2.5">
-          <div className="grid grid-cols-2 gap-2">
-            {CHARACTERS.map((char) => {
+        {/* Center Roster Selector (4 Playable + 3 Coming Soon Strip) */}
+        <div className="col-span-4 flex flex-col justify-between gap-2 min-h-0">
+          <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+            {playable.map((entry) => {
+              const char = entry.profile;
               const isP1 = p1 === char.id;
-              const isP2 = p2 === char.id;
-              const isFocused = (activeSlot === 1 && isP1) || (activeSlot === 2 && isP2);
+              const isP2 = !isSoloRun && p2 === char.id;
+              const isFocused = (effectiveSlot === 1 && isP1) || (effectiveSlot === 2 && isP2);
 
               return (
                 <button
@@ -213,19 +198,19 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
                           ? '#e03126'
                           : '#594635',
                   }}
-                  className={`relative border-2 p-2 flex flex-col items-center cursor-pointer shadow-[0_0_0_2px_#090605,3px_3px_0_0_#090605] ${
-                    isFocused ? 'bg-[#2c2016]' : 'bg-[#16100c] hover:bg-[#231912]'
+                  className={`relative border-2 p-1.5 flex flex-col items-center cursor-pointer ${
+                    isFocused ? 'bg-[#2c1e24]' : 'bg-[#161018] hover:bg-[#231922]'
                   }`}
                 >
                   <div className="absolute top-1 left-1 flex gap-1">
                     {isP1 && (
-                      <span className="px-1 py-0.5 bg-[#f5a623] text-[#090605] font-pixel text-[8px] leading-none border border-[#090605]">
+                      <span className="px-1 py-0.5 bg-[#f5a623] text-[#090609] font-pixel text-[7px] leading-none">
                         1P
                       </span>
                     )}
                     {isP2 && (
-                      <span className="px-1 py-0.5 bg-[#e03126] text-[#fff5e0] font-pixel text-[8px] leading-none border border-[#090605]">
-                        {mode === 'pvp' ? '2P' : 'CPU'}
+                      <span className="px-1 py-0.5 bg-[#e03126] text-[#fff5e0] font-pixel text-[7px] leading-none">
+                        {mode === 'training' ? 'DUM' : 'CPU'}
                       </span>
                     )}
                   </div>
@@ -235,10 +220,10 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
                     frames={char.idleFrames}
                     fps={8}
                     ariaLabel={`Select ${char.name}`}
-                    className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain"
+                    className="w-11 h-11 sm:w-16 sm:h-16 object-contain"
                   />
                   <span
-                    className="font-pixel text-[9px] sm:text-[10px] uppercase tracking-wider mt-0.5"
+                    className="font-pixel text-[8px] sm:text-[9px] uppercase mt-0.5"
                     style={{ color: char.accentColor }}
                   >
                     {char.name}
@@ -248,139 +233,124 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
             })}
           </div>
 
-          {/* Signature Special Powers */}
-          <div className="arcade-panel p-2.5">
-            <div className="flex items-center justify-between mb-1.5 border-b border-[#3b2c1e] pb-1">
-              <span className="font-pixel-ui text-[10px] font-bold uppercase tracking-wider text-[#f5a623]">
-                {activeProfile.name} SPECIALS
-              </span>
-              <span className="font-pixel-ui text-[9px] text-[#b39e84] uppercase">
-                TOUCH + KEYS
-              </span>
-            </div>
-            <div className="space-y-1.5">
-              {activeTouch.abilities.map((ab) => (
-                <div
-                  key={ab.action}
-                  className="flex items-center gap-2 bg-[#110c09] border border-[#4a3624] px-2 py-1"
-                >
-                  <div
-                    className="w-6 h-6 border-2 flex items-center justify-center shrink-0 bg-[#1c140e]"
-                    style={{ borderColor: ab.accentColor }}
-                  >
-                    <AbilityIcon kind={ab.icon} color={ab.accentColor} size={13} />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="font-pixel-ui text-[10px] font-bold uppercase text-[#fff5e0] leading-none truncate">
-                      {ab.fullName}
-                    </div>
-                    <div className="text-[10px] text-[#b39e84] truncate">{ab.description}</div>
-                  </div>
+          {/* 3 Upcoming Coming Soon Slots */}
+          <div className="grid grid-cols-3 gap-1">
+            {upcoming.map((u) => (
+              <div
+                key={u.id}
+                className="bg-[#110c14] border border-[#3a2a36] px-1 py-1 text-center opacity-75"
+              >
+                <div className="font-pixel text-[7px] uppercase" style={{ color: u.accentColor }}>
+                  {u.displayName}
                 </div>
-              ))}
+                <div className="font-pixel-ui text-[7px] text-[#b8a391] uppercase">COMING SOON</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Active Specials Summary */}
+          <div className="arcade-panel p-2 space-y-1">
+            <div className="font-pixel-ui text-[9px] font-bold uppercase text-[#ffc947]">
+              {activeProfile.name} SPECIALS
             </div>
+            {activeTouch.abilities.slice(0, 2).map((ab) => (
+              <div
+                key={ab.action}
+                className="flex items-center gap-1.5 bg-[#110c14] border border-[#4a3624] px-1.5 py-0.5"
+              >
+                <AbilityIcon kind={ab.icon} color={ab.accentColor} size={11} />
+                <span className="font-pixel-ui text-[9px] font-bold uppercase text-[#fff5e0] truncate">
+                  {ab.fullName}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* P2 / CPU Preview Panel */}
-        <div
-          onClick={() => setActiveSlot(2)}
-          className={`md:col-span-4 p-3 sm:p-4 flex flex-col justify-between cursor-pointer ${
-            activeSlot === 2
-              ? 'arcade-panel border-[#e03126]'
-              : 'arcade-panel'
-          }`}
-        >
-          <div className="flex items-center justify-between gap-1">
-            <button
-              type="button"
-              onClick={() => setActiveSlot(2)}
-              className={`px-2 py-0.5 font-pixel text-[9px] uppercase tracking-wider border-2 border-[#090605] cursor-pointer ${
-                activeSlot === 2
-                  ? 'bg-[#e03126] text-[#fff5e0]'
-                  : 'bg-[#261b13] text-[#ebd8b7]'
-              }`}
-            >
-              {p2Title} {activeSlot === 2 ? '<' : ''}
-            </button>
-            <span
-              className="font-pixel-ui text-[10px] font-bold uppercase tracking-wider"
-              style={{ color: p2Profile.accentColor }}
-            >
-              {p2Profile.archetype}
-            </span>
-          </div>
-
-          <div className="flex items-center justify-center my-1 bg-[#110c09] border-2 border-[#3b2c1e] py-2">
-            <SpritePreview
-              sheetUrl={p2Profile.idleSheetUrl}
-              frames={p2Profile.idleFrames}
-              fps={10}
-              flipX={true}
-              ariaLabel={`${p2Profile.name} ${p2Title} preview`}
-              className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 object-contain"
+        {/* Right Panel: Randomized Ladder / Bracket Info OR P2/Dummy Preview */}
+        {isSoloRun ? (
+          <div className="col-span-4 arcade-panel p-3 flex flex-col items-center justify-center text-center gap-2">
+            <img
+              src="/assets/brand/logo-39-bharat-nagar.png"
+              alt="39 Bharat Nagar"
+              className="w-16 h-16 sm:w-20 sm:h-20 object-contain pixelated"
             />
-          </div>
-
-          <div>
-            <h2
-              className="font-pixel text-base sm:text-lg uppercase tracking-wider leading-none hud-text-stroke-sm"
-              style={{ color: p2Profile.accentColor }}
-            >
-              {p2Profile.name}
+            <span className="px-2 py-0.5 bg-[#e03126] text-[#fff5e0] font-pixel text-[8px] uppercase">
+              {mode === 'tournament' ? 'RANDOM BRACKET DRAW' : 'RANDOMIZED RIVALS'}
+            </span>
+            <h2 className="font-pixel text-xs sm:text-sm uppercase text-[#ffc947]">
+              {mode === 'tournament' ? '4-FIGHTER CHAMPIONSHIP' : '3 NON-REPEATING BOUTS'}
             </h2>
-            <p className="font-pixel-ui text-[10px] text-[#ebd8b7] mt-1 uppercase">{p2Profile.title}</p>
+            <p className="text-[11px] sm:text-xs text-[#ebd8b7] leading-snug max-w-xs">
+              {mode === 'tournament'
+                ? 'The bracket arranges all available fighters automatically. Win Semifinal A and the Championship Final to claim 39 Bharat Nagar!'
+                : 'Opponents and arenas are drawn at random from the remaining roster with zero repeats. Defeat every rival to win House 39!'}
+            </p>
+          </div>
+        ) : (
+          <div
+            onClick={() => setActiveSlot(2)}
+            className={`col-span-4 p-2.5 sm:p-3 flex flex-col justify-between cursor-pointer min-h-0 ${
+              effectiveSlot === 2 ? 'arcade-panel border-[#e03126]' : 'arcade-panel'
+            }`}
+          >
+            <div className="flex items-center justify-between gap-1">
+              <span className="px-1.5 py-0.5 bg-[#e03126] text-[#fff5e0] font-pixel text-[8px] uppercase">
+                {mode === 'training' ? 'DUMMY' : 'CPU RIVAL'}
+              </span>
+              <span
+                className="font-pixel-ui text-[9px] font-bold uppercase truncate"
+                style={{ color: p2Profile.accentColor }}
+              >
+                {p2Profile.archetype}
+              </span>
+            </div>
 
-            <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1.5">
-              {(
-                [
-                  ['PWR', p2Profile.stats.power],
-                  ['SPD', p2Profile.stats.speed],
-                  ['RNG', p2Profile.stats.range],
-                  ['DEF', p2Profile.stats.defense],
-                ] as const
-              ).map(([label, val]) => (
-                <div key={label}>
-                  <div className="flex justify-between font-pixel-ui text-[10px] text-[#b39e84]">
-                    <span>{label}</span>
-                    <span className="text-[#fff5e0]">{val}</span>
-                  </div>
-                  <PixelStatBlocks value={val} color={p2Profile.accentColor} />
-                </div>
-              ))}
+            <div className="flex-1 flex items-center justify-center my-1 bg-[#110c14] border-2 border-[#3b2c1e] min-h-0 overflow-hidden">
+              <SpritePreview
+                sheetUrl={p2Profile.idleSheetUrl}
+                frames={p2Profile.idleFrames}
+                fps={10}
+                flipX={true}
+                ariaLabel={`${p2Profile.name} opponent preview`}
+                className="w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 object-contain"
+              />
+            </div>
+
+            <div>
+              <h2
+                className="font-pixel text-sm sm:text-base uppercase leading-none hud-text-stroke-sm"
+                style={{ color: p2Profile.accentColor }}
+              >
+                {p2Profile.name}
+              </h2>
+              <p className="font-pixel-ui text-[9px] text-[#b8a391] mt-1 uppercase">
+                TAP THIS PANEL TO CHANGE {mode === 'training' ? 'DUMMY' : 'RIVAL'}
+              </p>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
-      {/* Bottom Confirm Strip */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t-2 border-[#6b533b] pt-2.5">
-        <div className="font-pixel-ui text-[10px] sm:text-xs text-[#ebd8b7] uppercase">
-          {isSoloRun ? (
-            <>
-              FACE ALL 3 FAMILY RIVALS ·{' '}
-              <span className="text-[#ffd873]">ESCALATING ADAPTIVE CPU</span>
-            </>
-          ) : (
-            <>
-              TAP <span className="text-[#ffd873]">1P</span> OR{' '}
-              <span className="text-[#ff6a5c]">{p2Title}</span> PANEL TO SWITCH SIDE
-            </>
-          )}
-        </div>
-
+      {/* Bottom Action Bar */}
+      <div className="flex items-center justify-between gap-2 border-t-2 border-[#755b42] pt-2">
+        <span className="font-pixel-ui text-[9px] sm:text-xs text-[#ebd8b7] uppercase truncate">
+          {isSoloRun
+            ? 'OPPONENTS & ARENAS ARE RANDOMLY SELECTED BY THE GAME'
+            : 'TAP 1P OR RIGHT PANEL TO SWITCH SELECTION SLOT'}
+        </span>
         <button
           type="button"
           onClick={() => {
             soundEngine.playUiConfirm();
             onConfirm(p1, p2);
           }}
-          className="arcade-btn-primary px-6 py-2 font-pixel text-xs sm:text-sm uppercase tracking-wider cursor-pointer"
+          className="arcade-btn-primary px-5 sm:px-6 py-2 font-pixel text-[10px] sm:text-xs uppercase tracking-wider shrink-0 cursor-pointer"
         >
           {mode === 'arcade'
-            ? 'START TOURNAMENT >'
-            : mode === 'survival'
-              ? 'START SURVIVAL >'
+            ? 'DRAW FIRST OPPONENT >'
+            : mode === 'tournament'
+              ? 'GENERATE BRACKET >'
               : 'SELECT STAGE >'}
         </button>
       </div>

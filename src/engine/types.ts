@@ -4,10 +4,16 @@ import { Difficulty, GameMode, TrainingOptions } from '../config/game';
 import { StageId } from '../config/stages';
 
 export type ScreenState =
+  | 'BOOT_LOADING'
   | 'TITLE'
+  | 'STORY'
+  | 'ROSTER'
   | 'MODE_SELECT'
   | 'CHARACTER_SELECT'
   | 'STAGE_SELECT'
+  | 'ARCADE_REVEAL'
+  | 'TOURNAMENT_BRACKET'
+  | 'LOCAL_MULTIPLAYER'
   | 'LOADING'
   | 'PLAYING'
   | 'PAUSED'
@@ -82,7 +88,7 @@ export interface MatchStats {
   p1MaxCombo: number;
   p2MaxCombo: number;
   totalRoundsPlayed: number;
-  // V4 Living Arcade tactical breakdown
+  // Living Arcade tactical breakdown
   p1Score: number;
   rankGrade: MatchRankGrade;
   p1CounterHits: number;
@@ -117,6 +123,7 @@ export interface HudSnapshot {
   arcadeBoutLabel: string | null;
   trainingOptions: TrainingOptions;
   matchStats: MatchStats | null;
+  networkRole?: 'host' | 'guest' | null;
 }
 
 export interface Rect {

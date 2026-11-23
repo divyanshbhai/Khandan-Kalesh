@@ -1,19 +1,26 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { assetManager, LoadProgress } from './assets/assetManifest';
+import { ArcadeOpponentReveal } from './components/Arcade/ArcadeOpponentReveal';
 import { CharacterSelect } from './components/CharacterSelect/CharacterSelect';
 import { CreditsModal } from './components/Credits/CreditsModal';
 import { CRTOverlay } from './components/CRT/CRTOverlay';
 import { GameHUD } from './components/GameHUD/GameHUD';
+import { BootLoadingScreen } from './components/LoadingScreen/BootLoadingScreen';
 import { LoadingScreen } from './components/LoadingScreen/LoadingScreen';
 import { MainMenu } from './components/MainMenu/MainMenu';
-import { ModeSelect } from './components/MainMenu/ModeSelect';
 import { MoveListModal } from './components/MoveList/MoveListModal';
+import { LocalMultiplayerScreen } from './components/Multiplayer/LocalMultiplayerScreen';
+import { RotateDeviceOverlay } from './components/OrientationGuard/RotateDeviceOverlay';
 import { PauseMenu } from './components/PauseMenu/PauseMenu';
+import { PWAInstallModal } from './components/PWA/PWAInstallModal';
 import { ResultScreen } from './components/ResultScreen/ResultScreen';
+import { CharacterRosterScreen } from './components/Roster/CharacterRosterScreen';
 import { ControlsModal } from './components/Settings/ControlsModal';
 import { SettingsModal } from './components/Settings/SettingsModal';
 import { StageSelect } from './components/StageSelect/StageSelect';
+import { StoryMode } from './components/Story/StoryMode';
 import { TouchControlsOverlay } from './components/TouchControls/TouchControlsOverlay';
+import { TournamentBracketScreen } from './components/Tournament/TournamentBracketScreen';
 import { CharacterId } from './config/animations';
 import {
   advanceSurvivalRun,
@@ -40,17 +47,51 @@ import {
   PlayerTouchLayoutConfig,
   saveTouchLayout,
 } from './config/touchControls';
+import {
+  createTournamentBracket,
+  recordTournamentPlayerResult,
+  TournamentMatchNode,
+  TournamentState,
+} from './config/tournament';
 import { GameEngine } from './engine/GameEngine';
 import { soundEngine } from './engine/SoundEngine';
 import { HudSnapshot, MatchStats, ScreenState } from './engine/types';
 import { virtualControls } from './engine/VirtualControls';
+import { useOnlineStatus, usePWAInstall, usePWAUpdate } from './hooks/usePWA';
+import { MultiplayerClient, TransportMode } from './network/MultiplayerClient';
+import { ROOM_CODE_REGEX, RoomStatePayload } from './network/protocol';
 
-const SETTINGS_STORAGE_KEY = 'family_fighters_settings_v2';
-const HINT_STORAGE_KEY = 'family_fighters_hint_dismissed_v2';
+const SETTINGS_STORAGE_KEY = 'bharat_nagar_39_settings_v1';
+const HINT_STORAGE_KEY = 'bharat_nagar_39_hint_dismissed_v1';
+
+const BOOT_PRELOAD_URLS = [
+  '/assets/brand/logo-39-bharat-nagar.png',
+  '/assets/stages/stage_01.png',
+  '/assets/characters/rahul/rahul_01_idle_8f.png',
+  '/assets/characters/rahul/rahul_02_walk_forward_6f.png',
+  '/assets/characters/rahul/rahul_03_walk_backward_6f.png',
+  '/assets/characters/rahul/rahul_12_light_punch_4f.png',
+  '/assets/characters/rahul/rahul_13_heavy_punch_6f.png',
+  '/assets/characters/rahul/rahul_22_standing_guard_4f.png',
+  '/assets/characters/rahul/rahul_37_victory_pose_6f.png',
+  '/assets/characters/sagar/sagar_01_idle_8f.png',
+  '/assets/characters/sagar/sagar_02_walk_forward_6f.png',
+  '/assets/characters/sagar/sagar_03_walk_backward_6f.png',
+  '/assets/characters/sagar/sagar_12_light_punch_4f.png',
+  '/assets/characters/sagar/sagar_22_standing_guard_4f.png',
+  '/assets/characters/sagar/sagar_37_victory_pose_6f.png',
+  '/assets/characters/jatin/jatin_01_idle_8f.png',
+  '/assets/characters/jatin/jatin_37_victory_pose_6f.png',
+  '/assets/characters/tony/Tony_Idle.png',
+  '/assets/characters/tony/Tony_Victory_Pose.png',
+  '/assets/effects/tony_FX_Combat_Drone.png',
+];
 
 function loadSettings(): GameSettings {
   try {
-    const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
+    const raw =
+      localStorage.getItem(SETTINGS_STORAGE_KEY) ??
+      localStorage.getItem('family_fighters_settings_v2');
     if (!raw) return { ...DEFAULT_SETTINGS };
     return { ...DEFAULT_SETTINGS, ...(JSON.parse(raw) as Partial<GameSettings>) };
   } catch {
@@ -67,15 +108,25 @@ function detectTouchDevice(): boolean {
   );
 }
 
+function detectPortraitMobile(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.innerHeight > window.innerWidth && window.innerWidth < 768;
+}
+
 export function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const engineRef = useRef<GameEngine | null>(null);
-  const screenRef = useRef<ScreenState>('TITLE');
+  const mpClientRef = useRef<MultiplayerClient | null>(null);
+  const screenRef = useRef<ScreenState>('BOOT_LOADING');
   const modeRef = useRef<GameMode>('arcade');
   const arcadeRunRef = useRef<ArcadeRunState | null>(null);
   const survivalRunRef = useRef<SurvivalRunState | null>(null);
+  const tournamentRef = useRef<TournamentState | null>(null);
+  const activeTournamentMatchIdRef = useRef<string | null>(null);
+  const settingsRef = useRef<GameSettings>(loadSettings());
+  const wasPausedByOrientationRef = useRef(false);
 
-  const [screen, setScreen] = useState<ScreenState>('TITLE');
+  const [screen, setScreen] = useState<ScreenState>('BOOT_LOADING');
   const [mode, setMode] = useState<GameMode>('arcade');
   const [p1Char, setP1Char] = useState<CharacterId>('rahul');
   const [p2Char, setP2Char] = useState<CharacterId>('sagar');
@@ -85,12 +136,45 @@ export function App() {
   const [arcadeProfile, setArcadeProfile] = useState<ArcadeProfileRecord>(loadArcadeProfile);
   const [arcadeRun, setArcadeRun] = useState<ArcadeRunState | null>(null);
   const [survivalRun, setSurvivalRun] = useState<SurvivalRunState | null>(null);
+  const [tournament, setTournament] = useState<TournamentState | null>(null);
+  const [activeTournamentMatchId, setActiveTournamentMatchId] = useState<string | null>(null);
 
+  // Boot & Match Loading State
+  const [bootProgress, setBootProgress] = useState<LoadProgress>({
+    loaded: 0,
+    total: BOOT_PRELOAD_URLS.length,
+    percent: 0,
+    currentUrl: '',
+  });
+  const [bootFailedAssets, setBootFailedAssets] = useState<string[]>([]);
+  const [loadProgress, setLoadProgress] = useState<LoadProgress>({
+    loaded: 0,
+    total: 1,
+    percent: 0,
+    currentUrl: '',
+  });
+
+  // Two-Device Local Wi-Fi Multiplayer State
+  const [mpRoom, setMpRoom] = useState<RoomStatePayload | null>(null);
+  const [mpSlot, setMpSlot] = useState<1 | 2 | null>(null);
+  const [mpTransport, setMpTransport] = useState<TransportMode>('disconnected');
+  const [mpLatencyMs, setMpLatencyMs] = useState<number | null>(null);
+  const [mpError, setMpError] = useState<string | null>(null);
+  const [mpDisconnectNotice, setMpDisconnectNotice] = useState<string | null>(null);
+  const [initialJoinCode, setInitialJoinCode] = useState<string>('');
+
+  // Device, Audio & PWA State
   const [muted, setMuted] = useState(false);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const [forceTouchParam, setForceTouchParam] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState<boolean>(detectTouchDevice);
+  const [isPortraitMobile, setIsPortraitMobile] = useState<boolean>(detectPortraitMobile);
   const [touchVersion, setTouchVersion] = useState(0);
+  const [updateBannerDismissed, setUpdateBannerDismissed] = useState(false);
+
+  const isOnline = useOnlineStatus();
+  const { canPromptInstall, isInstalled, isIOS, promptInstall } = usePWAInstall();
+  const { needRefresh, applyUpdate } = usePWAUpdate();
 
   const [showFirstMatchHint, setShowFirstMatchHint] = useState<boolean>(() => {
     try {
@@ -100,18 +184,13 @@ export function App() {
     }
   });
 
-  const [loadProgress, setLoadProgress] = useState<LoadProgress>({
-    loaded: 0,
-    total: 1,
-    percent: 0,
-    currentUrl: '',
-  });
   const [hud, setHud] = useState<HudSnapshot | null>(null);
   const [matchStats, setMatchStats] = useState<MatchStats | null>(null);
 
   const [showControls, setShowControls] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showCredits, setShowCredits] = useState(false);
+  const [showInstallModal, setShowInstallModal] = useState(false);
   const [moveListChar, setMoveListChar] = useState<CharacterId | null>(null);
 
   useEffect(() => {
@@ -127,11 +206,38 @@ export function App() {
   }, [survivalRun]);
 
   useEffect(() => {
-    const mq = window.matchMedia?.('(pointer: coarse)');
-    if (!mq) return;
-    const onChange = () => setIsTouchDevice(detectTouchDevice());
-    mq.addEventListener?.('change', onChange);
-    return () => mq.removeEventListener?.('change', onChange);
+    tournamentRef.current = tournament;
+  }, [tournament]);
+
+  useEffect(() => {
+    activeTournamentMatchIdRef.current = activeTournamentMatchId;
+  }, [activeTournamentMatchId]);
+
+  useEffect(() => {
+    settingsRef.current = settings;
+  }, [settings]);
+
+  // Orientation & Touch Detection
+  useEffect(() => {
+    const onResize = () => {
+      const portrait = detectPortraitMobile();
+      setIsPortraitMobile(portrait);
+      setIsTouchDevice(detectTouchDevice());
+
+      if (portrait && screenRef.current === 'PLAYING') {
+        engineRef.current?.setPaused(true);
+        wasPausedByOrientationRef.current = true;
+      } else if (!portrait && wasPausedByOrientationRef.current && screenRef.current === 'PLAYING') {
+        engineRef.current?.setPaused(false);
+        wasPausedByOrientationRef.current = false;
+      }
+    };
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('orientationchange', onResize);
+    };
   }, []);
 
   const handleUnlockAudio = useCallback(() => {
@@ -140,8 +246,12 @@ export function App() {
       setAudioUnlocked(true);
       if (
         screenRef.current === 'TITLE' ||
-        screenRef.current === 'MODE_SELECT' ||
+        screenRef.current === 'STORY' ||
+        screenRef.current === 'ROSTER' ||
         screenRef.current === 'CHARACTER_SELECT' ||
+        screenRef.current === 'ARCADE_REVEAL' ||
+        screenRef.current === 'TOURNAMENT_BRACKET' ||
+        screenRef.current === 'LOCAL_MULTIPLAYER' ||
         screenRef.current === 'STAGE_SELECT'
       ) {
         soundEngine.setMusicScene('menu');
@@ -150,9 +260,7 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    const onGesture = () => {
-      handleUnlockAudio();
-    };
+    const onGesture = () => handleUnlockAudio();
     window.addEventListener('pointerdown', onGesture, { passive: true, once: true });
     window.addEventListener('keydown', onGesture, { passive: true, once: true });
     return () => {
@@ -170,7 +278,9 @@ export function App() {
           ? 'paused'
           : screen === 'RESULT'
             ? 'gameover'
-            : 'title';
+            : screen === 'BOOT_LOADING'
+              ? 'loading'
+              : 'title';
     document.body.dataset.state = bodyState;
 
     if (screen !== 'PLAYING') {
@@ -181,8 +291,12 @@ export function App() {
     );
     if (
       screen === 'TITLE' ||
-      screen === 'MODE_SELECT' ||
+      screen === 'STORY' ||
+      screen === 'ROSTER' ||
       screen === 'CHARACTER_SELECT' ||
+      screen === 'ARCADE_REVEAL' ||
+      screen === 'TOURNAMENT_BRACKET' ||
+      screen === 'LOCAL_MULTIPLAYER' ||
       screen === 'STAGE_SELECT'
     ) {
       soundEngine.setMusicScene('menu');
@@ -199,6 +313,8 @@ export function App() {
       hapticsEnabled: settings.hapticsEnabled,
     });
     engineRef.current?.setDifficulty(settings.difficulty);
+    engineRef.current?.setRoundsToWin(settings.roundsToWin);
+    engineRef.current?.setAdaptiveAiEnabled(settings.adaptiveAiEnabled);
     engineRef.current?.setReducedMotion(settings.reducedMotion);
     try {
       localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
@@ -254,11 +370,13 @@ export function App() {
         arcadeBoutLabel?: string | null;
         startingP1HealthPct?: number;
         carryScore?: number;
+        networkRole?: 'host' | 'guest' | null;
       },
     ) => {
       setScreen('LOADING');
       setMatchStats(null);
       setMoveListChar(null);
+      setMpDisconnectNotice(null);
       setLoadProgress({ loaded: 0, total: 1, percent: 0, currentUrl: '' });
 
       await assetManager.preloadMatchAssets(nextP1, nextP2, nextStage, (prog) => {
@@ -277,6 +395,8 @@ export function App() {
         arcadeBoutLabel: opts?.arcadeBoutLabel ?? null,
         startingP1HealthPct: opts?.startingP1HealthPct ?? 1,
         carryScore: opts?.carryScore ?? 0,
+        networkRole: opts?.networkRole ?? null,
+        roundsToWin: settingsRef.current.roundsToWin,
       });
 
       if (opts?.autoEnableBoxes && nextMode === 'training') {
@@ -292,18 +412,23 @@ export function App() {
   );
 
   const startArcadeRunFlow = useCallback(
-    (playerId: CharacterId, diff: Difficulty) => {
+    (playerId: CharacterId, diff: Difficulty, skipReveal = false) => {
       const run = createArcadeRun(playerId, diff);
       const first = run.bouts[0];
       setArcadeRun(run);
       setSurvivalRun(null);
+      setTournament(null);
       setP1Char(playerId);
       setP2Char(first.opponentCharId);
       setStageId(first.stageId);
-      void launchMatch(playerId, first.opponentCharId, first.stageId, 'arcade', first.difficulty, {
-        arcadeBoutLabel: `STG 1/${run.bouts.length}`,
-        carryScore: 0,
-      });
+      if (skipReveal) {
+        void launchMatch(playerId, first.opponentCharId, first.stageId, 'arcade', first.difficulty, {
+          arcadeBoutLabel: `STG 1/${run.bouts.length}`,
+          carryScore: 0,
+        });
+      } else {
+        setScreen('ARCADE_REVEAL');
+      }
     },
     [launchMatch],
   );
@@ -313,6 +438,7 @@ export function App() {
       const run = createSurvivalRun(playerId, diff);
       setSurvivalRun(run);
       setArcadeRun(null);
+      setTournament(null);
       setP1Char(playerId);
       setP2Char(run.currentOpponent);
       setStageId(run.currentStage);
@@ -325,18 +451,85 @@ export function App() {
     [launchMatch],
   );
 
-  // Persist high scores, combo records, arcade clears & survival streaks
+  const startTournamentFlow = useCallback((playerId: CharacterId, diff: Difficulty) => {
+    const bracket = createTournamentBracket(playerId, diff);
+    setTournament(bracket);
+    setActiveTournamentMatchId(null);
+    setArcadeRun(null);
+    setSurvivalRun(null);
+    setP1Char(playerId);
+    setScreen('TOURNAMENT_BRACKET');
+  }, []);
+
+  const handleLaunchTournamentMatch = useCallback(
+    (match: TournamentMatchNode) => {
+      if (!match.slotA || !match.slotB || !tournamentRef.current) return;
+      const playerChar = tournamentRef.current.playerCharId;
+      const opponentChar = match.slotA === playerChar ? match.slotB : match.slotA;
+      setActiveTournamentMatchId(match.id);
+      setP1Char(playerChar);
+      setP2Char(opponentChar);
+      setStageId(match.stageId);
+      void launchMatch(
+        playerChar,
+        opponentChar,
+        match.stageId,
+        'tournament',
+        tournamentRef.current.difficulty,
+        {
+          arcadeBoutLabel: match.roundTitle.includes('FINAL') ? 'FINAL' : 'SEMI',
+          carryScore: 0,
+        },
+      );
+    },
+    [launchMatch],
+  );
+
+  // Record match outcome across Arcade, Tournament, Survival, and Profile records
   const recordMatchOutcome = useCallback((stats: MatchStats) => {
     const activeMode = modeRef.current;
     const currentArcade = arcadeRunRef.current;
     const currentSurvival = survivalRunRef.current;
+    const currentTournament = tournamentRef.current;
+    const activeTourMatchId = activeTournamentMatchIdRef.current;
+
+    if (activeMode === 'arcade' && currentArcade) {
+      const isFinalCleared =
+        stats.winnerSlot === 1 && currentArcade.currentBoutIndex >= currentArcade.bouts.length - 1;
+      setArcadeRun((prev) =>
+        prev
+          ? {
+              ...prev,
+              totalScore: Math.max(prev.totalScore, stats.p1Score),
+              wins: prev.wins + (stats.winnerSlot === 1 ? 1 : 0),
+              losses: prev.losses + (stats.winnerSlot === 2 ? 1 : 0),
+              totalDamage: prev.totalDamage + stats.p1DamageDealt,
+              completedAtMs: isFinalCleared ? Date.now() : prev.completedAtMs,
+            }
+          : null,
+      );
+    }
+
+    let wonTournamentTitle = false;
+    if (activeMode === 'tournament' && currentTournament && activeTourMatchId) {
+      const updated = recordTournamentPlayerResult(
+        currentTournament,
+        activeTourMatchId,
+        stats.winnerCharId,
+        stats.p1Rounds,
+        stats.p2Rounds,
+      );
+      setTournament(updated);
+      wonTournamentTitle = updated.champion === currentTournament.playerCharId;
+    }
 
     setArcadeProfile((prev) => {
       const next: ArcadeProfileRecord = {
         ...prev,
         arcadeClears: { ...prev.arcadeClears },
+        tournamentTitles: { ...prev.tournamentTitles },
       };
-      if (activeMode !== 'pvp') {
+      if (activeMode !== 'pvp' && activeMode !== 'local_net') {
         next.highScore = Math.max(next.highScore, stats.p1Score);
         next.bestCombo = Math.max(next.bestCombo, stats.p1MaxCombo);
         if (stats.winnerSlot === 1) {
@@ -350,6 +543,10 @@ export function App() {
             next.arcadeClears[currentArcade.playerCharId] =
               (next.arcadeClears[currentArcade.playerCharId] ?? 0) + 1;
           }
+          if (wonTournamentTitle && currentTournament) {
+            next.tournamentTitles[currentTournament.playerCharId] =
+              (next.tournamentTitles[currentTournament.playerCharId] ?? 0) + 1;
+          }
           if (activeMode === 'survival' && currentSurvival) {
             next.bestSurvivalStreak = Math.max(next.bestSurvivalStreak, currentSurvival.wave);
           }
@@ -359,6 +556,80 @@ export function App() {
       return next;
     });
   }, []);
+
+  // Boot asset loader with real progress tracking
+  const runBootPreload = useCallback(async () => {
+    setBootFailedAssets([]);
+    const result = await assetManager.preloadUrls(BOOT_PRELOAD_URLS, (prog) => {
+      setBootProgress(prog);
+    });
+    if (result.failed.length > 0) {
+      setBootFailedAssets(result.failed);
+    }
+    window.setTimeout(() => {
+      if (screenRef.current === 'BOOT_LOADING') {
+        setScreen('TITLE');
+      }
+    }, 260);
+  }, []);
+
+  // Initialize MultiplayerClient (lazy-connected on room create/join)
+  useEffect(() => {
+    const client = new MultiplayerClient({
+      onRoomState: (room, slot) => {
+        setMpRoom(room);
+        setMpSlot(slot);
+        setMpError(null);
+      },
+      onMatchStart: (room) => {
+        const myRole: 'host' | 'guest' = client.slot === 2 ? 'guest' : 'host';
+        const guestChar = room.guest?.characterId ?? 'sagar';
+        setMode('local_net');
+        setP1Char(room.host.characterId);
+        setP2Char(guestChar);
+        setStageId(room.stageId);
+        void launchMatch(
+          room.host.characterId,
+          guestChar,
+          room.stageId,
+          'local_net',
+          'normal',
+          {
+            arcadeBoutLabel: `RM ${room.code}`,
+            networkRole: myRole,
+          },
+        );
+      },
+      onRemoteInput: (packet) => {
+        engineRef.current?.setRemoteGuestInput(packet);
+      },
+      onRemoteSnapshot: (snapshot) => {
+        engineRef.current?.applyNetworkSnapshot(snapshot);
+      },
+      onTransportChange: (transport) => {
+        setMpTransport(transport);
+      },
+      onLatencyUpdate: (rtt) => {
+        setMpLatencyMs(rtt);
+      },
+      onPeerDisconnected: (reason) => {
+        if (screenRef.current === 'PLAYING' && modeRef.current === 'local_net') {
+          engineRef.current?.setPaused(true);
+          setMpDisconnectNotice(reason);
+        } else {
+          setMpError(reason);
+        }
+      },
+      onError: (msg) => {
+        setMpError(msg);
+      },
+    });
+    mpClientRef.current = client;
+    return () => {
+      client.disconnect();
+      mpClientRef.current = null;
+    };
+  }, [launchMatch]);
 
   // Mount persistent GameEngine once; never tear down canvas on React HUD updates
   useEffect(() => {
@@ -387,36 +658,20 @@ export function App() {
         recordMatchOutcome(stats);
         setScreen('RESULT');
       },
+      onSendInputPacket: (packet) => {
+        mpClientRef.current?.sendInputPacket(packet);
+      },
+      onSendMatchSnapshot: (snapshot) => {
+        mpClientRef.current?.sendMatchSnapshot(snapshot);
+      },
     });
 
     engine.setReducedMotion(initialSettings.reducedMotion);
+    engine.setRoundsToWin(initialSettings.roundsToWin);
+    engine.setAdaptiveAiEnabled(initialSettings.adaptiveAiEnabled);
     engineRef.current = engine;
     engine.start();
 
-    void assetManager.preloadUrls([
-      '/assets/stages/stage_01.png',
-      '/assets/characters/rahul/rahul_01_idle_8f.png',
-      '/assets/characters/rahul/rahul_02_walk_forward_6f.png',
-      '/assets/characters/rahul/rahul_03_walk_backward_6f.png',
-      '/assets/characters/rahul/rahul_12_light_punch_4f.png',
-      '/assets/characters/rahul/rahul_13_heavy_punch_6f.png',
-      '/assets/characters/rahul/rahul_14_light_kick_5f.png',
-      '/assets/characters/rahul/rahul_22_standing_guard_4f.png',
-      '/assets/characters/rahul/rahul_24_light_hit_reaction_3f.png',
-      '/assets/characters/sagar/sagar_01_idle_8f.png',
-      '/assets/characters/sagar/sagar_02_walk_forward_6f.png',
-      '/assets/characters/sagar/sagar_03_walk_backward_6f.png',
-      '/assets/characters/sagar/sagar_12_light_punch_4f.png',
-      '/assets/characters/sagar/sagar_13_heavy_punch_6f.png',
-      '/assets/characters/sagar/sagar_14_light_kick_5f.png',
-      '/assets/characters/sagar/sagar_22_standing_guard_4f.png',
-      '/assets/characters/sagar/sagar_24_light_hit_reaction_3f.png',
-      '/assets/characters/jatin/jatin_01_idle_8f.png',
-      '/assets/characters/tony/Tony_Idle.png',
-      '/assets/effects/tony_FX_Combat_Drone.png',
-    ]);
-
-    // Support ?autostart=1&mode=arcade|cpu|pvp|survival|training&difficulty=easy|normal|hard|master&touch=1&crt=off|subtle|arcade&boxes=1
     const params = new URLSearchParams(window.location.search);
     if (params.get('touch') === '1') {
       setForceTouchParam(true);
@@ -434,7 +689,13 @@ export function App() {
       setSettings((prev) => ({ ...prev, difficulty: effectiveDiff }));
     }
 
-    if (params.get('autostart') === '1') {
+    const joinParam = params.get('join')?.trim().toUpperCase();
+    if (joinParam && ROOM_CODE_REGEX.test(joinParam)) {
+      setInitialJoinCode(joinParam);
+      setMode('local_net');
+      setScreen('LOCAL_MULTIPLAYER');
+      void assetManager.preloadUrls(BOOT_PRELOAD_URLS);
+    } else if (params.get('autostart') === '1') {
       const qStage = (params.get('stage') as StageId) || 'katra';
       const qP1 = (params.get('p1') as CharacterId) || 'rahul';
       const qP2 = (params.get('p2') as CharacterId) || 'sagar';
@@ -442,22 +703,36 @@ export function App() {
       const qBoxes = params.get('boxes') === '1';
       setMode(qMode);
       if (qMode === 'arcade') {
-        startArcadeRunFlow(qP1, effectiveDiff);
+        startArcadeRunFlow(qP1, effectiveDiff, true);
       } else if (qMode === 'survival') {
         startSurvivalRunFlow(qP1, effectiveDiff);
+      } else if (qMode === 'tournament') {
+        startTournamentFlow(qP1, effectiveDiff);
       } else {
         setP1Char(qP1);
         setP2Char(qP2);
         setStageId(qStage);
         void launchMatch(qP1, qP2, qStage, qMode, effectiveDiff, { autoEnableBoxes: qBoxes });
       }
+    } else if (params.get('skipboot') === '1') {
+      setScreen('TITLE');
+      void assetManager.preloadUrls(BOOT_PRELOAD_URLS);
+    } else {
+      void runBootPreload();
     }
 
     return () => {
       engine.stop();
       engineRef.current = null;
     };
-  }, [launchMatch, recordMatchOutcome, startArcadeRunFlow, startSurvivalRunFlow]);
+  }, [
+    launchMatch,
+    recordMatchOutcome,
+    runBootPreload,
+    startArcadeRunFlow,
+    startSurvivalRunFlow,
+    startTournamentFlow,
+  ]);
 
   const handleResume = useCallback(() => {
     engineRef.current?.setPaused(false);
@@ -476,13 +751,19 @@ export function App() {
     setShowControls(false);
     setShowSettings(false);
     setShowCredits(false);
+    setShowInstallModal(false);
     setMoveListChar(null);
     setMatchStats(null);
     setArcadeRun(null);
     setSurvivalRun(null);
+    setTournament(null);
+    setMpDisconnectNotice(null);
+    if (mpRoom) {
+      mpClientRef.current?.leaveRoom();
+    }
     engineRef.current?.setupAttractStage('katra', 'rahul', 'sagar');
     setScreen('TITLE');
-  }, []);
+  }, [mpRoom]);
 
   const handleTrainingOptionsChange = useCallback((partial: Partial<TrainingOptions>) => {
     engineRef.current?.setTrainingOptions(partial);
@@ -496,25 +777,12 @@ export function App() {
         const updated: ArcadeRunState = {
           ...arcadeRun,
           currentBoutIndex: nextIdx,
-          totalScore: matchStats.p1Score,
-          wins: arcadeRun.wins + 1,
+          totalScore: Math.max(arcadeRun.totalScore, matchStats.p1Score),
         };
         setArcadeRun(updated);
         setP2Char(nextBout.opponentCharId);
         setStageId(nextBout.stageId);
-        void launchMatch(
-          arcadeRun.playerCharId,
-          nextBout.opponentCharId,
-          nextBout.stageId,
-          'arcade',
-          nextBout.difficulty,
-          {
-            arcadeBoutLabel: nextBout.isFinalBoss
-              ? 'FINAL'
-              : `STG ${nextIdx + 1}/${arcadeRun.bouts.length}`,
-            carryScore: matchStats.p1Score,
-          },
-        );
+        setScreen('ARCADE_REVEAL');
       }
       return;
     }
@@ -549,7 +817,7 @@ export function App() {
       const clearedAll =
         matchStats?.winnerSlot === 1 && arcadeRun.currentBoutIndex >= arcadeRun.bouts.length - 1;
       if (clearedAll) {
-        startArcadeRunFlow(arcadeRun.playerCharId, settings.difficulty);
+        startArcadeRunFlow(arcadeRun.playerCharId, settings.difficulty, false);
       } else {
         const bout = arcadeRun.bouts[arcadeRun.currentBoutIndex];
         setArcadeRun({ ...arcadeRun, continuesUsed: arcadeRun.continuesUsed + 1 });
@@ -594,10 +862,15 @@ export function App() {
     Boolean(hud) &&
     (isTouchDevice || settings.showTouchControlsDesktop || forceTouchParam);
 
-  const p1TouchLayout = hud ? getTouchLayoutFor(1, hud.p1.characterId) : getTouchLayoutFor(1, p1Char);
+  const isGuestDevice = hud?.mode === 'local_net' && hud.networkRole === 'guest';
+  const activeLocalHud = hud ? (isGuestDevice ? hud.p2 : hud.p1) : null;
+  const p1TouchLayout = activeLocalHud
+    ? getTouchLayoutFor(1, activeLocalHud.characterId)
+    : getTouchLayoutFor(1, p1Char);
   const p2TouchLayout = hud ? getTouchLayoutFor(2, hud.p2.characterId) : getTouchLayoutFor(2, p2Char);
-  const anyModalOpen = Boolean(showControls || showSettings || showCredits || moveListChar);
-  const totalArcadeClears = Object.values(arcadeProfile.arcadeClears).reduce((a, b) => a + b, 0);
+  const anyModalOpen = Boolean(
+    showControls || showSettings || showCredits || showInstallModal || moveListChar,
+  );
 
   const canAdvanceArcade = Boolean(
     mode === 'arcade' &&
@@ -615,71 +888,114 @@ export function App() {
     mode === 'survival' && survivalRun && matchStats?.winnerSlot === 1,
   );
 
+  const activeArcadeBout = arcadeRun ? arcadeRun.bouts[arcadeRun.currentBoutIndex] : null;
+  const arcadeRunSummary =
+    arcadeRun && arcadeChampionCleared
+      ? {
+          wins: arcadeRun.wins,
+          losses: arcadeRun.losses,
+          totalDamage: arcadeRun.totalDamage,
+          elapsedSeconds: Math.max(
+            1,
+            Math.round(((arcadeRun.completedAtMs ?? Date.now()) - arcadeRun.startedAtMs) / 1000),
+          ),
+        }
+      : null;
+
   return (
     <main
-      className={`w-screen h-screen bg-[#090605] flex items-center justify-center overflow-hidden ${
+      className={`w-screen h-dvh bg-[#090609] flex items-center justify-center overflow-hidden ${
         settings.reducedMotion ? 'reduced-motion' : ''
       }`}
     >
-      {/* Strictly 16:9 Proportionally Scaled Arcade Game Viewport */}
+      {/* Full-Viewport Landscape Arcade Shell (Zero Scrolling, Safe-Area Aware) */}
       <div
-        className={`relative bg-[#090605] overflow-hidden md:arcade-cabinet-bezel ${
+        className={`relative w-full h-full bg-[#090609] overflow-hidden flex items-center justify-center ${
           settings.crtMode !== 'off' && settings.crtCurvature ? 'crt-curvature-frame' : ''
         }`}
-        style={{
-          width: 'min(100vw, calc(100vh * 16 / 9))',
-          height: 'min(100vh, calc(100vw * 9 / 16))',
-        }}
         data-testid="game-viewport"
       >
-        {/* Persistent 1920x1080 Logical HTML5 Canvas */}
+        {/* Persistent 1920x1080 Logical HTML5 Canvas (Proportional Aspect Ratio Preserved) */}
         <canvas
           ref={canvasRef}
           width={1920}
           height={1080}
           data-testid="game-canvas"
-          className={`w-full h-full block ${settings.scalingMode === 'pixel' ? 'pixelated' : ''}`}
+          className={`w-full h-full object-contain block ${
+            settings.scalingMode === 'pixel' ? 'pixelated' : ''
+          }`}
         />
 
-        {/* Screen Overlays */}
+        {/* Boot Splash & Asset Progress Screen */}
+        {screen === 'BOOT_LOADING' && (
+          <BootLoadingScreen
+            progress={bootProgress}
+            failedAssets={bootFailedAssets}
+            onRetry={() => void runBootPreload()}
+          />
+        )}
+
+        {/* Main Menu */}
         {screen === 'TITLE' && (
           <MainMenu
             audioUnlocked={audioUnlocked}
             muted={muted}
             modalOpen={anyModalOpen}
             highScore={arcadeProfile.highScore}
-            totalArcadeClears={totalArcadeClears}
+            isOnline={isOnline}
+            isInstalled={isInstalled}
             onUnlockAudio={handleUnlockAudio}
             onToggleMute={() => setMuted((m) => !m)}
-            onPlay={() => setScreen('MODE_SELECT')}
+            onArcadeMode={() => {
+              setMode('arcade');
+              setScreen('CHARACTER_SELECT');
+            }}
+            onTournamentMode={() => {
+              setMode('tournament');
+              setScreen('CHARACTER_SELECT');
+            }}
+            onLocalMultiplayer={() => {
+              setMode('local_net');
+              setMpError(null);
+              setScreen('LOCAL_MULTIPLAYER');
+            }}
+            onStory={() => setScreen('STORY')}
+            onRoster={() => setScreen('ROSTER')}
             onTraining={() => {
               setMode('training');
               setScreen('CHARACTER_SELECT');
             }}
-            onCharacterSelect={() => {
-              setMode('cpu');
-              setScreen('CHARACTER_SELECT');
-            }}
-            onStageSelect={() => setScreen('STAGE_SELECT')}
-            onControls={() => setShowControls(true)}
             onSettings={() => setShowSettings(true)}
             onCredits={() => setShowCredits(true)}
+            onInstallClick={() => setShowInstallModal(true)}
           />
         )}
 
-        {screen === 'MODE_SELECT' && (
-          <ModeSelect
-            difficulty={settings.difficulty}
-            profile={arcadeProfile}
-            onDifficultyChange={(difficulty) => setSettings((prev) => ({ ...prev, difficulty }))}
-            onSelectMode={(nextMode) => {
-              setMode(nextMode);
+        {/* Story Mode */}
+        {screen === 'STORY' && (
+          <StoryMode
+            onComplete={() => {
+              setMode('arcade');
               setScreen('CHARACTER_SELECT');
             }}
             onBack={() => setScreen('TITLE')}
           />
         )}
 
+        {/* Character Roster (4 Playable + 3 Coming Soon: Chini, Chameto, Moli) */}
+        {screen === 'ROSTER' && (
+          <CharacterRosterScreen
+            onOpenMoveList={(charId) => setMoveListChar(charId)}
+            onPlayCharacter={(charId) => {
+              setP1Char(charId);
+              setMode('arcade');
+              setScreen('CHARACTER_SELECT');
+            }}
+            onBack={() => setScreen('TITLE')}
+          />
+        )}
+
+        {/* Character Select (Solo Pick for Arcade & Tournament; Dual for Training/Versus) */}
         {screen === 'CHARACTER_SELECT' && (
           <CharacterSelect
             mode={mode}
@@ -689,7 +1005,9 @@ export function App() {
               setP1Char(c1);
               setP2Char(c2);
               if (mode === 'arcade') {
-                startArcadeRunFlow(c1, settings.difficulty);
+                startArcadeRunFlow(c1, settings.difficulty, false);
+              } else if (mode === 'tournament') {
+                startTournamentFlow(c1, settings.difficulty);
               } else if (mode === 'survival') {
                 startSurvivalRunFlow(c1, settings.difficulty);
               } else {
@@ -697,10 +1015,79 @@ export function App() {
               }
             }}
             onOpenMoveList={(charId) => setMoveListChar(charId)}
-            onBack={() => setScreen('MODE_SELECT')}
+            onBack={() => setScreen('TITLE')}
           />
         )}
 
+        {/* Arcade Randomized Opponent & Stage Reveal */}
+        {screen === 'ARCADE_REVEAL' && arcadeRun && activeArcadeBout && (
+          <ArcadeOpponentReveal
+            playerCharId={arcadeRun.playerCharId}
+            bout={activeArcadeBout}
+            totalScore={arcadeRun.totalScore}
+            onFight={() => {
+              void launchMatch(
+                arcadeRun.playerCharId,
+                activeArcadeBout.opponentCharId,
+                activeArcadeBout.stageId,
+                'arcade',
+                activeArcadeBout.difficulty,
+                {
+                  arcadeBoutLabel: activeArcadeBout.isFinalBoss
+                    ? 'FINAL'
+                    : `STG ${arcadeRun.currentBoutIndex + 1}/${arcadeRun.bouts.length}`,
+                  carryScore: arcadeRun.totalScore,
+                },
+              );
+            }}
+            onCancel={handleReturnMainMenu}
+          />
+        )}
+
+        {/* Tournament Single-Elimination Bracket */}
+        {screen === 'TOURNAMENT_BRACKET' && tournament && (
+          <TournamentBracketScreen
+            tournament={tournament}
+            onStartNextMatch={handleLaunchTournamentMatch}
+            onNewTournament={() => {
+              setMode('tournament');
+              setScreen('CHARACTER_SELECT');
+            }}
+            onBackToMenu={handleReturnMainMenu}
+          />
+        )}
+
+        {/* Local Wi-Fi Two-Device Multiplayer Lobby */}
+        {screen === 'LOCAL_MULTIPLAYER' && (
+          <LocalMultiplayerScreen
+            room={mpRoom}
+            slot={mpSlot}
+            transport={mpTransport}
+            latencyMs={mpLatencyMs}
+            errorMessage={mpError}
+            isOnline={isOnline}
+            initialJoinCode={initialJoinCode}
+            onCreateRoom={async (displayName, charId, stage) => {
+              setMpError(null);
+              await mpClientRef.current?.createRoom(displayName, charId, stage);
+            }}
+            onJoinRoom={async (code, displayName, charId) => {
+              setMpError(null);
+              await mpClientRef.current?.joinRoom(code, displayName, charId);
+            }}
+            onSelectCharacter={(charId) => mpClientRef.current?.selectCharacter(charId)}
+            onSelectStage={(stage) => mpClientRef.current?.selectStage(stage)}
+            onToggleReady={(ready) => mpClientRef.current?.setReady(ready)}
+            onStartMatch={() => mpClientRef.current?.startMatch()}
+            onLeaveRoom={() => {
+              mpClientRef.current?.leaveRoom();
+              setMpError(null);
+            }}
+            onBack={() => setScreen('TITLE')}
+          />
+        )}
+
+        {/* Stage Select (Training / Custom) */}
         {screen === 'STAGE_SELECT' && (
           <StageSelect
             p1Char={p1Char}
@@ -714,6 +1101,7 @@ export function App() {
           />
         )}
 
+        {/* Match Asset Preload Screen */}
         {screen === 'LOADING' && (
           <LoadingScreen
             p1Char={p1Char}
@@ -723,6 +1111,7 @@ export function App() {
           />
         )}
 
+        {/* Live Combat HUD */}
         {(screen === 'PLAYING' || screen === 'PAUSED') && hud && (
           <GameHUD
             hud={hud}
@@ -734,7 +1123,7 @@ export function App() {
             onOpenMoveList={() => {
               engineRef.current?.setPaused(true);
               setScreen('PAUSED');
-              setMoveListChar(hud.p1.characterId);
+              setMoveListChar(activeLocalHud?.characterId ?? hud.p1.characterId);
             }}
             onPause={() => {
               engineRef.current?.setPaused(true);
@@ -746,11 +1135,11 @@ export function App() {
           />
         )}
 
-        {/* Multi-Touch Virtual Controls Overlay (Single-Player & Local 2P) */}
-        {touchOverlayActive && hud && (
+        {/* Multi-Touch Virtual Controls Overlay */}
+        {touchOverlayActive && hud && activeLocalHud && (
           <TouchControlsOverlay
             mode={hud.mode}
-            p1Hud={hud.p1}
+            p1Hud={activeLocalHud}
             p2Hud={hud.p2}
             p1Layout={p1TouchLayout}
             p2Layout={p2TouchLayout}
@@ -762,17 +1151,53 @@ export function App() {
           />
         )}
 
+        {/* Local Multiplayer Peer Disconnect Recovery Dialog */}
+        {mpDisconnectNotice && screen === 'PLAYING' && (
+          <div
+            className="absolute inset-0 z-50 flex items-center justify-center bg-[#090609]/92 p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Opponent Disconnected"
+          >
+            <div className="arcade-panel-brass p-5 max-w-md w-full text-center space-y-3">
+              <p className="font-pixel text-xs uppercase text-[#ff594d]">CONNECTION INTERRUPTED</p>
+              <p className="font-pixel-ui text-xs text-[#ebd8b7]">{mpDisconnectNotice}</p>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMpDisconnectNotice(null);
+                    setScreen('LOCAL_MULTIPLAYER');
+                  }}
+                  className="arcade-btn-primary py-2 font-pixel text-[10px] uppercase cursor-pointer"
+                >
+                  BACK TO ROOM
+                </button>
+                <button
+                  type="button"
+                  onClick={handleReturnMainMenu}
+                  className="arcade-btn-secondary py-2 font-pixel-ui text-[10px] font-bold uppercase cursor-pointer"
+                >
+                  MAIN MENU
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Pause Menu */}
         {screen === 'PAUSED' && (
           <PauseMenu
             onResume={handleResume}
             onRestartRound={handleRestartRound}
-            onMoveList={() => setMoveListChar(hud?.p1.characterId ?? p1Char)}
+            onMoveList={() => setMoveListChar(activeLocalHud?.characterId ?? p1Char)}
             onControls={() => setShowControls(true)}
             onSettings={() => setShowSettings(true)}
             onMainMenu={handleReturnMainMenu}
           />
         )}
 
+        {/* Match Result Screen */}
         {screen === 'RESULT' && matchStats && (
           <ResultScreen
             stats={matchStats}
@@ -785,11 +1210,28 @@ export function App() {
                   ? `SURVIVAL WAVE ${survivalRun.wave}`
                   : null
             }
+            arcadeRunSummary={arcadeRunSummary}
             canAdvanceArcade={canAdvanceArcade}
             arcadeChampionCleared={arcadeChampionCleared}
             canAdvanceSurvival={canAdvanceSurvival}
             survivalWaveReached={survivalRun?.wave}
             onAdvanceRun={handleAdvanceRun}
+            onReturnToBracket={
+              mode === 'tournament' && tournament
+                ? () => {
+                    setMatchStats(null);
+                    setScreen('TOURNAMENT_BRACKET');
+                  }
+                : undefined
+            }
+            onReturnToRoom={
+              mode === 'local_net'
+                ? () => {
+                    setMatchStats(null);
+                    setScreen('LOCAL_MULTIPLAYER');
+                  }
+                : undefined
+            }
             onRematch={handleResultRematch}
             onCharacterSelect={() => {
               setMatchStats(null);
@@ -797,6 +1239,30 @@ export function App() {
             }}
             onMainMenu={handleReturnMainMenu}
           />
+        )}
+
+        {/* Safe Non-Intrusive PWA Update Notification (Never interrupts active combat!) */}
+        {needRefresh && !updateBannerDismissed && screen !== 'PLAYING' && screen !== 'BOOT_LOADING' && (
+          <div className="absolute bottom-2 right-2 z-40 arcade-panel-brass px-3 py-2 flex items-center gap-2.5 max-w-xs">
+            <span className="font-pixel-ui text-[10px] uppercase text-[#fff5e0]">
+              NEW VERSION READY
+            </span>
+            <button
+              type="button"
+              onClick={() => void applyUpdate()}
+              className="arcade-btn-primary px-2.5 py-1 font-pixel text-[8px] uppercase cursor-pointer"
+            >
+              UPDATE
+            </button>
+            <button
+              type="button"
+              onClick={() => setUpdateBannerDismissed(true)}
+              aria-label="Dismiss update notification"
+              className="arcade-btn-secondary px-1.5 py-1 font-pixel-ui text-[8px] uppercase cursor-pointer"
+            >
+              LATER
+            </button>
+          </div>
         )}
 
         {/* Modals */}
@@ -811,11 +1277,22 @@ export function App() {
         {showSettings && (
           <SettingsModal
             settings={settings}
+            muted={muted}
+            isInstalled={isInstalled}
+            isIOS={isIOS}
+            canPromptInstall={canPromptInstall}
+            needRefresh={needRefresh}
             onChange={setSettings}
+            onToggleMute={() => setMuted((m) => !m)}
             onOpenControls={() => {
               setShowSettings(false);
               setShowControls(true);
             }}
+            onOpenInstall={() => {
+              setShowSettings(false);
+              setShowInstallModal(true);
+            }}
+            onApplyUpdate={() => void applyUpdate()}
             onClose={() => setShowSettings(false)}
           />
         )}
@@ -823,7 +1300,7 @@ export function App() {
         {showControls && (
           <ControlsModal
             controls={controls}
-            initialCharacterId={hud?.p1.characterId ?? p1Char}
+            initialCharacterId={activeLocalHud?.characterId ?? p1Char}
             getTouchLayout={getTouchLayoutFor}
             onChangeTouchLayout={handleChangeTouchLayout}
             onChange={handleControlsChange}
@@ -833,9 +1310,22 @@ export function App() {
 
         {showCredits && <CreditsModal onClose={() => setShowCredits(false)} />}
 
+        {showInstallModal && (
+          <PWAInstallModal
+            isInstalled={isInstalled}
+            isIOS={isIOS}
+            canPromptInstall={canPromptInstall}
+            onPromptInstall={promptInstall}
+            onClose={() => setShowInstallModal(false)}
+          />
+        )}
+
         {/* Optional Retro CRT Overlay (strictly pointer-events-none, default OFF) */}
         <CRTOverlay mode={settings.crtMode} curvature={settings.crtCurvature} />
       </div>
+
+      {/* Portrait Mobile Orientation Guard (Preserves game state cleanly) */}
+      <RotateDeviceOverlay visible={isPortraitMobile} />
     </main>
   );
 }
