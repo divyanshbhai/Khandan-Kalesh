@@ -1,0 +1,344 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-pixel: 'Press Start 2P', 'Silkscreen', monospace;
+    --font-pixel-ui: 'Silkscreen', 'Press Start 2P', monospace;
+    --font-display: 'Silkscreen', 'Barlow Condensed', monospace;
+    --font-body: 'Barlow Condensed', system-ui, sans-serif;
+    --font-mono: 'Silkscreen', monospace;
+
+    --ff-ink-950: #090605;
+    --ff-surface-900: #18110c;
+    --ff-surface-850: #211811;
+    --ff-surface-800: #2d2118;
+    --ff-border-warm: #6b533b;
+    --ff-border-brass: #f5b324;
+    --ff-cream-100: #fff5e0;
+    --ff-cream-200: #ebd8b7;
+    --ff-cream-400: #b39e84;
+    --ff-brass-500: #f5a623;
+    --ff-brass-400: #ffc947;
+    --ff-crimson-500: #e03126;
+  }
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--ff-ink-950);
+    color: var(--ff-cream-100);
+    font-family: var(--font-body);
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    overscroll-behavior: none;
+  }
+}
+
+.font-pixel {
+  font-family: var(--font-pixel);
+  font-variant-numeric: tabular-nums;
+}
+
+.font-pixel-ui {
+  font-family: var(--font-pixel-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+
+.font-mono-num {
+  font-family: var(--font-pixel-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.touch-surface {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Crisp retro bitmap drop shadow (no soft Gaussian blur) */
+.hud-text-stroke {
+  paint-order: stroke fill;
+  -webkit-text-stroke: 3px #090605;
+  text-shadow: 3px 3px 0 #090605;
+}
+
+.hud-text-stroke-sm {
+  paint-order: stroke fill;
+  -webkit-text-stroke: 2px #090605;
+  text-shadow: 2px 2px 0 #090605;
+}
+
+/* Authentic 1990s Arcade Cabinet Pixel-Stepped Panels (strictly square edges) */
+.arcade-panel {
+  background-color: #16100c;
+  border: 2px solid #755b42;
+  border-radius: 0;
+  box-shadow:
+    0 0 0 2px #090605,
+    4px 4px 0 0 #090605,
+    inset 2px 2px 0 0 rgba(255, 236, 196, 0.14),
+    inset -2px -2px 0 0 rgba(0, 0, 0, 0.55);
+}
+
+.arcade-panel-brass {
+  background-color: #18110c;
+  border: 2px solid #f5b324;
+  border-radius: 0;
+  box-shadow:
+    0 0 0 2px #090605,
+    5px 5px 0 0 #090605,
+    inset 2px 2px 0 0 rgba(255, 227, 143, 0.25),
+    inset -2px -2px 0 0 rgba(92, 48, 4, 0.72);
+}
+
+/* Hard-edged 16-bit Arcade Push Buttons */
+.arcade-btn-primary {
+  background-color: #f5a623;
+  color: #120a04;
+  border: 2px solid #ffe38f;
+  border-radius: 0;
+  box-shadow:
+    0 0 0 2px #090605,
+    0 4px 0 0 #7a3e04,
+    0 6px 0 0 #090605,
+    inset 0 2px 0 0 #fff1c2;
+  transition: transform 70ms steps(2, end), background-color 70ms steps(2, end);
+}
+
+.arcade-btn-primary:hover {
+  background-color: #ffc947;
+  transform: translateY(-1px);
+}
+
+.arcade-btn-primary:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 0 0 2px #090605,
+    0 1px 0 0 #7a3e04,
+    inset 0 2px 0 0 rgba(0, 0, 0, 0.25);
+}
+
+.arcade-btn-secondary {
+  background-color: #231912;
+  color: #fff5e0;
+  border: 2px solid #755b42;
+  border-radius: 0;
+  box-shadow:
+    0 0 0 2px #090605,
+    0 3px 0 0 #090605,
+    inset 2px 2px 0 0 rgba(255, 236, 196, 0.14),
+    inset -2px -2px 0 0 rgba(0, 0, 0, 0.5);
+  transition: transform 70ms steps(2, end), border-color 70ms steps(2, end), background-color 70ms steps(2, end);
+}
+
+.arcade-btn-secondary:hover {
+  background-color: #312318;
+  border-color: #f5b324;
+  transform: translateY(-1px);
+}
+
+.arcade-btn-secondary:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 0 0 2px #090605,
+    0 1px 0 0 #090605,
+    inset 2px 2px 0 0 rgba(0, 0, 0, 0.45);
+}
+
+.arcade-btn-danger {
+  background-color: #d62b22;
+  color: #fff5e0;
+  border: 2px solid #ff8c85;
+  border-radius: 0;
+  box-shadow:
+    0 0 0 2px #090605,
+    0 4px 0 0 #66100b,
+    0 6px 0 0 #090605,
+    inset 0 2px 0 0 rgba(255, 225, 220, 0.28);
+  transition: transform 70ms steps(2, end), background-color 70ms steps(2, end);
+}
+
+.arcade-btn-danger:hover {
+  background-color: #ef3b32;
+  transform: translateY(-1px);
+}
+
+.arcade-btn-danger:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 0 0 2px #090605,
+    0 1px 0 0 #66100b;
+}
+
+/* Physical Retro Arcade Cabinet Bezel Frame (desktop only, preserves full mobile screen) */
+.arcade-cabinet-bezel {
+  border: 3px solid #2b2017;
+  box-shadow:
+    0 0 0 3px #090605,
+    0 0 0 6px #4a3524,
+    0 16px 48px rgba(0, 0, 0, 0.95);
+}
+
+/* Segmented pixel health track tick overlay */
+.pixel-bar-ticks {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 10px,
+    rgba(9, 6, 5, 0.28) 10px,
+    rgba(9, 6, 5, 0.28) 12px
+  );
+}
+
+/* Optional Retro CRT Presentation Mode (purely visual, pointer-events-none) */
+.crt-scanlines-subtle {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.14) 2px,
+    rgba(0, 0, 0, 0.14) 4px
+  );
+}
+
+.crt-scanlines-arcade {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 2px,
+      rgba(0, 0, 0, 0.28) 2px,
+      rgba(0, 0, 0, 0.28) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 64, 64, 0.03) 0px,
+      rgba(64, 255, 128, 0.03) 1px,
+      rgba(64, 160, 255, 0.03) 2px
+    );
+}
+
+.crt-vignette-subtle {
+  box-shadow: inset 0 0 56px rgba(0, 0, 0, 0.32);
+}
+
+.crt-vignette-arcade {
+  box-shadow:
+    inset 0 0 92px rgba(0, 0, 0, 0.52),
+    inset 0 0 18px rgba(0, 0, 0, 0.72);
+}
+
+.crt-curvature-frame {
+  border-radius: 18px;
+}
+
+/* Safe-area landscape utilities */
+.safe-pad-hud {
+  padding-top: max(0.45rem, env(safe-area-inset-top));
+  padding-left: max(0.5rem, env(safe-area-inset-left));
+  padding-right: max(0.5rem, env(safe-area-inset-right));
+}
+
+.safe-pad-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+@keyframes koPulse {
+  0% {
+    transform: scale(1.38);
+    opacity: 0;
+  }
+  25% {
+    transform: scale(0.96);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes calloutPop {
+  0% {
+    transform: translateY(6px) scale(0.88);
+    opacity: 0;
+  }
+  25% {
+    transform: translateY(0) scale(1.04);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes criticalFlash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes arcadeBlink {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0.25;
+  }
+}
+
+.animate-ko-slam {
+  animation: koPulse 0.3s steps(6, end) forwards;
+}
+
+.animate-callout-pop {
+  animation: calloutPop 0.2s steps(4, end) forwards;
+}
+
+.animate-critical-pulse {
+  animation: criticalFlash 0.5s steps(2, end) infinite;
+}
+
+.animate-arcade-blink {
+  animation: arcadeBlink 1.05s steps(2, end) infinite;
+}
+
+.reduced-motion .animate-ko-slam,
+.reduced-motion .animate-callout-pop,
+.reduced-motion .animate-critical-pulse,
+.reduced-motion .animate-arcade-blink {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ko-slam,
+  .animate-callout-pop,
+  .animate-critical-pulse,
+  .animate-arcade-blink {
+    animation: none;
+  }
+}

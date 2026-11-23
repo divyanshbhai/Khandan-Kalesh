@@ -1,0 +1,259 @@
+{
+  "project": "Project Sagar \u2014 2D Fighting Game Animation Production",
+  "character": "Sagar",
+  "batch": 3,
+  "batch_name": "Defence & Damage Reactions",
+  "global_technical_spec": {
+    "cell_width_px": 288,
+    "cell_height_px": 288,
+    "ground_baseline_y_px": 272,
+    "horizontal_pivot_x_px": 144,
+    "default_facing": "right",
+    "format": "PNG (32-bit RGBA, transparent background)",
+    "scaling_method": "Nearest-Neighbor (crisp pixel art preserved)"
+  },
+  "total_animations_in_batch": 8,
+  "total_frames_in_batch": 37,
+  "animations": [
+    {
+      "id": "sagar_22_standing_guard",
+      "name": "Standing Guard",
+      "filename": "sagar_22_standing_guard_4f.png",
+      "relative_path": "spritesheets/sagar_22_standing_guard_4f.png",
+      "batch": 3,
+      "category": "Defence & Damage Reactions",
+      "frame_count": 4,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1152,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 3)",
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.1,
+      "loop": true,
+      "default_facing": "right",
+      "pivot_and_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "gameplay_purpose": "High standing blocking stance protecting head and upper body against mid/overhead strikes.",
+      "transition_notes": "Compatible with Batch 1 Idle Breathing; loops seamlessly F4 -> F1 while holding block input.",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); both bare feet remain firmly braced on ground_y."
+    },
+    {
+      "id": "sagar_23_crouching_guard",
+      "name": "Crouching Guard",
+      "filename": "sagar_23_crouching_guard_4f.png",
+      "relative_path": "spritesheets/sagar_23_crouching_guard_4f.png",
+      "batch": 3,
+      "category": "Defence & Damage Reactions",
+      "frame_count": 4,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1152,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 3)",
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.1,
+      "loop": true,
+      "default_facing": "right",
+      "pivot_and_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "gameplay_purpose": "Low crouching defensive block protecting against low kicks and sweeps.",
+      "transition_notes": "Matches Batch 1 Crouch Idle and Batch 2 crouching attack heights; loops seamlessly F4 -> F1.",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); bare feet stay anchored low across all 4 frames."
+    },
+    {
+      "id": "sagar_24_light_hit_reaction",
+      "name": "Light Hit Reaction",
+      "filename": "sagar_24_light_hit_reaction_3f.png",
+      "relative_path": "spritesheets/sagar_24_light_hit_reaction_3f.png",
+      "batch": 3,
+      "category": "Defence & Damage Reactions",
+      "frame_count": 3,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 864,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 2)",
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.4,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_and_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "gameplay_purpose": "Short hitstun recoil from light jabs and pokes arriving from the right.",
+      "transition_notes": "Quick jolt (F1) -> light upper-body recoil (F2) -> recovers cleanly into Batch 1 Standing Guard (F3).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); feet stay grounded with minimal horizontal displacement."
+    },
+    {
+      "id": "sagar_25_heavy_hit_reaction",
+      "name": "Heavy Hit Reaction",
+      "filename": "sagar_25_heavy_hit_reaction_5f.png",
+      "relative_path": "spritesheets/sagar_25_heavy_hit_reaction_5f.png",
+      "batch": 3,
+      "category": "Defence & Damage Reactions",
+      "frame_count": 5,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1440,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 4)",
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.3,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_and_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "gameplay_purpose": "Deep hitstun stagger reaction from heavy attacks arriving from the right.",
+      "transition_notes": "Violent head/torso recoil (F1-F2) -> forward stumble (F3) -> regains footing (F4) -> weakened fighting stance (F5).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); front foot lifts briefly on F2 impact before planting on F3-F5."
+    },
+    {
+      "id": "sagar_26_launch_knockback",
+      "name": "Launch / Knockback Reaction",
+      "filename": "sagar_26_launch_knockback_5f.png",
+      "relative_path": "spritesheets/sagar_26_launch_knockback_5f.png",
+      "batch": 3,
+      "category": "Defence & Damage Reactions",
+      "frame_count": 5,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1440,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 4)",
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.9,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_and_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "airborne_to_ground"
+      },
+      "gameplay_purpose": "Involuntary airborne knockback state when blasted upward/backward by launchers or heavy blowbacks.",
+      "transition_notes": "Impact lift-off (F1-F2) -> airborne backward tumble (F3-F4) -> back-first descent (F5) feeding directly into Knockdown F1.",
+      "pivot_consistency_notes": "Airborne vertical offset preserved from strip baseline inside 288x288 cell; zero clipping on all 5 frames."
+    },
+    {
+      "id": "sagar_27_knockdown_fall",
+      "name": "Knockdown / Falling",
+      "filename": "sagar_27_knockdown_fall_6f.png",
+      "relative_path": "spritesheets/sagar_27_knockdown_fall_6f.png",
+      "batch": 3,
+      "category": "Defence & Damage Reactions",
+      "frame_count": 6,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1728,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 5)",
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.3,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_and_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "airborne_to_ground"
+      },
+      "gameplay_purpose": "Complete falling impact sequence culminating in a flat knocked-down ground state.",
+      "transition_notes": "Continues from Launch/Knockback F5 -> ground bounce impact (F5) -> flat lying-down pose (F6) matching Get-Up F1 1:1.",
+      "pivot_consistency_notes": "Ground baseline at y=272; F1-F4 preserve airborne descent height, F5-F6 settle flat onto ground_y."
+    },
+    {
+      "id": "sagar_28_get_up",
+      "name": "Get-Up Animation",
+      "filename": "sagar_28_get_up_5f.png",
+      "relative_path": "spritesheets/sagar_28_get_up_5f.png",
+      "batch": 3,
+      "category": "Defence & Damage Reactions",
+      "frame_count": 5,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1440,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 4)",
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.9,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_and_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "gameplay_purpose": "Wake-up recovery from knocked-down ground state back into active combat readiness.",
+      "transition_notes": "Starts in exact Knockdown F6 lying-flat pose (F1) -> push-up (F2) -> kneeling (F3) -> rising (F4) -> Batch 1 Standing Guard (F5).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); every frame stays firmly anchored on ground_y."
+    },
+    {
+      "id": "sagar_29_guard_break_stunned",
+      "name": "Guard-Break / Stunned Reaction",
+      "filename": "sagar_29_guard_break_stunned_5f.png",
+      "relative_path": "spritesheets/sagar_29_guard_break_stunned_5f.png",
+      "batch": 3,
+      "category": "Defence & Damage Reactions",
+      "frame_count": 5,
+      "frame_cell_dimensions_px": {
+        "width": 288,
+        "height": 288
+      },
+      "total_sheet_dimensions_px": {
+        "width": 1440,
+        "height": 288
+      },
+      "frame_order": "Left-to-right chronological (0 to 4)",
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.9,
+      "loop": false,
+      "default_facing": "right",
+      "pivot_and_anchor_px": {
+        "x": 144,
+        "y": 272,
+        "mode": "grounded"
+      },
+      "gameplay_purpose": "Vulnerable guard-crush reaction ending in an open stunned posture for punish combos.",
+      "transition_notes": "Guard shattered wide open (F1-F2) -> backward stagger (F3) -> dazed slump (F4) -> stable holdable stunned posture (F5).",
+      "pivot_consistency_notes": "Bottom-center ground pivot at (144, 272); F5 designed to hold cleanly as engine stun state."
+    }
+  ]
+}

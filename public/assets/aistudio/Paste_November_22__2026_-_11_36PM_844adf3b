@@ -1,0 +1,1374 @@
+# FAMILY FIGHTERS — VERSION 2
+# COMPLETE GAME EXPERIENCE, VISUAL IDENTITY, TOUCH CONTROLS, AI AND AUDIO OVERHAUL
+
+You are continuing an EXISTING, WORKING 2D fighting-game project called FAMILY FIGHTERS.
+
+You are acting as a senior fighting-game developer, gameplay systems engineer, mobile game UX designer, AI gameplay engineer, pixel-art UI artist and game audio designer.
+
+The first version of the game has already been implemented.
+
+It contains:
+- Four playable characters.
+- Original character animation sprite sheets.
+- Three original fighting arenas.
+- Camera scrolling.
+- Animation player.
+- Physics and collision systems.
+- Combat system.
+- CPU opponent.
+- Round management.
+- Main menu.
+- Character selection.
+- Stage selection.
+- Pause and result screens.
+- Existing sound engine.
+
+However, the current experience has significant problems:
+
+1. The UI does not match the visual identity of our original artwork.
+2. The game feels visually static and lifeless.
+3. Characters do not approach each other naturally enough during CPU matches.
+4. The CPU opponent behaves too simply and predictably.
+5. Combat lacks convincing impact and audiovisual feedback.
+6. Sound effects and background music need a complete upgrade.
+7. Mobile touchscreen controls are missing or insufficient.
+8. Local two-player touch controls need independent layouts for both players.
+9. Every character has different special abilities, so the control interface must adapt to the selected characters.
+
+Your mission is to transform the existing game into a much more polished, immersive, responsive and enjoyable arcade fighting-game experience.
+
+IMPORTANT:
+
+THIS IS AN UPGRADE OF THE EXISTING PROJECT.
+
+Do not delete and recreate the application.
+
+Do not discard the existing engine.
+
+Do not replace original characters or animations.
+
+Do not destroy existing working systems while redesigning the UI.
+
+Inspect the current codebase and build upon it.
+
+Preserve all existing working gameplay mechanics unless there is a verified bug that needs correction.
+
+==================================================
+PHASE 1 — AUDIT THE EXISTING PROJECT
+==================================================
+
+Before editing anything, inspect the existing:
+
+- React components.
+- TypeScript files.
+- Canvas renderer.
+- Game engine.
+- Character configurations.
+- Animation manifests.
+- Combat system.
+- CPU controller.
+- Camera.
+- Physics.
+- Collision detection.
+- Sound engine.
+- Asset manifest.
+- Stage configurations.
+- Existing CSS.
+- Existing tests.
+
+Read:
+
+ASSET_AUDIT.md
+ASSET_MANIFEST.json
+MISSING_ASSETS.md
+README.md
+
+Also inspect the actual image files and animation sheets.
+
+Do not assume that an animation exists merely because it is mentioned in an earlier prompt.
+
+Create a list of existing working features and existing bugs.
+
+Verify the current asset mapping for all four characters.
+
+Known asset information from the previous project audit:
+
+RAHUL:
+40 character animation sheets.
+221 character frames.
+2 independent effect sheets.
+
+SAGAR:
+32 character animation sheets.
+184 character frames.
+2 independent effect sheets.
+
+JATIN:
+40 character animation sheets.
+228 character frames.
+3 independent effect sheets.
+
+TONY:
+57 character animation sheets.
+303 character frames.
+9 independent effect sheets.
+
+IMPORTANT MISSING ASSET:
+
+Sagar's Batch 3 Defence & Damage group was reported missing:
+8 animation sheets, IDs #22–#29.
+
+Do not invent these animations or silently substitute unrelated attack sprites.
+
+Use only genuine available animations or clearly documented fallback behaviour.
+
+CHARACTER ABILITY MAPPING:
+
+Inspect the actual manifests and special-ability artwork.
+
+The previous audit identified:
+- Music-based abilities for Sagar.
+- Green currency-note abilities for Jatin.
+- Technology-based abilities for Tony.
+
+Verify these mappings against the actual source files before using them.
+
+Do not invent or swap character-specific powers.
+
+STAGE ASSETS:
+
+The supplied stage images are:
+
+Katra.png
+Ponta.png
+Purane Saanp Enclave.png
+
+Their audited native dimensions are 2172 × 724.
+
+The previous implementation preserved their 3:1 aspect ratio at 3240 × 1080 world dimensions.
+
+Preserve their original artwork and existing proportional scaling.
+
+Do not stretch them to 3840 × 1080.
+
+The visible game viewport remains 1920 × 1080.
+
+At the end of this phase, create:
+
+V2_AUDIT.md
+
+Then immediately continue with the upgrade. Do not stop after writing the audit.
+
+==================================================
+PHASE 2 — COMPLETE VISUAL IDENTITY OVERHAUL
+==================================================
+
+The current UI looks generic and does not feel connected to the actual fighting game.
+
+This must change.
+
+We need a cohesive, premium arcade fighting-game presentation inspired by the atmosphere, composition and energy of classic fighting games.
+
+The interface must feel like it belongs to OUR characters and OUR original arenas.
+
+## A. Establish a proper design system
+
+Inspect the real character sprites and all three backgrounds.
+
+Study their:
+
+- Dominant colours.
+- Accent colours.
+- Pixel-art rendering.
+- Lighting style.
+- Textures.
+- Visual atmosphere.
+- Character silhouettes.
+
+Use this visual information to build one consistent UI design system.
+
+Create:
+
+UI_DESIGN_SYSTEM.md
+src/styles/designTokens.ts
+
+Use:
+
+- A consistent colour palette.
+- Arcade-inspired typography.
+- Pixel-compatible icons.
+- Attractive layered panels.
+- Strong visual hierarchy.
+- Tasteful highlights.
+- Character-themed accents.
+- Consistent spacing.
+- Consistent button geometry.
+- Subtle animated UI feedback.
+
+The UI should complement the original artwork.
+
+STRICTLY AVOID:
+
+- Generic SaaS dashboard designs.
+- Admin-panel layouts.
+- Generic glassmorphism.
+- Random neon gradients.
+- Unrelated futuristic HUDs.
+- Unnecessary rounded white cards.
+- Emoji-based game icons.
+- Random stock imagery.
+- Overloaded visual effects.
+
+Do not turn every screen into a generic cyberpunk interface.
+
+Technology effects belong primarily to Tony. The common game interface must respect all four characters equally.
+
+## B. Main menu redesign
+
+Create a visually impressive arcade-style home screen.
+
+Requirements:
+
+- Large FAMILY FIGHTERS title.
+- Actual supplied arena background.
+- Subtle atmospheric animation.
+- Original playable character idle animations.
+- Prominent Play button.
+- Character selection.
+- Settings.
+- Controls.
+- Credits.
+
+Use actual character sprite animations as decorative characters.
+
+For example, characters may idle, breathe or subtly move on the main menu.
+
+Add tasteful particles, atmospheric overlays and layered lighting only when they fit the underlying stage artwork.
+
+Buttons should have polished hover, focus, pressed and selected states.
+
+Add subtle animation transitions between menu screens.
+
+## C. Character selection redesign
+
+Show all four actual characters.
+
+Each selectable character should have:
+
+- Large animated sprite preview.
+- Character name.
+- Short character description based on existing project data.
+- Signature abilities.
+- Available special attacks.
+- A distinct character accent colour.
+- Selection animation.
+- Idle character animation.
+
+Use real sprite sheets.
+
+Do not display fabricated 3D models or generated substitute portraits.
+
+Allow the user to inspect a character's move list and touch-control layout before confirming selection.
+
+## D. Stage selection redesign
+
+Display the three original stages with proper full-quality previews.
+
+Include:
+
+- Stage name.
+- Large background preview.
+- Selection animation.
+- Clear selected-stage indicator.
+
+Do not create fake stage preview images.
+
+## E. Gameplay HUD redesign
+
+The fighting HUD should feel like a premium arcade fighting-game HUD.
+
+Include:
+
+- Both character names.
+- Character portraits or sprite thumbnails.
+- Health bars.
+- Ultimate/special meters.
+- Central round timer.
+- Round indicators.
+- Combo counter.
+- Damage feedback.
+- Character-specific ability cooldown indicators.
+
+Health bars should animate smoothly when damage occurs.
+
+Use distinct visual styles for:
+- Normal damage.
+- Heavy damage.
+- Critical health.
+- Blocking.
+- Successful special attacks.
+- Ultimate activation.
+
+Do not cover the characters or important portions of the arena.
+
+## F. Pause, settings and results
+
+Create consistent styling across:
+
+- Pause screen.
+- Settings screen.
+- Controls screen.
+- Character move list.
+- Round transition.
+- Victory screen.
+- Defeat screen.
+- Match result screen.
+
+Use actual victory and defeat animations where they exist.
+
+Every UI button must perform a real action.
+
+==================================================
+PHASE 3 — MAKE GAMEPLAY FEEL ALIVE
+==================================================
+
+This phase is extremely important.
+
+The game currently feels static.
+
+We want combat that feels responsive, physical and energetic.
+
+## A. Better fighter movement
+
+Review movement and physics.
+
+Improve:
+
+- Acceleration.
+- Deceleration.
+- Walking.
+- Running.
+- Forward dash.
+- Backward dash.
+- Jumping.
+- Landing.
+- Crouching.
+- Turning.
+- Momentum.
+- Knockback.
+- Ground recovery.
+
+Characters should not appear to slide unnaturally across the arena.
+
+Ensure movement animation and character velocity remain synchronized.
+
+Ensure the feet and ground anchor remain consistent.
+
+Add subtle landing dust, dash trails or movement effects only where visually appropriate.
+
+## B. Proper opponent spacing
+
+The fighters must actually approach each other during CPU matches.
+
+The previous experience of fighters standing too far apart or remaining inactive is unacceptable.
+
+When a match begins:
+
+- Place both fighters at sensible starting positions.
+- Make sure both are visible.
+- Orient them toward each other.
+- Ensure they begin within a reasonable gameplay distance.
+
+Implement distance-based CPU movement.
+
+When the CPU is too far from the player:
+
+- Approach using the correct walk animation.
+- Dash when appropriate.
+- Avoid endless jumping.
+- Avoid walking into stage boundaries.
+- Adjust positioning based on attack range.
+
+When the CPU reaches the desired combat distance:
+
+- Use suitable attacks.
+- Maintain pressure.
+- Block and respond intelligently.
+- Retreat when necessary.
+- Reposition when attacks miss.
+
+The CPU must not constantly overlap with the player.
+
+Implement proper fighter pushboxes.
+
+Prevent the characters from walking through each other.
+
+Allow realistic close-range combat.
+
+The camera must continue following the fighters while respecting stage boundaries.
+
+In local two-player mode, movement remains controlled independently by each player. Do not force player characters to auto-approach each other.
+
+## C. Better animation transitions
+
+Make character animations flow naturally.
+
+Use correct transitions between:
+
+Idle
+Walk
+Dash
+Jump
+Airborne
+Landing
+Crouch
+Guard
+Attack
+Special
+Hit Reaction
+Knockback
+Knockdown
+Get-Up
+Victory
+Defeat
+KO
+
+Avoid:
+
+- Animation flickering.
+- Sudden pose changes.
+- Unintended frozen frames.
+- Idle animations playing during attacks.
+- Attacks being interrupted incorrectly.
+- A KO character responding to movement input.
+
+Synchronize hitboxes with actual attack frames.
+
+Use input buffering and appropriate attack recovery windows.
+
+## D. Impact feedback and game feel
+
+Implement a configurable feedback system.
+
+Add:
+
+1. Short hit-stop / impact freeze.
+2. Controlled camera shake.
+3. Pixel-art hit sparks.
+4. Small particles.
+5. Attack trails.
+6. Block-impact sparks.
+7. Character recoil.
+8. Knockback response.
+9. Landing dust.
+10. Heavy-impact effects.
+11. Critical-hit visual feedback.
+12. Ultimate attack slowdown.
+13. Smooth damage feedback in the HUD.
+
+Make different types of attacks feel different.
+
+LIGHT ATTACK:
+Small hit-stop, light impact effect and a quick sound.
+
+HEAVY ATTACK:
+Stronger impact, slightly longer hit-stop, more pronounced recoil and camera movement.
+
+SPECIAL ATTACK:
+Character-specific effects, a distinct sound and a clear impact response.
+
+ULTIMATE:
+A more dramatic but controlled sequence with stronger presentation, appropriately timed effects and music emphasis.
+
+All timings and intensities must be configurable.
+
+Do not freeze the entire game excessively.
+
+Do not turn the arena into an explosion of particles that hides the characters.
+
+Preserve readability.
+
+Provide a reduced-motion setting.
+
+## E. Combat progression
+
+Improve the combat loop with:
+
+- Combo counter.
+- Basic combo chaining.
+- Input buffering.
+- Counter-hit feedback.
+- Successful block feedback.
+- Hitstun.
+- Blockstun.
+- Knockback.
+- Special meter gain.
+- Ultimate meter.
+- Character-specific cooldowns.
+- Clear attack recovery.
+- Proper round-end transitions.
+
+Do not invent attacks for which there is no appropriate animation.
+
+Only implement throws, parries or other advanced moves when compatible with available assets or a suitable documented animation.
+
+==================================================
+PHASE 4 — MAJOR CPU ARTIFICIAL INTELLIGENCE UPGRADE
+==================================================
+
+The existing CPU needs to become a believable opponent.
+
+Do not simply make it attack randomly.
+
+Do not make it constantly jump, walk backward or spam one move.
+
+Use a hybrid AI system:
+
+FINITE STATE MACHINE + UTILITY-BASED ACTION SELECTION + BOUNDED BEHAVIOUR ADAPTATION.
+
+Do not depend on an external AI API or a network connection during gameplay.
+
+## A. CPU decision-making states
+
+Support:
+
+- Approach.
+- Maintain Distance.
+- Close Combat.
+- Attack.
+- Combo.
+- Block.
+- Counter Attack.
+- Punish Whiffed Attack.
+- Evade.
+- Jump.
+- Anti-Air.
+- Special Attack.
+- Ultimate.
+- Retreat.
+- Recover.
+- React to Hit.
+- Knockdown Recovery.
+
+The CPU should select actions based on:
+
+- Distance from opponent.
+- Current fighter state.
+- Attack ranges.
+- Available moves.
+- Move cooldowns.
+- Health.
+- Special meter.
+- Ultimate meter.
+- Player behaviour.
+- Previous attack outcomes.
+
+## B. Adaptive behaviour
+
+Observe the player's recent behaviour within the current match.
+
+Examples:
+
+If the player repeatedly spams light punches:
+- Occasionally block or interrupt them.
+- Move into a better range.
+- Punish unsafe repetitions when possible.
+
+If the player constantly jumps:
+- Occasionally use an appropriate anti-air response.
+
+If the player stays far away:
+- Approach instead of remaining idle.
+
+If the player blocks frequently:
+- Vary attack timing and approach.
+
+If the player repeatedly uses special attacks:
+- Occasionally defend against predictable attacks and close the distance.
+
+Do not counter every input perfectly.
+
+Do not read future player inputs.
+
+Do not give the CPU impossible reaction speed.
+
+Add controlled decision delays, human-like mistakes and varied attack sequences.
+
+The opponent should feel intelligent without feeling like it is cheating.
+
+## C. Three CPU difficulties
+
+EASY:
+- Approaches consistently.
+- Uses simple attacks.
+- Blocks occasionally.
+- Makes noticeable mistakes.
+- Allows beginners to learn.
+
+NORMAL:
+- Uses varied attacks.
+- Maintains useful combat distance.
+- Blocks and counters.
+- Uses available abilities sensibly.
+- Chains basic combos.
+
+HARD:
+- Better spacing.
+- More consistent defence.
+- Better counter-attacks.
+- Uses combos effectively.
+- Recognizes repetitive player strategies.
+- Uses special moves intelligently.
+
+Difficulty must change decision quality and reaction behaviour, not create unfair health or damage advantages.
+
+## D. Character-specific CPU personalities
+
+Use actual character abilities and configured combat properties.
+
+Do not force four identical AI behaviour profiles.
+
+Where supported by the available animations and moves:
+
+- Give each fighter a distinct combat preference.
+- Use different attack ranges and preferred spacing.
+- Give special abilities meaningful tactical use.
+- Preserve each character's visual identity.
+
+Create:
+
+src/engine/ai/UtilityAI.ts
+src/engine/ai/CombatMemory.ts
+src/engine/ai/CharacterAIProfiles.ts
+
+Keep behaviour configurable and testable.
+
+==================================================
+PHASE 5 — CHARACTER-SPECIFIC TOUCH CONTROLS
+==================================================
+
+THIS IS A CORE REQUIREMENT, NOT AN OPTIONAL FEATURE.
+
+The game must support proper on-screen fighting-game controls.
+
+Do not merely display keyboard key labels on mobile.
+
+Create a fully functional virtual controller system connected to the existing InputManager.
+
+Support:
+
+1. Player vs CPU touchscreen controls.
+2. Local two-player touchscreen controls.
+3. Character-specific ability buttons.
+4. Independent touch layouts for each player.
+5. Keyboard controls.
+6. Gamepad controls where available.
+
+All input systems should use a common action interface so keyboard, gamepad and touch execute the same gameplay actions.
+
+Create:
+
+src/engine/VirtualControls.ts
+src/components/TouchControls/
+src/config/touchControls.ts
+src/config/characterControlProfiles.ts
+
+## A. Single-player touch layout
+
+Use LANDSCAPE orientation as the primary mobile gameplay orientation.
+
+LEFT SIDE:
+Virtual movement controller.
+
+RIGHT SIDE:
+Combat action cluster.
+
+Default action categories:
+
+- Light Punch.
+- Heavy Punch.
+- Kick.
+- Guard.
+- Character Skill 1.
+- Character Skill 2, if available.
+- Ultimate.
+
+The control configuration must determine which buttons actually appear.
+
+Do not display duplicate or unavailable abilities.
+
+Do not show generic buttons when actual character-specific moves exist.
+
+The movement controller should support:
+- Left.
+- Right.
+- Up / Jump.
+- Down / Crouch.
+
+Use a dynamic joystick or clean directional pad.
+
+Provide a setting to switch between joystick and D-pad styles.
+
+## B. Character-specific ability layouts
+
+Each character must have its own independently configurable touch-control profile.
+
+Examples of the design requirements:
+
+RAHUL:
+Display the actual abilities defined in Rahul's supplied move manifest.
+
+SAGAR:
+Display actual music-themed special moves where confirmed by his supplied assets.
+
+JATIN:
+Display actual character-specific currency-note moves where confirmed by his supplied assets.
+
+TONY:
+Display actual technology-based moves such as available energy attacks, drone attacks and ultimate abilities.
+
+IMPORTANT:
+
+The ability labels, icons, animations, cooldowns and actual combat actions must come from the same character configuration.
+
+A button must never show one ability while executing another ability.
+
+Do not invent powers or filenames.
+
+If an ability animation is missing, mark the missing move and provide an explicitly configured fallback or disable the ability.
+
+## C. Character-specific button visuals
+
+Every character should have a distinct button presentation.
+
+Possible treatment:
+
+- Character-specific iconography.
+- Appropriate accent colours sampled from the character artwork.
+- Different special-ability symbols.
+- Unique ability names.
+- Individual cooldown indicators.
+- Individual meter indicators.
+- Optional charging indicators for charge-based abilities.
+
+Keep common actions such as punch, kick, guard and movement in consistent positions.
+
+The player should not have to relearn basic movement because they switched characters.
+
+Special ability positions may adapt to the number and type of available abilities.
+
+Do not use emojis as the primary action icons.
+
+Create clean original pixel-compatible icons or simple game-style pictograms.
+
+## D. Touch button feedback
+
+Every button must have:
+
+- Clear normal state.
+- Visible pressed state.
+- Release animation.
+- Cooldown state.
+- Disabled state.
+- Optional charge state.
+- Appropriate character-specific styling.
+
+Buttons should glow or brighten when pressed.
+
+Add a subtle original button-press sound.
+
+Optional haptic feedback should be supported on devices that provide it.
+
+The control interface should be clean and translucent so the fighting action remains visible.
+
+Do not create huge opaque buttons that cover the characters.
+
+Support:
+- Adjustable button size.
+- Adjustable opacity.
+- Adjustable spacing.
+- Adjustable positions.
+- Left-handed layout.
+- Reset to default layout.
+- Per-character layout saving.
+
+Store user configuration locally.
+
+## E. Multi-touch engineering
+
+Use Pointer Events.
+
+Track each active pointer by its unique pointerId.
+
+Support multiple simultaneous touches, including:
+
+- Movement + punch.
+- Movement + jump + attack.
+- Defence + directional movement.
+- Player 1 movement + Player 1 attack + Player 2 movement + Player 2 attack.
+
+Handle:
+
+- pointerdown.
+- pointermove.
+- pointerup.
+- pointercancel.
+- lostpointercapture.
+- Window blur.
+
+Use pointer capture when appropriate.
+
+Clear all held inputs safely when a pointer is cancelled or focus is lost.
+
+Prevent stuck buttons.
+
+Use appropriate touch-action CSS on the game and control surfaces so browser scrolling and zoom gestures do not interfere with gameplay.
+
+Do not disable touch interaction globally across unrelated menus and settings.
+
+## F. Local two-player touch mode
+
+THIS IS ESPECIALLY IMPORTANT.
+
+For LOCAL TWO PLAYER ON ONE TOUCHSCREEN:
+
+PLAYER 1:
+
+- Occupies the left-side control region.
+- Has an independent movement control.
+- Has an independent attack cluster.
+- Uses Player 1's selected character-specific ability buttons.
+
+PLAYER 2:
+
+- Occupies the right-side control region.
+- Has a mirrored independent movement control.
+- Has an independent mirrored attack cluster.
+- Uses Player 2's selected character-specific ability buttons.
+
+The two layouts must not share action state.
+
+Each player needs their own:
+
+- Pointer tracking.
+- Movement input.
+- Attack inputs.
+- Ability mapping.
+- Button pressed states.
+- Cooldown visuals.
+- Layout settings.
+- Character configuration.
+
+Arrange the clusters near the lower outside corners, keeping the central fight area readable.
+
+The two players must be able to move and attack simultaneously using different fingers.
+
+Make the layout compact enough to remain usable on realistic mobile screen sizes.
+
+If the screen is too small for comfortable simultaneous touch controls, provide a clear warning and suggest a larger landscape device.
+
+Do not silently disable Player 2's controls.
+
+## G. Orientation and responsive behaviour
+
+The game is landscape-first.
+
+On a narrow portrait display during a match:
+- Show a polished Rotate Device instruction.
+- Do not distort the fighting viewport.
+- Do not render an unusably tiny control cluster.
+
+Menus must remain responsive in both orientations.
+
+On desktop, support keyboard and gamepad as before.
+
+Also provide a virtual-control preview toggle in Settings so the touchscreen layout can be tested on a desktop browser.
+
+## H. Control editor
+
+Create an interactive Controls Customization screen.
+
+Allow users to:
+
+- Move each virtual button.
+- Resize buttons.
+- Change opacity.
+- Switch D-pad and joystick.
+- Change left/right hand preference.
+- Reset layouts.
+- Save changes.
+
+Save separate layouts for:
+- Each character.
+- Player 1.
+- Player 2.
+
+==================================================
+PHASE 6 — COMPLETE AUDIO AND MUSIC OVERHAUL
+==================================================
+
+Sound is one of the highest-priority requirements.
+
+The current sound experience is inadequate.
+
+The game should feel like an actual arcade fighting game.
+
+Create a robust audio architecture.
+
+Use Web Audio API where appropriate.
+
+Create:
+
+src/engine/audio/AudioManager.ts
+src/engine/audio/SFXManager.ts
+src/engine/audio/MusicManager.ts
+src/engine/audio/CharacterSoundProfiles.ts
+src/config/audioCatalog.ts
+
+## A. Background music
+
+Create a proper looping arcade fighting-game music experience.
+
+Prioritize original music and legally usable sounds.
+
+Do not download or reproduce copyrighted game soundtracks.
+
+Use supplied original audio assets if available.
+
+If no actual soundtrack is available, create an original synthesized arcade-inspired soundtrack using Web Audio API and carefully designed musical loops.
+
+It must be more than random beeps.
+
+Use a coherent tempo, melody, bass, percussion and supporting atmospheric layers.
+
+Provide separate music arrangements or variations for the three stages when feasible.
+
+## B. Dynamic music
+
+Implement music layers that respond to gameplay:
+
+MENU:
+Subtle, atmospheric main-menu music.
+
+FIGHT START:
+Music transitions into the stage battle arrangement.
+
+NORMAL FIGHT:
+Full rhythmic fighting track.
+
+LOW HEALTH:
+Add controlled tension or an additional musical layer.
+
+ULTIMATE:
+Temporarily emphasize the music or add a synchronized dramatic layer.
+
+ROUND WIN:
+Music transitions into an appropriate victory cue.
+
+KO:
+A distinct impact and short result cue.
+
+Do not abruptly restart the music every time the player changes states.
+
+Use smooth crossfades and loop synchronization.
+
+## C. Required sound effects
+
+Create or integrate sounds for:
+
+UI:
+- Button hover.
+- Button press.
+- Character selection.
+- Stage selection.
+- Menu transitions.
+- Pause.
+- Resume.
+
+MOVEMENT:
+- Footsteps.
+- Dash.
+- Jump.
+- Landing.
+- Crouch transition.
+
+COMBAT:
+- Light punch.
+- Heavy punch.
+- Punch impact.
+- Kick.
+- Heavy kick.
+- Guard.
+- Block impact.
+- Hit reaction.
+- Knockback.
+- Knockdown.
+
+SPECIAL MOVES:
+- Special activation.
+- Charging.
+- Projectile release.
+- Projectile impact.
+- Electronic effect.
+- Energy shield.
+- Drone movement.
+- Drone attack.
+- Ultimate activation.
+- Ultimate impact.
+
+CHARACTER PERSONALITY:
+Use each character's actual visual and ability identity to provide distinctive sound design.
+
+For example:
+- Tony's technology attacks may use controlled electronic energy sounds.
+- Sagar's music-based powers may have rhythm and sonic effects.
+- Jatin's currency-note effects may use suitable paper/flutter and impact sounds when consistent with the artwork.
+- Rahul's sounds must reflect his actual supplied attacks and ability assets.
+
+Do not use the same generic sound for every special ability.
+
+## D. Audio synchronization
+
+Sound effects must trigger at the correct animation frames.
+
+Do not play punch impact sounds when the punch is merely beginning.
+
+Use the animation player's frame events or combat events.
+
+Prevent duplicated sound playback caused by multiple rendered frames.
+
+Implement sound variation and small pitch variation for repeated effects without making them inconsistent.
+
+Prioritize important impact sounds in the audio mix.
+
+Prevent harsh clipping and uncontrolled stacking of repeated sounds.
+
+## E. Audio settings
+
+Provide separate controls for:
+
+- Master volume.
+- Background music.
+- Sound effects.
+- Ambient environment.
+- UI sounds.
+- Haptic feedback.
+
+Add a clear mute toggle.
+
+Save user preferences locally.
+
+IMPORTANT BROWSER AUDIO REQUIREMENT:
+
+Do not rely on automatic audible playback immediately on page load.
+
+Initialize or resume AudioContext from a genuine user interaction, such as pressing PLAY or START MATCH.
+
+Preload audio resources as appropriate.
+
+Show a clear sound-enabled state.
+
+Handle audio loading failures without breaking gameplay.
+
+==================================================
+PHASE 7 — ATMOSPHERIC STAGE EXPERIENCE
+==================================================
+
+Our three original arenas should feel like real fighting environments.
+
+Preserve the supplied background artwork.
+
+Do not redraw or replace the backgrounds.
+
+Inspect each stage to determine appropriate subtle ambience.
+
+Possible effects, only when compatible with the original environment:
+
+- Light environmental particles.
+- Dust.
+- Gentle atmospheric movement.
+- Subtle lighting variation.
+- Localized foreground effects.
+- Appropriate ambient sound.
+- Small parallax elements only when there are real layers or separately supplied compatible assets.
+
+Do not invent architecture or objects that contradict the supplied arena art.
+
+Do not place effects over the fighters in a way that reduces readability.
+
+The camera should respond subtly to major combat events while maintaining correct horizontal stage bounds.
+
+==================================================
+PHASE 8 — ADDITIONAL ENGAGEMENT FEATURES
+==================================================
+
+Improve the player experience beyond basic punching and kicking.
+
+Implement where compatible with the current game architecture:
+
+1. Combo counter.
+2. Character-specific move list.
+3. Special meter and ultimate meter.
+4. Clear cooldown feedback.
+5. First-match control tutorial.
+6. Training mode.
+7. Training dummy with configurable behaviour.
+8. Damage and combo statistics in training mode.
+9. Rematch shortcut.
+10. Round-winning animation.
+11. Character-specific introduction.
+12. Character-specific victory sequence.
+13. A clear match result.
+14. Adjustable game difficulty.
+15. Sound and visual feedback for successful attacks.
+
+TRAINING MODE:
+
+Allow the player to select a character and practise against a stationary or configurable training dummy.
+
+Options should include:
+- Dummy Idle.
+- Dummy Guard.
+- Dummy Attack.
+- Reset Health.
+- Reset Position.
+- Show Hitboxes.
+- Show Hurtboxes.
+- Damage Counter.
+- Combo Counter.
+
+Do not add online multiplayer, accounts, paid APIs, advertisements or unnecessary backend infrastructure.
+
+Keep the experience lightweight and immediately playable.
+
+==================================================
+PHASE 9 — TECHNICAL ARCHITECTURE AND PERFORMANCE
+==================================================
+
+Maintain the existing Vite + React + TypeScript + Canvas architecture.
+
+Do not rewrite the engine without a verified technical reason.
+
+Separate:
+
+- UI rendering.
+- Game loop.
+- Input handling.
+- Animation playback.
+- Combat.
+- AI.
+- Audio.
+- Touch controls.
+- Configuration.
+
+Avoid unnecessary React state updates during the game loop.
+
+Use requestAnimationFrame appropriately.
+
+Keep the game responsive on:
+
+- Desktop browsers.
+- Apple MacBook Air M1.
+- Modern Android mobile browsers.
+- Modern iOS browsers.
+
+Support responsive landscape gameplay.
+
+Preload required sprites and sound files.
+
+Use existing asset paths where possible.
+
+Do not duplicate large sprite files.
+
+Do not embed large PNG assets as Base64.
+
+Keep original user assets unchanged.
+
+Maintain nearest-neighbour sprite rendering.
+
+Respect pixel-art transparency and sprite pivots.
+
+Avoid unnecessary particle overdraw.
+
+Provide graceful handling for missing audio and animation assets.
+
+==================================================
+PHASE 10 — IMPLEMENTATION ORDER
+==================================================
+
+Implement the upgrade in this order:
+
+STEP 1:
+Audit the current codebase, assets and existing bugs.
+
+STEP 2:
+Establish the new cohesive visual design system.
+
+STEP 3:
+Redesign the main menu, character select, stage select, HUD, pause and results screens.
+
+STEP 4:
+Improve movement, fighter spacing, animation transitions and game feel.
+
+STEP 5:
+Upgrade CPU behaviour and difficulty.
+
+STEP 6:
+Implement the single-player virtual controller.
+
+STEP 7:
+Implement character-specific ability controls.
+
+STEP 8:
+Implement independent local two-player touch layouts.
+
+STEP 9:
+Implement control customization and saved settings.
+
+STEP 10:
+Upgrade music, combat sound effects and stage ambience.
+
+STEP 11:
+Add training mode and engagement features.
+
+STEP 12:
+Test the full game and fix all errors.
+
+Do not stop after generating a plan.
+
+Do not merely create mockup images of controls.
+
+The touch controls must actually operate the existing game engine.
+
+Do not leave visual elements as non-functional placeholders.
+
+==================================================
+PHASE 11 — FINAL QUALITY CONTROL
+==================================================
+
+You must verify the following.
+
+VISUAL QUALITY:
+- Main menu has a coherent fighting-game art direction.
+- UI follows the original character and stage aesthetics.
+- Character selection uses real animated sprites.
+- HUD is readable.
+- No generic SaaS appearance remains.
+- Controls look like part of the actual fighting game.
+
+GAMEPLAY:
+- Fighters approach each other appropriately in CPU mode.
+- Fighters do not remain excessively far apart.
+- Fighter collision works.
+- Characters face each other.
+- Movement feels responsive.
+- Attacks are synchronized with hitboxes.
+- Hit reactions and recovery work.
+- Camera follows the battle.
+- Three stages work correctly.
+
+CPU:
+- CPU closes distance.
+- CPU uses different attacks.
+- CPU blocks occasionally.
+- CPU reacts to player habits.
+- CPU uses appropriate special moves.
+- Easy, Normal and Hard feel different.
+- CPU does not cheat or spam unfairly.
+
+TOUCH:
+- Single-player touch movement works.
+- Every attack button works.
+- Character-specific ability buttons work.
+- Button press states are visible.
+- Cooldown indicators work.
+- Multi-touch works.
+- Player 1 and Player 2 touch controls are independent.
+- Both local players can move and attack simultaneously.
+- Changing character updates the relevant ability controls.
+- Portrait orientation is handled sensibly.
+- Touch controls do not block menus or interfere with normal browser navigation outside the game.
+
+AUDIO:
+- Background music starts after user interaction.
+- Music loops smoothly.
+- Music transitions work.
+- Punch and kick sounds trigger properly.
+- Block sounds work.
+- Special sounds match actual abilities.
+- Ultimate sounds are distinct.
+- Volume settings work.
+- Mute works.
+- Audio failures do not crash gameplay.
+
+PERFORMANCE:
+- No major frame drops.
+- No memory leaks.
+- No unbounded audio or projectile accumulation.
+- Responsive scaling works.
+- Original sprite sheets remain intact.
+
+## AUTOMATED TESTS
+
+Add tests for:
+
+- Virtual control action mapping.
+- Character-specific ability mappings.
+- Player 1 and Player 2 control independence.
+- Simultaneous pointer input.
+- pointerup and pointercancel cleanup.
+- Touch button cooldown state.
+- AI approach behaviour.
+- AI distance selection.
+- AI adaptation boundaries.
+- Audio event deduplication.
+- Existing combat and camera behaviour.
+
+Run the production build.
+
+Run all automated tests.
+
+If browser preview or interaction testing is available, test actual multi-touch and visual responsiveness, not just TypeScript compilation.
+
+Create a final document:
+
+V2_RELEASE_REPORT.md
+
+It must list:
+- Features actually implemented.
+- Files modified.
+- Assets used.
+- Known missing assets.
+- Tests executed and results.
+- Any remaining limitations.
+
+Do not falsely claim that a feature works if it was only visually mocked.
+
+==================================================
+FINAL GOAL
+==================================================
+
+We want FAMILY FIGHTERS to feel like a proper, enjoyable arcade fighting game.
+
+The player should feel that:
+
+- Characters are alive.
+- Hits have weight.
+- Special attacks feel special.
+- Opponents fight intelligently.
+- The arenas have atmosphere.
+- Music and sound enhance every action.
+- Controls are satisfying and responsive.
+- Each fighter has a unique identity.
+- Local multiplayer is actually playable on a touchscreen.
+- The UI looks like it belongs to the original game.
+
+Our existing original characters, original animation sprite sheets and three original arenas are the heart of this project.
+
+Preserve those assets and elevate the entire experience around them.
+
+Do not sacrifice working gameplay to create a pretty UI.
+
+Do not sacrifice visual quality to create a functional but lifeless prototype.
+
+Deliver a complete, working GAME EXPERIENCE OVERHAUL, not another demonstration.
