@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { assetManager, LoadProgress } from './assets/assetManifest';
 import { CharacterSelect } from './components/CharacterSelect/CharacterSelect';
 import { CreditsModal } from './components/Credits/CreditsModal';
+import { CRTOverlay } from './components/CRT/CRTOverlay';
 import { GameHUD } from './components/GameHUD/GameHUD';
 import { LoadingScreen } from './components/LoadingScreen/LoadingScreen';
 import { MainMenu } from './components/MainMenu/MainMenu';
@@ -16,6 +17,7 @@ import { TouchControlsOverlay } from './components/TouchControls/TouchControlsOv
 import { CharacterId } from './config/animations';
 import { ControlScheme, loadControls, saveControls } from './config/controls';
 import {
+  CrtMode,
   DEFAULT_SETTINGS,
   Difficulty,
   GameMode,
@@ -95,7 +97,6 @@ export function App() {
   const [showCredits, setShowCredits] = useState(false);
   const [moveListChar, setMoveListChar] = useState<CharacterId | null>(null);
 
-  // Detect coarse pointer changes (e.g., hybrid devices or browser viewport testing)
   useEffect(() => {
     const mq = window.matchMedia?.('(pointer: coarse)');
     if (!mq) return;
@@ -104,7 +105,6 @@ export function App() {
     return () => mq.removeEventListener?.('change', onChange);
   }, []);
 
-  // Unlock Web Audio cleanly on first real user pointer or key gesture
   const handleUnlockAudio = useCallback(() => {
     const unlocked = soundEngine.unlock();
     if (unlocked) {
@@ -132,7 +132,6 @@ export function App() {
     };
   }, [handleUnlockAudio]);
 
-  // Sync screenRef & document.body.dataset.state for clean testability and audio scene hygiene
   useEffect(() => {
     screenRef.current = screen;
     const bodyState =
@@ -161,7 +160,6 @@ export function App() {
     }
   }, [screen]);
 
-  // Apply all audio, difficulty & reduced-motion settings to engines and persist
   useEffect(() => {
     soundEngine.setAudioMix({
       masterVolume: settings.masterVolume,
@@ -222,6 +220,7 @@ export function App() {
       nextStage: StageId,
       nextMode: GameMode,
       nextDiff: Difficulty,
+      autoEnableBoxes = false,
     ) => {
       setScreen('LOADING');
       setMatchStats(null);
@@ -242,6 +241,10 @@ export function App() {
         mode: nextMode,
         difficulty: nextDiff,
       });
+
+      if (autoEnableBoxes && nextMode === 'training') {
+        engine.setTrainingOptions({ showHitboxes: true, showHurtboxes: true });
+      }
 
       if (document.activeElement instanceof HTMLElement) {
         document.activeElement.blur();
@@ -283,7 +286,6 @@ export function App() {
     engineRef.current = engine;
     engine.start();
 
-    // Preload title-screen attract stage & all 4 fighter idle sheets right away
     void assetManager.preloadUrls([
       '/assets/stages/stage_01.png',
       '/assets/characters/rahul/rahul_01_idle_8f.png',
@@ -293,21 +295,26 @@ export function App() {
       '/assets/effects/tony_FX_Combat_Drone.png',
     ]);
 
-    // Support ?autostart=1&mode=cpu|pvp|training&touch=1&p1=...&p2=...&stage=...
+    // Support ?autostart=1&mode=cpu|pvp|training&touch=1&crt=off|subtle|arcade&boxes=1&p1=...&p2=...&stage=...
     const params = new URLSearchParams(window.location.search);
     if (params.get('touch') === '1') {
       setForceTouchParam(true);
+    }
+    const crtParam = params.get('crt');
+    if (crtParam === 'off' || crtParam === 'subtle' || crtParam === 'arcade') {
+      setSettings((prev) => ({ ...prev, crtMode: crtParam as CrtMode }));
     }
     if (params.get('autostart') === '1') {
       const qStage = (params.get('stage') as StageId) || 'katra';
       const qP1 = (params.get('p1') as CharacterId) || 'rahul';
       const qP2 = (params.get('p2') as CharacterId) || 'sagar';
       const qMode = (params.get('mode') as GameMode) || 'cpu';
+      const qBoxes = params.get('boxes') === '1';
       setP1Char(qP1);
       setP2Char(qP2);
       setStageId(qStage);
       setMode(qMode);
-      void launchMatch(qP1, qP2, qStage, qMode, initialSettings.difficulty);
+      void launchMatch(qP1, qP2, qStage, qMode, initialSettings.difficulty, qBoxes);
     }
 
     return () => {
@@ -350,16 +357,19 @@ export function App() {
 
   const p1TouchLayout = hud ? getTouchLayoutFor(1, hud.p1.characterId) : getTouchLayoutFor(1, p1Char);
   const p2TouchLayout = hud ? getTouchLayoutFor(2, hud.p2.characterId) : getTouchLayoutFor(2, p2Char);
+  const anyModalOpen = Boolean(showControls || showSettings || showCredits || moveListChar);
 
   return (
     <main
-      className={`w-screen h-screen bg-[#0b0807] flex items-center justify-center overflow-hidden ${
+      className={`w-screen h-screen bg-[#090605] flex items-center justify-center overflow-hidden ${
         settings.reducedMotion ? 'reduced-motion' : ''
       }`}
     >
-      {/* Strictly 16:9 Proportionally Scaled & Centered Letterboxed Game Viewport */}
+      {/* Strictly 16:9 Proportionally Scaled Arcade Game Viewport */}
       <div
-        className="relative bg-[#0b0807] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.95)]"
+        className={`relative bg-[#090605] overflow-hidden md:arcade-cabinet-bezel ${
+          settings.crtMode !== 'off' && settings.crtCurvature ? 'crt-curvature-frame' : ''
+        }`}
         style={{
           width: 'min(100vw, calc(100vh * 16 / 9))',
           height: 'min(100vh, calc(100vw * 9 / 16))',
@@ -380,6 +390,7 @@ export function App() {
           <MainMenu
             audioUnlocked={audioUnlocked}
             muted={muted}
+            modalOpen={anyModalOpen}
             onUnlockAudio={handleUnlockAudio}
             onToggleMute={() => setMuted((m) => !m)}
             onPlay={() => setScreen('MODE_SELECT')}
@@ -388,6 +399,7 @@ export function App() {
               setScreen('CHARACTER_SELECT');
             }}
             onCharacterSelect={() => setScreen('CHARACTER_SELECT')}
+            onStageSelect={() => setScreen('STAGE_SELECT')}
             onControls={() => setShowControls(true)}
             onSettings={() => setShowSettings(true)}
             onCredits={() => setShowCredits(true)}
@@ -538,6 +550,9 @@ export function App() {
         )}
 
         {showCredits && <CreditsModal onClose={() => setShowCredits(false)} />}
+
+        {/* Optional Retro CRT Overlay (strictly pointer-events-none, default OFF) */}
+        <CRTOverlay mode={settings.crtMode} curvature={settings.crtCurvature} />
       </div>
     </main>
   );

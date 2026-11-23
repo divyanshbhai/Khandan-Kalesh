@@ -1,16 +1,17 @@
-# FAMILY FIGHTERS — V2 Arcade Fighting Game
+# FAMILY FIGHTERS — V3 Retro Arcade Fighting Game
 
-A complete 2D arcade fighting game built with React, TypeScript, Tailwind CSS, HTML5 Canvas, and Web Audio API featuring four original family fighters (**Rahul**, **Sagar**, **Jatin**, and **Tony**) and three panoramic sunlit Indian fighting arenas (**Katra Bazaar**, **Paonta Sahib Terrace**, and **Purane Saanp Enclave**).
+A complete 2D retro arcade fighting game built with React, TypeScript, Tailwind CSS, HTML5 Canvas, and Web Audio API featuring four original family fighters (**Rahul**, **Sagar**, **Jatin**, and **Tony**) and three panoramic Indian fighting arenas (**Katra Bazaar**, **Paonta Sahib Terrace**, and **Purane Saanp Enclave**).
 
-## Highlights (Version 2)
-- **100% Original Artwork**: All 4 characters across Batches 01–05 (193 sprite sheets, including Sagar Batch 03 Defence & Damage) and 3 proportional horizontal-scrolling stages (3240 × 1080 world space).
-- **Sunlit Arcade Visual Identity**: Cohesive warm obsidian, sandstone cream, marigold brass, and crimson UI across Title, Mode Select, Character Select, Stage Select, HUD, Move List, Pause, Settings, Controls, and Victory screens.
+## Highlights (Version 3 — Retro Arcade Overhaul + Mobile-First Refinement)
+- **Calibrated Non-Overlapping Fighter Spacing & Physics**: Per-character pushboxes, hurtboxes, and calibrated melee hitboxes derived from measured original sprite anatomy (`227–247 px` minimum separation across all 6 character matchups), corner-safe pushbox collision with zero jitter, CPU approach braking, and Training Mode pushbox/hurtbox/hitbox visualization.
+- **1990s Retro Pixel-Art Arcade UI & Optional CRT Mode**: Strictly square-edged stepped pixel borders, hard arcade offset shadows, `Press Start 2P` + `Silkscreen` bitmap typography, blinking `PRESS START` title cabinet, segmented pixel health bars, and toggleable **Retro CRT Mode** (`OFF` sharp default / `SUBTLE` / `ARCADE` + optional curvature) in Settings.
+- **Mobile-First Landscape Play & Tactile Retro Touch Controls**: Safe-area anchored slim HUD, short-landscape height adaptation, physical arcade push-buttons with depressed press feedback, independent Joystick/D-Pad Size + Button Size + Opacity + Spacing + Handedness + per-button nudge customization, and clean mirrored Local 2P touch clusters.
+- **100% Original Artwork Preserved**: All 4 characters across Batches 01–05 (193 animation sprite sheets, zero fallbacks) and all 3 panoramic horizontal-scrolling stages (`3840 × 1080` native, rendered pixel-sharp).
 - **Playable Modes**:
-  - **Player vs CPU** (Easy / Normal / Hard) powered by a Hybrid FSM + Utility AI with character-specific fighting styles and fair, bounded habit adaptation.
-  - **Local Two Player** via shared keyboard, dual gamepads, or independent mirrored simultaneous multi-touch controls.
-  - **Training Dojo** with configurable Dummy behavior (`Idle`, `Guard`, `Attack`), instant health/position reset, and toggleable Hitbox / Hurtbox visualizers.
-- **Character-Specific Multi-Touch Controls**: Virtual Joystick or Arcade D-Pad, unique per-character ability buttons with crisp geometric SVG icons and cooldown/meter indicators, per-character/per-player Touch Layout Customizer, desktop touch preview toggle, and Portrait Rotate-Device prompt.
-- **Complete Procedural Web Audio Engine**: Original looping arcade music per stage + menu, dynamic low-health/ultimate layers, stage ambience, character-specific combat/special sound profiles, SFX deduplication, and 5 independent volume sliders + haptics toggle.
+  - **Player vs CPU** (`Easy` / `Normal` / `Hard`) powered by a Hybrid FSM + Utility AI with archetype-specific combat spacing and bounded habit adaptation.
+  - **Local Two Player** via shared keyboard, dual gamepads, or simultaneous independent multi-touch controls.
+  - **Training Dojo** with configurable Dummy behavior (`Idle`, `Guard`, `Attack`), instant health/position reset, and toggleable Hitbox + Pushbox/Hurtbox overlays.
+- **Procedural Web Audio Engine**: Original looping arcade music per stage + menu, dynamic low-health/ultimate layers, stage ambience, character-specific combat/special SFX, deduplication, and 5 independent volume sliders + haptics toggle.
 
 ## Default Keyboard Controls
 
@@ -32,10 +33,10 @@ npm install
 npm run dev
 npm run build
 npm run lint
-npx --yes tsx --test src/engine/__tests__/engine.test.ts src/engine/__tests__/v2Systems.test.ts
+npx --yes tsx --test src/engine/__tests__/engine.test.ts src/engine/__tests__/v2Systems.test.ts src/engine/__tests__/v3SpacingAndAI.test.ts
 ```
 
 ## Documentation
-- `V2_RELEASE_REPORT.md` — Complete V2 changelog, verified assets, test results, and notes
-- `UI_DESIGN_SYSTEM.md` — Sunlit arcade palette, typography, and component tokens
-- `ASSET_AUDIT.md` / `MISSING_ASSETS.md` / `V2_AUDIT.md` — Full sprite-sheet & stage asset audits
+- `V3_RELEASE_REPORT.md` — Complete V3 changelog, measured fighter spacing tables, retro UI & mobile verification results
+- `V3_RETRO_ART_DIRECTION.md` — 1990s retro pixel-art arcade art direction, typography, borders, and optional CRT spec
+- `V2_RELEASE_REPORT.md` / `ASSET_AUDIT.md` / `MISSING_ASSETS.md` — Prior V2 changelog & full sprite-sheet / stage asset audits

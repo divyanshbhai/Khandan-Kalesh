@@ -118,7 +118,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
                   : 'bg-[#261b13] text-[#ebd8b7]'
               }`}
             >
-              1P {activeSlot === 1 ? '◄' : ''}
+              1P {activeSlot === 1 ? '<' : ''}
             </button>
             <span
               className="font-pixel-ui text-[10px] font-bold uppercase tracking-wider"
@@ -280,7 +280,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
                   : 'bg-[#261b13] text-[#ebd8b7]'
               }`}
             >
-              {p2Title} {activeSlot === 2 ? '◄' : ''}
+              {p2Title} {activeSlot === 2 ? '<' : ''}
             </button>
             <span
               className="font-pixel-ui text-[10px] font-bold uppercase tracking-wider"
@@ -347,7 +347,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
           }}
           className="arcade-btn-primary px-6 py-2 font-pixel text-xs sm:text-sm uppercase tracking-wider cursor-pointer"
         >
-          SELECT STAGE ►
+          SELECT STAGE &gt;
         </button>
       </div>
     </div>

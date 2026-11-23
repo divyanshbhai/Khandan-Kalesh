@@ -109,7 +109,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
               }}
               className="arcade-btn-primary w-full py-2.5 font-pixel text-xs sm:text-sm uppercase tracking-wider cursor-pointer"
             >
-              REMATCH ►
+              REMATCH &gt;
             </button>
 
             <div className="grid grid-cols-2 gap-2.5">

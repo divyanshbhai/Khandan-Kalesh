@@ -68,24 +68,24 @@ export const ControlsModal: React.FC<ControlsModalProps> = ({
 
   return (
     <div
-      className="absolute inset-0 z-50 flex items-center justify-center bg-[#0b0807]/88 p-4"
+      className="absolute inset-0 z-50 flex items-center justify-center bg-[#090605]/90 p-3 sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-label="Controls and Touch Layout Configuration"
     >
-      <div className="arcade-panel-brass rounded-lg w-full max-w-4xl max-h-[90%] flex flex-col overflow-hidden">
+      <div className="arcade-panel-brass w-full max-w-4xl max-h-[92%] flex flex-col overflow-hidden">
         {/* Header & Tabs */}
-        <div className="px-6 py-4 border-b border-[#4a3a2b] bg-[#140f0c] flex flex-wrap items-center justify-between gap-3">
+        <div className="px-4 sm:px-6 py-3 border-b-2 border-[#6b533b] bg-[#110c09] flex flex-wrap items-center justify-between gap-2">
           <div>
-            <p className="font-display text-xs font-bold uppercase tracking-[0.26em] text-[#f5a623]">
-              Input Configuration
+            <p className="font-pixel-ui text-[10px] font-bold uppercase tracking-[0.22em] text-[#f5a623]">
+              INPUT &amp; ARCADE DECK
             </p>
-            <h2 className="font-display text-3xl font-extrabold uppercase tracking-wider text-[#f8efe0] leading-none">
-              Controls &amp; Touch Layout
+            <h2 className="font-pixel text-sm sm:text-lg uppercase tracking-wider text-[#fff5e0] mt-0.5">
+              CONTROLS
             </h2>
           </div>
 
-          <div className="flex items-center gap-2" role="tablist">
+          <div className="flex items-center gap-1.5" role="tablist">
             <button
               type="button"
               role="tab"
@@ -94,13 +94,13 @@ export const ControlsModal: React.FC<ControlsModalProps> = ({
                 soundEngine.playUiSelect();
                 setActiveTab('keyboard');
               }}
-              className={`px-4 py-1.5 rounded font-display text-xs font-extrabold uppercase tracking-wider border-2 cursor-pointer ${
+              className={`px-3 py-1.5 font-pixel-ui text-[11px] font-bold uppercase tracking-wider border-2 cursor-pointer ${
                 activeTab === 'keyboard'
-                  ? 'bg-[#f5a623] text-[#140d07] border-[#ffd67a]'
-                  : 'bg-[#1d1611] text-[#e7dac5] border-[#4a3a2b]'
+                  ? 'bg-[#f5a623] text-[#120a04] border-[#ffe38f]'
+                  : 'bg-[#1c140e] text-[#ebd8b7] border-[#4a3624]'
               }`}
             >
-              Keyboard Bindings
+              KEYBOARD
             </button>
             <button
               type="button"
@@ -110,36 +110,36 @@ export const ControlsModal: React.FC<ControlsModalProps> = ({
                 soundEngine.playUiSelect();
                 setActiveTab('touch');
               }}
-              className={`px-4 py-1.5 rounded font-display text-xs font-extrabold uppercase tracking-wider border-2 cursor-pointer ${
+              className={`px-3 py-1.5 font-pixel-ui text-[11px] font-bold uppercase tracking-wider border-2 cursor-pointer ${
                 activeTab === 'touch'
-                  ? 'bg-[#f5a623] text-[#140d07] border-[#ffd67a]'
-                  : 'bg-[#1d1611] text-[#e7dac5] border-[#4a3a2b]'
+                  ? 'bg-[#f5a623] text-[#120a04] border-[#ffe38f]'
+                  : 'bg-[#1c140e] text-[#ebd8b7] border-[#4a3624]'
               }`}
             >
-              Touch Controls Layout
+              TOUCH LAYOUT
             </button>
           </div>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5">
           {activeTab === 'keyboard' ? (
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {(['p1', 'p2'] as const).map((playerKey) => (
                   <div
                     key={playerKey}
-                    className="bg-[#140f0c] border border-[#4a3a2b] rounded-lg p-4"
+                    className="bg-[#110c09] border-2 border-[#4a3624] p-3.5"
                   >
                     <h3
-                      className={`font-display text-lg font-extrabold uppercase tracking-wider mb-3 ${
-                        playerKey === 'p1' ? 'text-[#ffd67a]' : 'text-[#38bdf8]'
+                      className={`font-pixel text-xs uppercase tracking-wider mb-3 ${
+                        playerKey === 'p1' ? 'text-[#ffd873]' : 'text-[#38bdf8]'
                       }`}
                     >
-                      {playerKey === 'p1' ? 'Player 1 Controls' : 'Player 2 Controls (Local 2P)'}
+                      {playerKey === 'p1' ? 'PLAYER 1 KEYS' : 'PLAYER 2 KEYS (LOCAL 2P)'}
                     </h3>
 
-                    <div className="space-y-1.5">
+                    <div className="space-y-1">
                       {ACTION_ORDER.map((action) => {
                         const isListening =
                           listening?.player === playerKey && listening?.action === action;
@@ -148,20 +148,20 @@ export const ControlsModal: React.FC<ControlsModalProps> = ({
                             key={action}
                             className="flex items-center justify-between text-xs py-1 border-b border-[#2b2018] last:border-b-0"
                           >
-                            <span className="text-[#e7dac5]">{ACTION_LABELS[action]}</span>
+                            <span className="text-[#ebd8b7]">{ACTION_LABELS[action]}</span>
                             <button
                               type="button"
                               onClick={() => {
                                 soundEngine.playUiSelect();
                                 setListening({ player: playerKey, action });
                               }}
-                              className={`min-w-[84px] px-2.5 py-1 rounded font-mono-num text-xs font-bold border cursor-pointer ${
+                              className={`min-w-[88px] px-2.5 py-1 font-pixel-ui text-[11px] font-bold border-2 cursor-pointer ${
                                 isListening
-                                  ? 'bg-[#e1352b] text-[#fff7ed] border-[#fca5a5]'
-                                  : 'bg-[#221913] text-[#ffd67a] border-[#594635] hover:border-[#c68a2b]'
+                                  ? 'bg-[#e03126] text-[#fff5e0] border-[#ff9b8a]'
+                                  : 'bg-[#231912] text-[#ffd873] border-[#6b533b] hover:border-[#f5b324]'
                               }`}
                             >
-                              {isListening ? 'Press Key...' : formatKeyCode(controls[playerKey][action])}
+                              {isListening ? 'PRESS KEY...' : formatKeyCode(controls[playerKey][action])}
                             </button>
                           </div>
                         );
@@ -171,9 +171,9 @@ export const ControlsModal: React.FC<ControlsModalProps> = ({
                 ))}
               </div>
 
-              <div className="bg-[#140f0c] border border-[#4a3a2b] rounded p-3 text-xs text-[#b8a996] flex flex-wrap items-center justify-between gap-2">
+              <div className="bg-[#110c09] border-2 border-[#4a3624] p-3 text-xs text-[#b39e84] flex flex-wrap items-center justify-between gap-2">
                 <span>
-                  <strong className="text-[#ffd67a]">Tip:</strong> Double-tap Left/Right to Dash ·
+                  <strong className="text-[#ffd873] font-pixel-ui">TIP:</strong> Double-tap Left/Right to Dash ·
                   Hold Forward + Special for Skill 2 · Gamepads auto-supported.
                 </span>
                 <button
@@ -182,9 +182,9 @@ export const ControlsModal: React.FC<ControlsModalProps> = ({
                     soundEngine.playUiConfirm();
                     onChange(structuredClone(DEFAULT_CONTROLS));
                   }}
-                  className="arcade-btn-danger px-3 py-1 rounded font-display text-xs font-bold uppercase tracking-wider cursor-pointer"
+                  className="arcade-btn-danger px-3 py-1 font-pixel-ui text-[11px] font-bold uppercase tracking-wider cursor-pointer"
                 >
-                  Reset Keybindings
+                  RESET KEYS
                 </button>
               </div>
             </div>
@@ -201,16 +201,16 @@ export const ControlsModal: React.FC<ControlsModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3.5 border-t border-[#4a3a2b] bg-[#140f0c] flex items-center justify-end">
+        <div className="px-4 sm:px-6 py-3 border-t-2 border-[#6b533b] bg-[#110c09] flex items-center justify-end">
           <button
             type="button"
             onClick={() => {
               soundEngine.playUiConfirm();
               onClose();
             }}
-            className="arcade-btn-primary px-6 py-2 rounded font-display text-sm font-extrabold uppercase tracking-widest cursor-pointer"
+            className="arcade-btn-primary px-6 py-2 font-pixel text-xs uppercase tracking-wider cursor-pointer"
           >
-            Done
+            DONE
           </button>
         </div>
       </div>

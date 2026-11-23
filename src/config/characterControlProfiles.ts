@@ -127,7 +127,7 @@ export const CHARACTER_CONTROL_PROFILES: Record<CharacterId, CharacterControlPro
       abilities: [
         {
           action: 'special1',
-          shortLabel: 'IRON FIST',
+          shortLabel: 'FIST',
           fullName: p.kit.special1Name,
           description: p.kit.special1Desc,
           icon: 'rahul_fist',
@@ -154,7 +154,7 @@ export const CHARACTER_CONTROL_PROFILES: Record<CharacterId, CharacterControlPro
         },
         {
           action: 'ultimate',
-          shortLabel: 'LIMIT BRK',
+          shortLabel: 'QUAKE',
           fullName: p.kit.ultimateName,
           description: p.kit.ultimateDesc,
           icon: 'rahul_quake',
@@ -233,7 +233,7 @@ export const CHARACTER_CONTROL_PROFILES: Record<CharacterId, CharacterControlPro
       abilities: [
         {
           action: 'special1',
-          shortLabel: 'CASH FLK',
+          shortLabel: 'FLICK',
           fullName: p.kit.special1Name,
           description: p.kit.special1Desc,
           icon: 'jatin_cash',
@@ -247,7 +247,7 @@ export const CHARACTER_CONTROL_PROFILES: Record<CharacterId, CharacterControlPro
         },
         {
           action: 'special2',
-          shortLabel: 'BARRAGE',
+          shortLabel: 'RAIN',
           fullName: p.kit.special2Name,
           description: p.kit.special2Desc,
           icon: 'jatin_barrage',
@@ -313,7 +313,7 @@ export const CHARACTER_CONTROL_PROFILES: Record<CharacterId, CharacterControlPro
         },
         {
           action: 'ultimate',
-          shortLabel: 'MEGA BLM',
+          shortLabel: 'BEAM',
           fullName: p.kit.ultimateName,
           description: p.kit.ultimateDesc,
           icon: 'tony_beam',

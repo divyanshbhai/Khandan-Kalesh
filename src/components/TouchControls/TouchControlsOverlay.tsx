@@ -71,7 +71,6 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
     setPressedActions(next);
   }, [slot]);
 
-  // Clean up any held pointers when character or component unmounts
   useEffect(() => {
     return () => {
       virtualControls.clearPlayer(slot);
@@ -110,7 +109,6 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
     [slot, syncPressed],
   );
 
-  // Dynamic / anchored joystick pointer handling
   const updateStickFromEvent = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       const { x: cx, y: cy, radius } = stickCenterRef.current;
@@ -140,7 +138,7 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
       stickCenterRef.current = {
         x: rect.left + rect.width / 2,
         y: rect.top + rect.height / 2,
-        radius: Math.max(28, rect.width * 0.36),
+        radius: Math.max(26, rect.width * 0.36),
       };
       stickPointerIdRef.current = e.pointerId;
       try {
@@ -175,10 +173,15 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
     [slot, syncPressed],
   );
 
-  const scale = compact ? Math.min(layout.buttonScale, 0.82) : layout.buttonScale;
-  const baseBtnSize = Math.round((compact ? 44 : 56) * scale);
-  const abilityBtnSize = Math.round((compact ? 48 : 62) * scale);
-  const stickSize = Math.round((compact ? 104 : 132) * scale);
+  // V3 Hierarchical Mobile Sizing:
+  // Primary combat attacks (LP/HP/Kick/Guard) >= 52-56px on 1P mobile landscape, 46-48px in compact 2P.
+  // Signature specials slightly tighter & distinct; Ultimate clearly highlighted in brass.
+  const btnScale = compact ? Math.min(layout.buttonScale, 0.88) : layout.buttonScale;
+  const stickScale = compact ? Math.min(layout.joystickSize ?? 1.0, 0.86) : (layout.joystickSize ?? 1.0);
+  const primaryBtnSize = Math.round((compact ? 46 : 56) * btnScale);
+  const specialBtnSize = Math.round((compact ? 44 : 52) * btnScale);
+  const ultimateBtnSize = Math.round((compact ? 48 : 56) * btnScale);
+  const stickSize = Math.round((compact ? 102 : 126) * stickScale);
 
   const getAbilityMeta = (spec: CharacterTouchButtonSpec) => {
     if (spec.action === 'special1') {
@@ -192,7 +195,11 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
         disabled: noMeter || onCooldown,
         ready: hud.specialReady,
         cooldownRatio: ratio,
-        cooldownText: onCooldown ? `${hud.special1Cooldown.toFixed(1)}s` : noMeter ? `${spec.meterCost}M` : null,
+        cooldownText: onCooldown
+          ? `${hud.special1Cooldown.toFixed(1)}S`
+          : noMeter
+            ? `${spec.meterCost}M`
+            : null,
       };
     }
     if (spec.action === 'special2') {
@@ -206,7 +213,11 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
         disabled: noMeter || onCooldown,
         ready: hud.special2Ready,
         cooldownRatio: ratio,
-        cooldownText: onCooldown ? `${hud.special2Cooldown.toFixed(1)}s` : noMeter ? `${spec.meterCost}M` : null,
+        cooldownText: onCooldown
+          ? `${hud.special2Cooldown.toFixed(1)}S`
+          : noMeter
+            ? `${spec.meterCost}M`
+            : null,
       };
     }
     if (spec.action === 'ultimate') {
@@ -215,7 +226,7 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
         disabled: noMeter,
         ready: hud.ultimateReady,
         cooldownRatio: noMeter ? 1 - hud.meter / Math.max(1, spec.meterCost) : 0,
-        cooldownText: noMeter ? `${Math.round(hud.meter)}%` : 'MAX',
+        cooldownText: noMeter ? `${Math.round(hud.meter)}%` : 'ULT',
       };
     }
     return { disabled: false, ready: true, cooldownRatio: 0, cooldownText: null };
@@ -225,10 +236,40 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
     const meta = getAbilityMeta(spec);
     const isPressed = !!pressedActions[spec.action];
     const isAbility = spec.slotGroup === 'ability';
-    const size = isAbility ? abilityBtnSize : baseBtnSize;
+    const isUltimate = spec.action === 'ultimate';
+    const size = isUltimate ? ultimateBtnSize : isAbility ? specialBtnSize : primaryBtnSize;
     const offset = layout.buttonOffsets[spec.action] ?? { dx: 0, dy: 0 };
 
-    const activeTransform = isPressed && !reducedMotion ? 'scale(0.92)' : 'scale(1)';
+    const pressY = isPressed && !reducedMotion ? 3 : 0;
+    const borderColor = isPressed
+      ? '#ffffff'
+      : isUltimate && meta.ready
+        ? '#ffe38f'
+        : isAbility && meta.ready
+          ? spec.accentColor
+          : '#755b42';
+
+    const bgColor = isPressed
+      ? '#3a291b'
+      : isUltimate && meta.ready
+        ? '#3b240b'
+        : '#18110c';
+
+    // Tactile physical arcade cabinet button shadow (depresses cleanly on active press)
+    const boxShadow = isPressed
+      ? `0 0 0 2px #090605, 0 1px 0 0 #090605, inset 0 2px 0 0 rgba(0,0,0,0.45)`
+      : isUltimate && meta.ready
+        ? `0 0 0 2px #090605, 0 4px 0 0 #7a3e04, 0 6px 0 0 #090605, inset 0 2px 0 0 rgba(255,241,194,0.35)`
+        : `0 0 0 2px #090605, 0 4px 0 0 #090605, inset 0 2px 0 0 rgba(255,236,196,0.18), inset 0 -2px 0 0 rgba(0,0,0,0.5)`;
+
+    const labelText = meta.cooldownText && isAbility ? meta.cooldownText : spec.shortLabel;
+    const labelFontSize = compact
+      ? labelText.length >= 6
+        ? '6.5px'
+        : '8px'
+      : labelText.length >= 8
+        ? '8px'
+        : '9px';
 
     return (
       <button
@@ -243,47 +284,42 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
         style={{
           width: `${size}px`,
           height: `${size}px`,
-          opacity: meta.disabled ? Math.max(0.32, layout.opacity * 0.55) : layout.opacity,
-          borderColor: isPressed
-            ? '#ffffff'
-            : isAbility && meta.ready
-              ? spec.accentColor
-              : 'rgba(248, 239, 224, 0.32)',
-          transform: `translate(${offset.dx}px, ${offset.dy}px) ${activeTransform}`,
-          boxShadow:
-            isAbility && meta.ready && !meta.disabled
-              ? `0 0 12px ${spec.accentColor}55, inset 0 1px 0 rgba(255,255,255,0.22)`
-              : '0 4px 10px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.12)',
+          opacity: isPressed
+            ? Math.min(1, layout.opacity + 0.22)
+            : meta.disabled
+              ? Math.max(0.62, layout.opacity * 0.82)
+              : layout.opacity,
+          borderColor,
+          backgroundColor: bgColor,
+          transform: `translate(${offset.dx}px, ${offset.dy + pressY}px)`,
+          boxShadow,
         }}
-        className="touch-surface relative rounded-full border-2 bg-[#140f0c]/88 flex flex-col items-center justify-center overflow-hidden select-none cursor-pointer"
+        className="touch-surface relative border-2 flex flex-col items-center justify-center overflow-hidden select-none cursor-pointer px-0.5"
       >
-        {/* Cooldown / meter fill overlay */}
+        {/* Pixelated cooldown / meter charge overlay */}
         {meta.cooldownRatio > 0 && (
           <div
-            className="absolute inset-x-0 bottom-0 bg-[#0b0807]/75 pointer-events-none"
+            className="absolute inset-x-0 bottom-0 bg-[#090605]/74 pointer-events-none pixel-bar-ticks"
             style={{ height: `${Math.round(meta.cooldownRatio * 100)}%` }}
           />
         )}
 
         <AbilityIcon
           kind={spec.icon}
-          color={meta.disabled ? '#7c6f63' : spec.accentColor}
-          size={compact ? 16 : 20}
+          color={meta.disabled ? '#9c8c78' : spec.accentColor}
+          size={compact ? 15 : 18}
           className="relative z-10 shrink-0"
         />
 
         <span
-          className="relative z-10 font-display font-bold uppercase tracking-wider leading-none mt-0.5 text-[#f8efe0]"
-          style={{ fontSize: compact ? '9px' : '10px' }}
+          className="relative z-10 font-pixel-ui font-bold uppercase tracking-normal leading-none mt-0.5 text-[#fff5e0] whitespace-nowrap"
+          style={{ fontSize: labelFontSize }}
         >
-          {meta.cooldownText && isAbility ? meta.cooldownText : spec.shortLabel}
+          {labelText}
         </span>
 
-        {spec.action === 'ultimate' && meta.ready && (
-          <span
-            className="absolute inset-0 rounded-full border-2 pointer-events-none"
-            style={{ borderColor: spec.accentColor }}
-          />
+        {isUltimate && meta.ready && (
+          <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-[#ffe38f] pointer-events-none" />
         )}
       </button>
     );
@@ -291,7 +327,7 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
 
   const renderMovementControl = () => {
     if (layout.movementStyle === 'dpad') {
-      const btnSz = Math.round((compact ? 38 : 46) * scale);
+      const btnSz = Math.round((compact ? 36 : 44) * stickScale);
       const dpadBtn = (action: 'left' | 'right' | 'jump' | 'crouch', label: string, arrow: string) => {
         const active = !!pressedActions[action];
         return (
@@ -306,11 +342,15 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
             style={{
               width: `${btnSz}px`,
               height: `${btnSz}px`,
-              opacity: layout.opacity,
-              borderColor: active ? profile.accentColor : 'rgba(248, 239, 224, 0.34)',
+              opacity: active ? Math.min(1, layout.opacity + 0.2) : layout.opacity,
+              borderColor: active ? '#ffe38f' : '#755b42',
+              transform: active && !reducedMotion ? 'translateY(2px)' : 'translateY(0)',
+              boxShadow: active
+                ? '0 0 0 2px #090605, inset 0 2px 0 0 rgba(0,0,0,0.4)'
+                : '0 0 0 2px #090605, 0 3px 0 0 #090605, inset 0 2px 0 0 rgba(255,236,196,0.14)',
             }}
-            className={`touch-surface rounded border-2 flex items-center justify-center font-display font-bold text-sm cursor-pointer ${
-              active ? 'bg-[#2c2118] text-[#ffd67a]' : 'bg-[#140f0c]/88 text-[#f8efe0]'
+            className={`touch-surface border-2 flex items-center justify-center font-pixel-ui font-bold text-[10px] cursor-pointer ${
+              active ? 'bg-[#362719] text-[#ffe38f]' : 'bg-[#18110c] text-[#fff5e0]'
             }`}
           >
             {arrow}
@@ -320,14 +360,14 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
 
       return (
         <div
-          className="touch-surface grid grid-cols-3 grid-rows-3 gap-1 items-center justify-items-center"
+          className="touch-surface grid grid-cols-3 grid-rows-3 items-center justify-items-center"
           style={{ gap: `${Math.round(4 * layout.spacing)}px` }}
         >
           <div />
           {dpadBtn('jump', 'Jump', 'UP')}
           <div />
           {dpadBtn('left', 'Move Left', 'LT')}
-          <div className="w-3 h-3 rounded-full border border-[#594635] bg-[#1a130e]" />
+          <div className="w-3 h-3 border-2 border-[#6b533b] bg-[#110c09]" />
           {dpadBtn('right', 'Move Right', 'RT')}
           <div />
           {dpadBtn('crouch', 'Crouch', 'DN')}
@@ -350,34 +390,40 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
         style={{
           width: `${stickSize}px`,
           height: `${stickSize}px`,
-          opacity: layout.opacity,
-          borderColor: stickKnob.active ? profile.accentColor : 'rgba(248, 239, 224, 0.3)',
+          opacity: stickKnob.active ? Math.min(1, layout.opacity + 0.16) : layout.opacity,
+          borderColor: stickKnob.active ? profile.accentColor : '#755b42',
+          boxShadow:
+            '0 0 0 2px #090605, 0 4px 0 0 #090605, inset 0 0 0 2px rgba(255,236,196,0.08)',
         }}
-        className="touch-surface relative rounded-full border-2 bg-[#140f0c]/80 flex items-center justify-center shadow-[0_6px_18px_rgba(0,0,0,0.65)]"
+        className="touch-surface relative border-2 bg-[#16100c]/88 flex items-center justify-center"
       >
-        {/* Cardinal notches */}
-        <span className="absolute top-1.5 text-[9px] font-display font-bold text-[#b8a996] pointer-events-none">
+        {/* Crosshair arcade gate guide */}
+        <div className="pointer-events-none absolute inset-x-3 h-[2px] bg-[#3b2c1e]" />
+        <div className="pointer-events-none absolute inset-y-3 w-[2px] bg-[#3b2c1e]" />
+
+        {/* Cardinal pixel labels */}
+        <span className="absolute top-1 text-[8px] font-pixel-ui font-bold text-[#b39e84] pointer-events-none">
           UP
         </span>
-        <span className="absolute bottom-1.5 text-[9px] font-display font-bold text-[#b8a996] pointer-events-none">
+        <span className="absolute bottom-1 text-[8px] font-pixel-ui font-bold text-[#b39e84] pointer-events-none">
           DN
         </span>
-        <span className="absolute left-2 text-[9px] font-display font-bold text-[#b8a996] pointer-events-none">
+        <span className="absolute left-1.5 text-[8px] font-pixel-ui font-bold text-[#b39e84] pointer-events-none">
           LT
         </span>
-        <span className="absolute right-2 text-[9px] font-display font-bold text-[#b8a996] pointer-events-none">
+        <span className="absolute right-1.5 text-[8px] font-pixel-ui font-bold text-[#b39e84] pointer-events-none">
           RT
         </span>
 
-        {/* Thumbstick puck */}
+        {/* Retro Arcade Stick Top (square-beveled bat-top puck) */}
         <div
-          className="rounded-full border-2 pointer-events-none"
+          className="border-2 pointer-events-none shadow-[0_0_0_2px_#090605,0_3px_0_0_#090605]"
           style={{
-            width: `${Math.round(stickSize * 0.42)}px`,
-            height: `${Math.round(stickSize * 0.42)}px`,
+            width: `${Math.round(stickSize * 0.4)}px`,
+            height: `${Math.round(stickSize * 0.4)}px`,
             borderColor: stickKnob.active ? '#ffffff' : profile.accentColor,
-            backgroundColor: stickKnob.active ? profile.accentColor : '#281e17',
-            transform: `translate(${stickKnob.x}px, ${stickKnob.y}px)`,
+            backgroundColor: stickKnob.active ? profile.accentColor : '#2c2016',
+            transform: `translate(${Math.round(stickKnob.x)}px, ${Math.round(stickKnob.y)}px)`,
           }}
         />
       </div>
@@ -385,7 +431,7 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
   };
 
   const renderActionCluster = () => {
-    const gap = Math.round((compact ? 6 : 10) * layout.spacing);
+    const gap = Math.round((compact ? 6 : 9) * layout.spacing);
     const lp = profile.basicButtons.find((b) => b.action === 'lightPunch')!;
     const hp = profile.basicButtons.find((b) => b.action === 'heavyPunch')!;
     const kick = profile.basicButtons.find((b) => b.action === 'kick')!;
@@ -396,7 +442,7 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
 
     return (
       <div className="touch-surface flex items-end" style={{ gap: `${gap}px` }}>
-        {/* Basic combat diamond */}
+        {/* Primary 4-button arcade diamond */}
         <div className="grid grid-cols-2 items-center justify-items-center" style={{ gap: `${gap}px` }}>
           {renderActionButton(lp)}
           {renderActionButton(hp)}
@@ -404,8 +450,8 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
           {renderActionButton(kick)}
         </div>
 
-        {/* Character signature ability column */}
-        <div className="flex flex-col items-center" style={{ gap: `${Math.max(4, gap - 2)}px` }}>
+        {/* Character-specific signature power column */}
+        <div className="flex flex-col items-center" style={{ gap: `${Math.max(5, gap - 1)}px` }}>
           {renderActionButton(ult)}
           {renderActionButton(s1)}
           {renderActionButton(s2)}
@@ -417,34 +463,37 @@ const PlayerTouchCluster: React.FC<PlayerTouchClusterProps> = ({
   const isMirroredLeftHanded =
     sideZone === 'full' ? layout.handedness === 'left' : sideZone === 'right-half';
 
-  // In full-width single-player, movement is on left and actions on right (or swapped if left-handed).
-  // In local 2P split screen, P1 occupies the bottom-left half (move outer-left, actions inner-left)
-  // and P2 occupies the bottom-right half (actions inner-right, move outer-right) so thumbs never collide.
   const containerPosClass =
     sideZone === 'full'
-      ? 'inset-x-0 bottom-0 px-4 pb-3 flex items-end justify-between'
+      ? 'inset-x-0 bottom-0 px-3 sm:px-5 safe-pad-bottom flex items-end justify-between'
       : sideZone === 'left-half'
-        ? 'left-0 bottom-0 w-1/2 pl-2.5 pr-3 pb-2.5 flex items-end justify-between border-r border-[#4a3a2b]/60'
-        : 'right-0 bottom-0 w-1/2 pl-3 pr-2.5 pb-2.5 flex items-end justify-between';
+        ? 'left-0 bottom-0 w-1/2 pl-2.5 pr-2.5 safe-pad-bottom flex items-end justify-between border-r-2 border-[#4a3624]/65'
+        : 'right-0 bottom-0 w-1/2 pl-2.5 pr-2.5 safe-pad-bottom flex items-end justify-between';
+
+  const playerBadge = (
+    <span
+      data-testid={`touch-badge-p${slot}`}
+      className="font-pixel-ui font-bold text-[9px] uppercase tracking-wider px-1.5 py-0.5 bg-[#110c09]/92 border-2 shadow-[2px_2px_0_0_#090605]"
+      style={{ borderColor: profile.accentColor, color: profile.accentColor }}
+    >
+      P{slot} {hud.name}
+    </span>
+  );
 
   return (
     <div
       data-testid={`touch-cluster-p${slot}`}
       className={`pointer-events-none absolute ${containerPosClass}`}
     >
+      {/* Left Column: in 2P P1 mode this is P1's outer-left stick (+ P1 badge). In 2P P2 mode this is P2's inner action pad (NO floating badge over center fighters). */}
       <div className="pointer-events-auto flex flex-col items-start gap-1">
-        {sideZone !== 'full' && (
-          <span
-            className="font-display font-bold text-[10px] uppercase tracking-widest px-1.5 py-0.5 rounded bg-[#0b0807]/85 border"
-            style={{ borderColor: profile.accentColor, color: profile.accentColor }}
-          >
-            P{slot} {hud.name}
-          </span>
-        )}
+        {sideZone === 'left-half' && playerBadge}
         {isMirroredLeftHanded ? renderActionCluster() : renderMovementControl()}
       </div>
 
+      {/* Right Column: in 2P P2 mode this is P2's outer-right stick (+ P2 badge symmetrically mirrored on outer edge). */}
       <div className="pointer-events-auto flex flex-col items-end gap-1">
+        {sideZone === 'right-half' && playerBadge}
         {isMirroredLeftHanded ? renderMovementControl() : renderActionCluster()}
       </div>
     </div>
@@ -471,7 +520,6 @@ export const TouchControlsOverlay: React.FC<TouchControlsOverlayProps> = ({
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // Global safety net: release any stuck touch pointers if window blurs
   useEffect(() => {
     const onBlur = () => virtualControls.clearAll();
     window.addEventListener('blur', onBlur);
@@ -486,35 +534,35 @@ export const TouchControlsOverlay: React.FC<TouchControlsOverlayProps> = ({
     return (
       <div
         data-testid="portrait-rotate-overlay"
-        className="absolute inset-0 z-50 bg-[#0b0807]/95 flex flex-col items-center justify-center p-6 text-center"
+        className="absolute inset-0 z-50 bg-[#090605]/96 flex flex-col items-center justify-center p-6 text-center"
       >
-        <div className="arcade-panel-brass rounded-lg p-6 max-w-xs w-full">
+        <div className="arcade-panel-brass p-6 max-w-xs w-full">
           <svg
-            width="52"
-            height="52"
+            width="48"
+            height="48"
             viewBox="0 0 24 24"
             fill="none"
             className="mx-auto mb-3 text-[#f5a623]"
             aria-hidden="true"
           >
-            <rect x="6" y="3" width="12" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
-            <path d="M12 17h.01" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-            <path d="M20 8a8 8 0 0 1 1 6" stroke="#f8efe0" strokeWidth="1.8" />
+            <rect x="6" y="3" width="12" height="18" stroke="currentColor" strokeWidth="2" />
+            <rect x="11" y="16" width="2" height="2" fill="currentColor" />
+            <path d="M20 8a8 8 0 0 1 1 6" stroke="#fff5e0" strokeWidth="2" />
           </svg>
-          <h2 className="font-display text-2xl font-extrabold uppercase tracking-wider text-[#f8efe0]">
-            Rotate Device to Landscape
+          <h2 className="font-pixel text-sm uppercase tracking-wider text-[#fff5e0] leading-snug">
+            ROTATE TO LANDSCAPE
           </h2>
-          <p className="text-xs text-[#e7dac5] mt-2 leading-relaxed">
-            Family Fighters is designed for wide arcade landscape combat so both fighters, the stage,
+          <p className="text-xs text-[#ebd8b7] mt-2 leading-snug">
+            Family Fighters is designed for wide arcade landscape play so both fighters, the stage,
             and touch controls have comfortable space.
           </p>
           {onPause && (
             <button
               type="button"
               onClick={onPause}
-              className="arcade-btn-secondary mt-4 px-4 py-2 rounded font-display font-bold uppercase tracking-wider text-sm cursor-pointer"
+              className="arcade-btn-secondary mt-4 px-4 py-2 font-pixel-ui font-bold uppercase tracking-wider text-xs cursor-pointer"
             >
-              Pause Match
+              PAUSE MATCH
             </button>
           )}
         </div>
@@ -528,8 +576,8 @@ export const TouchControlsOverlay: React.FC<TouchControlsOverlayProps> = ({
       className="touch-surface pointer-events-none absolute inset-0 z-25"
     >
       {isLocalTwoPlayer && isCompactScreen && (
-        <div className="pointer-events-none absolute top-20 left-1/2 -translate-x-1/2 px-3 py-1 rounded bg-[#17120e]/92 border border-[#c68a2b] text-[10px] font-display font-bold uppercase tracking-wider text-[#ffd67a]">
-          Compact 2P Touch Mode — Best on Tablet or Wide Screen
+        <div className="pointer-events-none absolute top-16 left-1/2 -translate-x-1/2 px-2.5 py-0.5 bg-[#110c09]/92 border-2 border-[#f5b324] text-[9px] font-pixel-ui font-bold uppercase tracking-wider text-[#ffd873]">
+          COMPACT 2P TOUCH · BEST ON TABLET / WIDE SCREEN
         </div>
       )}
 

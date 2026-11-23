@@ -194,7 +194,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
         </p>
 
         {/* Primary Arcade Command Stack */}
-        <div className="mt-3 sm:mt-4 flex flex-col items-center gap-2.5 w-full max-w-[540px]">
+        <div className="mt-3 sm:mt-4 flex flex-col items-center gap-2.5 w-full max-w-[620px]">
           <div className="grid grid-cols-2 gap-3 w-full">
             <button
               type="button"
@@ -220,7 +220,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
               type="button"
               onClick={() => trigger(onCharacterSelect)}
               onMouseEnter={() => soundEngine.playUiHover()}
-              className="arcade-btn-secondary py-1.5 sm:py-2 px-1.5 font-pixel-ui text-[10px] sm:text-xs font-bold uppercase tracking-wider cursor-pointer truncate"
+              className="arcade-btn-secondary py-1.5 sm:py-2 px-1 font-pixel-ui text-[9px] sm:text-[11px] font-bold uppercase tracking-normal whitespace-nowrap cursor-pointer"
             >
               Fighters
             </button>
@@ -228,7 +228,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
               type="button"
               onClick={() => trigger(onStageSelect)}
               onMouseEnter={() => soundEngine.playUiHover()}
-              className="arcade-btn-secondary py-1.5 sm:py-2 px-1.5 font-pixel-ui text-[10px] sm:text-xs font-bold uppercase tracking-wider cursor-pointer truncate"
+              className="arcade-btn-secondary py-1.5 sm:py-2 px-1 font-pixel-ui text-[9px] sm:text-[11px] font-bold uppercase tracking-normal whitespace-nowrap cursor-pointer"
             >
               Stages
             </button>
@@ -236,7 +236,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
               type="button"
               onClick={() => trigger(onControls)}
               onMouseEnter={() => soundEngine.playUiHover()}
-              className="arcade-btn-secondary py-1.5 sm:py-2 px-1.5 font-pixel-ui text-[10px] sm:text-xs font-bold uppercase tracking-wider cursor-pointer truncate"
+              className="arcade-btn-secondary py-1.5 sm:py-2 px-1 font-pixel-ui text-[9px] sm:text-[11px] font-bold uppercase tracking-normal whitespace-nowrap cursor-pointer"
             >
               Controls
             </button>
@@ -244,7 +244,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
               type="button"
               onClick={() => trigger(onSettings)}
               onMouseEnter={() => soundEngine.playUiHover()}
-              className="arcade-btn-secondary py-1.5 sm:py-2 px-1.5 font-pixel-ui text-[10px] sm:text-xs font-bold uppercase tracking-wider cursor-pointer truncate"
+              className="arcade-btn-secondary py-1.5 sm:py-2 px-1 font-pixel-ui text-[9px] sm:text-[11px] font-bold uppercase tracking-normal whitespace-nowrap cursor-pointer"
             >
               Settings
             </button>
@@ -252,7 +252,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
               type="button"
               onClick={() => trigger(onCredits)}
               onMouseEnter={() => soundEngine.playUiHover()}
-              className="arcade-btn-secondary py-1.5 sm:py-2 px-1.5 font-pixel-ui text-[10px] sm:text-xs font-bold uppercase tracking-wider cursor-pointer truncate"
+              className="arcade-btn-secondary py-1.5 sm:py-2 px-1 font-pixel-ui text-[9px] sm:text-[11px] font-bold uppercase tracking-normal whitespace-nowrap cursor-pointer"
             >
               Credits
             </button>

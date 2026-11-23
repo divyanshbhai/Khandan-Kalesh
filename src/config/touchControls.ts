@@ -12,6 +12,7 @@ export interface ButtonOffsetOverride {
 export interface PlayerTouchLayoutConfig {
   movementStyle: MovementControlStyle;
   buttonScale: number; // 0.75..1.3
+  joystickSize: number; // 0.75..1.3 (V3 dedicated joystick scale)
   opacity: number; // 0.35..0.95
   spacing: number; // 0.8..1.25
   handedness: Handedness;
@@ -21,7 +22,8 @@ export interface PlayerTouchLayoutConfig {
 export const DEFAULT_TOUCH_LAYOUT: PlayerTouchLayoutConfig = {
   movementStyle: 'joystick',
   buttonScale: 1.0,
-  opacity: 0.78,
+  joystickSize: 1.0,
+  opacity: 0.76,
   spacing: 1.0,
   handedness: 'right',
   buttonOffsets: {},

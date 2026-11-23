@@ -68,7 +68,7 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
   return (
     <div className="space-y-4">
       {/* Player & Character Target Selectors */}
-      <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#4a3a2b]">
+      <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b-2 border-[#4a3624]">
         <div className="flex items-center gap-1.5">
           {([1, 2] as const).map((s) => (
             <button
@@ -78,13 +78,13 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
                 soundEngine.playUiSelect();
                 onChangeSlot(s);
               }}
-              className={`px-3 py-1 rounded font-display font-bold uppercase tracking-wider text-xs border cursor-pointer ${
+              className={`px-3 py-1 font-pixel-ui font-bold uppercase tracking-wider text-xs border-2 cursor-pointer ${
                 slot === s
-                  ? 'bg-[#f5a623] text-[#140d07] border-[#ffd67a]'
-                  : 'bg-[#1d1611] text-[#e7dac5] border-[#4a3a2b] hover:border-[#c68a2b]'
+                  ? 'bg-[#f5a623] text-[#120a04] border-[#ffe38f]'
+                  : 'bg-[#1c140e] text-[#ebd8b7] border-[#4a3624] hover:border-[#f5b324]'
               }`}
             >
-              Player {s}
+              PLAYER {s}
             </button>
           ))}
         </div>
@@ -99,11 +99,11 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
                 onChangeCharacter(char.id);
               }}
               style={{
-                borderColor: characterId === char.id ? char.accentColor : '#4a3a2b',
-                color: characterId === char.id ? char.accentColor : '#e7dac5',
+                borderColor: characterId === char.id ? char.accentColor : '#4a3624',
+                color: characterId === char.id ? char.accentColor : '#ebd8b7',
               }}
-              className={`px-2.5 py-1 rounded font-display font-bold uppercase tracking-wider text-xs border cursor-pointer ${
-                characterId === char.id ? 'bg-[#281e17]' : 'bg-[#17120e]'
+              className={`px-2.5 py-1 font-pixel-ui font-bold uppercase tracking-wider text-xs border-2 cursor-pointer ${
+                characterId === char.id ? 'bg-[#2a1e14]' : 'bg-[#16100c]'
               }`}
             >
               {char.name}
@@ -113,12 +113,12 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
       </div>
 
       {/* Live Interactive Layout Preview */}
-      <div className="relative rounded-lg border-2 border-[#4a3a2b] bg-[#0e0a08] p-3 min-h-[155px] flex items-end justify-between overflow-hidden">
-        <div className="absolute top-2 left-3 text-[10px] font-display font-bold uppercase tracking-widest text-[#b8a996]">
-          Tap any button to select &amp; nudge position ({profile.characterId.toUpperCase()} — P{slot})
+      <div className="relative border-2 border-[#6b533b] bg-[#0e0a08] p-3 min-h-[155px] flex items-end justify-between overflow-hidden shadow-[0_0_0_2px_#090605]">
+        <div className="absolute top-2 left-3 text-[10px] font-pixel-ui font-bold uppercase tracking-wider text-[#b39e84]">
+          TAP A BUTTON TO SELECT &amp; NUDGE ({profile.characterId.toUpperCase()} · P{slot})
         </div>
 
-        {/* Left Zone Preview */}
+        {/* Movement Zone Preview */}
         <div
           className={`flex items-center justify-center ${
             layout.handedness === 'left' ? 'order-2' : 'order-1'
@@ -127,34 +127,34 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
         >
           {layout.movementStyle === 'joystick' ? (
             <div
-              className="rounded-full border-2 flex items-center justify-center bg-[#17120e]"
+              className="border-2 flex items-center justify-center bg-[#16100c] shadow-[0_3px_0_0_#090605]"
               style={{
-                width: `${Math.round(86 * layout.buttonScale)}px`,
-                height: `${Math.round(86 * layout.buttonScale)}px`,
+                width: `${Math.round(80 * layout.joystickSize)}px`,
+                height: `${Math.round(80 * layout.joystickSize)}px`,
                 borderColor: profile.accentColor,
               }}
             >
               <div
-                className="w-8 h-8 rounded-full border-2"
+                className="w-8 h-8 border-2"
                 style={{ borderColor: profile.accentColor, backgroundColor: '#2a2018' }}
               />
             </div>
           ) : (
             <div className="grid grid-cols-3 gap-1">
               <div />
-              <div className="w-7 h-7 rounded bg-[#221913] border border-[#c68a2b] flex items-center justify-center text-[9px] font-display font-bold">
+              <div className="w-7 h-7 bg-[#231912] border-2 border-[#c68a2b] flex items-center justify-center text-[9px] font-pixel-ui font-bold">
                 UP
               </div>
               <div />
-              <div className="w-7 h-7 rounded bg-[#221913] border border-[#c68a2b] flex items-center justify-center text-[9px] font-display font-bold">
+              <div className="w-7 h-7 bg-[#231912] border-2 border-[#c68a2b] flex items-center justify-center text-[9px] font-pixel-ui font-bold">
                 LT
               </div>
               <div />
-              <div className="w-7 h-7 rounded bg-[#221913] border border-[#c68a2b] flex items-center justify-center text-[9px] font-display font-bold">
+              <div className="w-7 h-7 bg-[#231912] border-2 border-[#c68a2b] flex items-center justify-center text-[9px] font-pixel-ui font-bold">
                 RT
               </div>
               <div />
-              <div className="w-7 h-7 rounded bg-[#221913] border border-[#c68a2b] flex items-center justify-center text-[9px] font-display font-bold">
+              <div className="w-7 h-7 bg-[#231912] border-2 border-[#c68a2b] flex items-center justify-center text-[9px] font-pixel-ui font-bold">
                 DN
               </div>
               <div />
@@ -162,7 +162,7 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
           )}
         </div>
 
-        {/* Right Zone Action Cluster Preview */}
+        {/* Action Cluster Preview */}
         <div
           className={`flex items-end gap-2 ${layout.handedness === 'left' ? 'order-1' : 'order-2'}`}
         >
@@ -177,15 +177,15 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
                   onClick={() => setSelectedAction(btn.action)}
                   style={{
                     opacity: layout.opacity,
-                    borderColor: selected ? '#ffd67a' : btn.accentColor,
+                    borderColor: selected ? '#ffe38f' : btn.accentColor,
                     transform: `translate(${Math.round(offset.dx * 0.5)}px, ${Math.round(offset.dy * 0.5)}px)`,
                   }}
-                  className={`w-11 h-11 rounded-full border-2 flex flex-col items-center justify-center cursor-pointer ${
-                    selected ? 'bg-[#362719] ring-2 ring-[#f5a623]' : 'bg-[#17120e]'
+                  className={`w-11 h-11 border-2 flex flex-col items-center justify-center cursor-pointer shadow-[0_3px_0_0_#090605] ${
+                    selected ? 'bg-[#362719]' : 'bg-[#16100c]'
                   }`}
                 >
                   <AbilityIcon kind={btn.icon} color={btn.accentColor} size={14} />
-                  <span className="text-[8px] font-display font-bold uppercase text-[#f8efe0]">
+                  <span className="text-[8px] font-pixel-ui font-bold uppercase text-[#fff5e0]">
                     {btn.shortLabel}
                   </span>
                 </button>
@@ -203,15 +203,15 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
                   onClick={() => setSelectedAction(btn.action)}
                   style={{
                     opacity: layout.opacity,
-                    borderColor: selected ? '#ffd67a' : btn.accentColor,
+                    borderColor: selected ? '#ffe38f' : btn.accentColor,
                     transform: `translate(${Math.round(offset.dx * 0.5)}px, ${Math.round(offset.dy * 0.5)}px)`,
                   }}
-                  className={`w-11 h-11 rounded-full border-2 flex flex-col items-center justify-center cursor-pointer ${
-                    selected ? 'bg-[#362719] ring-2 ring-[#f5a623]' : 'bg-[#17120e]'
+                  className={`w-11 h-11 border-2 flex flex-col items-center justify-center cursor-pointer shadow-[0_3px_0_0_#090605] ${
+                    selected ? 'bg-[#362719]' : 'bg-[#16100c]'
                   }`}
                 >
                   <AbilityIcon kind={btn.icon} color={btn.accentColor} size={14} />
-                  <span className="text-[8px] font-display font-bold uppercase text-[#f8efe0] leading-none">
+                  <span className="text-[8px] font-pixel-ui font-bold uppercase text-[#fff5e0] leading-none">
                     {btn.shortLabel}
                   </span>
                 </button>
@@ -224,10 +224,10 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
       {/* Controls Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
         {/* Movement Style & Handedness */}
-        <div className="bg-[#140f0c] border border-[#4a3a2b] rounded p-3 space-y-2.5">
+        <div className="bg-[#110c09] border-2 border-[#4a3624] p-3 space-y-2.5">
           <div>
-            <span className="block font-display uppercase tracking-wider text-[#b8a996] mb-1">
-              Movement Control
+            <span className="block font-pixel-ui text-[10px] uppercase tracking-wider text-[#b39e84] mb-1">
+              MOVEMENT CONTROL
             </span>
             <div className="grid grid-cols-2 gap-1.5">
               {(['joystick', 'dpad'] as MovementControlStyle[]).map((style) => (
@@ -238,21 +238,21 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
                     soundEngine.playUiSelect();
                     updateField('movementStyle', style);
                   }}
-                  className={`py-1.5 rounded font-display font-bold uppercase tracking-wider border cursor-pointer ${
+                  className={`py-1.5 font-pixel-ui font-bold uppercase tracking-wider border-2 cursor-pointer ${
                     layout.movementStyle === style
-                      ? 'bg-[#f5a623] text-[#140d07] border-[#ffd67a]'
-                      : 'bg-[#1d1611] text-[#e7dac5] border-[#4a3a2b]'
+                      ? 'bg-[#f5a623] text-[#120a04] border-[#ffe38f]'
+                      : 'bg-[#1c140e] text-[#ebd8b7] border-[#4a3624]'
                   }`}
                 >
-                  {style === 'joystick' ? 'Virtual Stick' : 'Arcade D-Pad'}
+                  {style === 'joystick' ? 'VIRTUAL STICK' : 'ARCADE D-PAD'}
                 </button>
               ))}
             </div>
           </div>
 
           <div>
-            <span className="block font-display uppercase tracking-wider text-[#b8a996] mb-1">
-              Handedness Layout
+            <span className="block font-pixel-ui text-[10px] uppercase tracking-wider text-[#b39e84] mb-1">
+              HANDEDNESS LAYOUT
             </span>
             <div className="grid grid-cols-2 gap-1.5">
               {(['right', 'left'] as Handedness[]).map((hand) => (
@@ -263,27 +263,27 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
                     soundEngine.playUiSelect();
                     updateField('handedness', hand);
                   }}
-                  className={`py-1.5 rounded font-display font-bold uppercase tracking-wider border cursor-pointer ${
+                  className={`py-1.5 font-pixel-ui font-bold uppercase tracking-wider border-2 cursor-pointer ${
                     layout.handedness === hand
-                      ? 'bg-[#f5a623] text-[#140d07] border-[#ffd67a]'
-                      : 'bg-[#1d1611] text-[#e7dac5] border-[#4a3a2b]'
+                      ? 'bg-[#f5a623] text-[#120a04] border-[#ffe38f]'
+                      : 'bg-[#1c140e] text-[#ebd8b7] border-[#4a3624]'
                   }`}
                 >
-                  {hand === 'right' ? 'Standard (Right)' : 'Mirrored (Left)'}
+                  {hand === 'right' ? 'STANDARD (RIGHT)' : 'MIRRORED (LEFT)'}
                 </button>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Scale, Opacity, Spacing Sliders */}
-        <div className="bg-[#140f0c] border border-[#4a3a2b] rounded p-3 space-y-2.5">
+        {/* Scale, Joystick Size, Opacity, Spacing Sliders */}
+        <div className="bg-[#110c09] border-2 border-[#4a3624] p-3 space-y-2">
           <div>
-            <div className="flex justify-between mb-1">
-              <label htmlFor="touch-scale" className="text-[#e7dac5] font-semibold">
+            <div className="flex justify-between mb-0.5">
+              <label htmlFor="touch-scale" className="text-[#ebd8b7] font-semibold">
                 Button Size
               </label>
-              <span className="font-mono-num text-[#f5a623]">
+              <span className="font-pixel-ui text-[#f5a623]">
                 {Math.round(layout.buttonScale * 100)}%
               </span>
             </div>
@@ -299,11 +299,31 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
           </div>
 
           <div>
-            <div className="flex justify-between mb-1">
-              <label htmlFor="touch-opacity" className="text-[#e7dac5] font-semibold">
-                Opacity
+            <div className="flex justify-between mb-0.5">
+              <label htmlFor="touch-stick-size" className="text-[#ebd8b7] font-semibold">
+                Joystick / D-Pad Size
               </label>
-              <span className="font-mono-num text-[#f5a623]">
+              <span className="font-pixel-ui text-[#f5a623]">
+                {Math.round(layout.joystickSize * 100)}%
+              </span>
+            </div>
+            <input
+              id="touch-stick-size"
+              type="range"
+              min={75}
+              max={130}
+              value={Math.round(layout.joystickSize * 100)}
+              onChange={(e) => updateField('joystickSize', Number(e.target.value) / 100)}
+              className="w-full accent-[#f5a623]"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between mb-0.5">
+              <label htmlFor="touch-opacity" className="text-[#ebd8b7] font-semibold">
+                Resting Opacity
+              </label>
+              <span className="font-pixel-ui text-[#f5a623]">
                 {Math.round(layout.opacity * 100)}%
               </span>
             </div>
@@ -319,11 +339,11 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
           </div>
 
           <div>
-            <div className="flex justify-between mb-1">
-              <label htmlFor="touch-spacing" className="text-[#e7dac5] font-semibold">
-                Spacing
+            <div className="flex justify-between mb-0.5">
+              <label htmlFor="touch-spacing" className="text-[#ebd8b7] font-semibold">
+                Button Spacing
               </label>
-              <span className="font-mono-num text-[#f5a623]">
+              <span className="font-pixel-ui text-[#f5a623]">
                 {Math.round(layout.spacing * 100)}%
               </span>
             </div>
@@ -341,50 +361,50 @@ export const TouchControlEditor: React.FC<TouchControlEditorProps> = ({
       </div>
 
       {/* Selected Button Fine Position Nudge */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-[#140f0c] border border-[#4a3a2b] rounded p-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-[#110c09] border-2 border-[#4a3624] p-3">
         <div>
-          <div className="font-display font-bold uppercase tracking-wider text-xs text-[#ffd67a]">
-            Selected Button: {allButtons.find((b) => b.action === selectedAction)?.fullName ?? selectedAction}
+          <div className="font-pixel-ui font-bold uppercase tracking-wider text-xs text-[#ffd873]">
+            SELECTED: {allButtons.find((b) => b.action === selectedAction)?.fullName ?? selectedAction}
           </div>
-          <div className="text-[11px] font-mono-num text-[#b8a996]">
-            Offset X: {activeOffset.dx}px · Y: {activeOffset.dy}px
+          <div className="text-[11px] font-pixel-ui text-[#b39e84]">
+            OFFSET X: {activeOffset.dx}PX · Y: {activeOffset.dy}PX
           </div>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 flex-wrap">
           <button
             type="button"
             onClick={() => nudgeButton(-8, 0)}
-            className="arcade-btn-secondary px-2.5 py-1 rounded text-xs font-display font-bold cursor-pointer"
+            className="arcade-btn-secondary px-2.5 py-1 text-xs font-pixel-ui font-bold cursor-pointer"
           >
-            Left
+            LEFT
           </button>
           <button
             type="button"
             onClick={() => nudgeButton(0, -8)}
-            className="arcade-btn-secondary px-2.5 py-1 rounded text-xs font-display font-bold cursor-pointer"
+            className="arcade-btn-secondary px-2.5 py-1 text-xs font-pixel-ui font-bold cursor-pointer"
           >
-            Up
+            UP
           </button>
           <button
             type="button"
             onClick={() => nudgeButton(0, 8)}
-            className="arcade-btn-secondary px-2.5 py-1 rounded text-xs font-display font-bold cursor-pointer"
+            className="arcade-btn-secondary px-2.5 py-1 text-xs font-pixel-ui font-bold cursor-pointer"
           >
-            Down
+            DOWN
           </button>
           <button
             type="button"
             onClick={() => nudgeButton(8, 0)}
-            className="arcade-btn-secondary px-2.5 py-1 rounded text-xs font-display font-bold cursor-pointer"
+            className="arcade-btn-secondary px-2.5 py-1 text-xs font-pixel-ui font-bold cursor-pointer"
           >
-            Right
+            RIGHT
           </button>
           <button
             type="button"
             onClick={handleReset}
-            className="arcade-btn-danger ml-2 px-3 py-1 rounded text-xs font-display font-bold uppercase tracking-wider cursor-pointer"
+            className="arcade-btn-danger ml-1 px-3 py-1 text-xs font-pixel-ui font-bold uppercase tracking-wider cursor-pointer"
           >
-            Reset Defaults
+            RESET DEFAULTS
           </button>
         </div>
       </div>

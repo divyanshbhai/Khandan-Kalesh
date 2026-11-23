@@ -241,10 +241,16 @@ export class UtilityAI {
     const nearRightWall = ctx.cpuX >= ctx.stageRightBound - 90;
 
     if (this.state === 'approach') {
-      // Brake smoothly BEFORE reaching pushbox contact so fighters never mash together
+      // Brake smoothly BEFORE reaching pushbox contact; step back if crowded into boundary
       if (dist > stopWalkDist) {
         if (dirToOpp === 1 && !nearRightWall) input.right = true;
         else if (dirToOpp === -1 && !nearLeftWall) input.left = true;
+      } else if (dist < crowdBackoffDist) {
+        const backDir: 1 | -1 = dirToOpp === 1 ? -1 : 1;
+        if ((backDir === -1 && !nearLeftWall) || (backDir === 1 && !nearRightWall)) {
+          if (backDir === 1) input.right = true;
+          else input.left = true;
+        }
       }
     } else if (this.state === 'close_combat') {
       // Hold proper striking distance; step back slightly if crowded too close

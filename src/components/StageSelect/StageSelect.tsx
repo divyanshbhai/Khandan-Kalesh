@@ -132,7 +132,7 @@ export const StageSelect: React.FC<StageSelectProps> = ({
           }}
           className="arcade-btn-primary px-8 py-2.5 font-pixel text-xs sm:text-base uppercase tracking-wider cursor-pointer"
         >
-          FIGHT! ►
+          FIGHT! &gt;
         </button>
       </div>
     </div>

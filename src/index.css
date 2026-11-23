@@ -260,6 +260,12 @@
   padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
 
+@media (max-height: 500px) {
+  .hide-short-landscape {
+    display: none !important;
+  }
+}
+
 @keyframes koPulse {
   0% {
     transform: scale(1.38);
