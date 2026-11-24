@@ -1,7 +1,6 @@
 import http from 'node:http';
 import path from 'node:path';
 import express from 'express';
-import { createServer as createViteServer } from 'vite';
 import { attachSignallingServer } from './src/server/signalling';
 
 async function startServer() {
@@ -24,10 +23,11 @@ async function startServer() {
   });
 
   if (!isProd) {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: {
         middlewareMode: true,
-        hmr: process.env.DISABLE_HMR !== 'true',
+        hmr: process.env.ENABLE_HMR === 'true' ? { server: httpServer } : false,
       },
       appType: 'spa',
     });
@@ -43,14 +43,28 @@ async function startServer() {
         },
       }),
     );
-    app.get('*', (_req, res) => {
-      res.sendFile(path.join(distDir, 'index.html'));
+    app.use((req, res, next) => {
+      if (req.method === 'GET' && !req.path.startsWith('/api/') && !req.path.startsWith('/ws/')) {
+        res.sendFile(path.join(distDir, 'index.html'));
+        return;
+      }
+      next();
     });
   }
 
   httpServer.listen(port, '0.0.0.0', () => {
     console.log(`[39 Bharat Nagar] Server listening on http://0.0.0.0:${port} (${isProd ? 'production' : 'development'})`);
   });
+
+  const shutdown = async () => {
+    const forceTimer = setTimeout(() => process.exit(0), 3000);
+    forceTimer.unref();
+    await signalling.close();
+    httpServer.close(() => process.exit(0));
+    httpServer.closeAllConnections?.();
+  };
+  process.on('SIGTERM', shutdown);
+  process.on('SIGINT', shutdown);
 }
 
 startServer().catch((err) => {
