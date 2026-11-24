@@ -199,5 +199,46 @@ export const AbilityIcon: React.FC<AbilityIconProps> = ({
           <polygon points="16,5 23,12 16,19" fill={color} />
         </svg>
       );
+
+    case 'cheeni_sugar':
+      return (
+        <svg {...shared}>
+          <polygon
+            points="12,3 19,8 17,18 7,18 5,8"
+            fill={color}
+            fillOpacity="0.26"
+            stroke={color}
+            strokeWidth="2"
+          />
+          <path d="M12 3v15M5 8h14" stroke={color} strokeWidth="1.6" />
+        </svg>
+      );
+
+    case 'cheeni_caramel':
+      return (
+        <svg {...shared}>
+          <path
+            d="M3 16c0-2.5 4-4 9-4s9 1.5 9 4-4 4-9 4-9-1.5-9-4z"
+            fill={color}
+            fillOpacity="0.32"
+            stroke={color}
+            strokeWidth="2"
+          />
+          <path d="M8 12c0-3 2-5 4-8 2 3 4 5 4 8" stroke={color} strokeWidth="2" />
+        </svg>
+      );
+
+    case 'cheeni_legacy':
+      return (
+        <svg {...shared}>
+          <circle cx="12" cy="12" r="8" fill={color} fillOpacity="0.2" stroke={color} strokeWidth="2" />
+          <path
+            d="M12 7c2.8 0 5 2.2 5 5s-2.2 5-5 5-4-1.8-4-4 1.5-3.2 3.2-3.2 2.4 1.1 2.4 2.4"
+            stroke={color}
+            strokeWidth="2"
+          />
+          <circle cx="12" cy="12" r="1.5" fill={color} />
+        </svg>
+      );
   }
 };

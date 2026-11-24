@@ -8,11 +8,11 @@ export interface CharacterSpecialKit {
   special1VfxId: string;
   special2Name: string;
   special2Desc: string;
-  special2Type: 'dash_strike' | 'barrage_vfx' | 'drone_strike';
+  special2Type: 'dash_strike' | 'barrage_vfx' | 'drone_strike' | 'floor_trap';
   special2VfxId?: string;
   ultimateName: string;
   ultimateDesc: string;
-  ultimateType: 'shockwave' | 'wave_projectile' | 'storm' | 'mega_beam';
+  ultimateType: 'shockwave' | 'wave_projectile' | 'storm' | 'mega_beam' | 'sweet_storm';
   ultimateVfxId: string;
   /** Optional passive companion drone or extra accent */
   hasCompanionDrone?: boolean;
@@ -51,7 +51,7 @@ export interface CharacterProfile {
 export const CHARACTERS: CharacterProfile[] = [
   {
     id: 'rahul',
-    name: 'Rahul',
+    name: 'Bumba',
     title: 'Iron Heavyweight',
     archetype: 'Power Brawler',
     bio: 'Unstoppable close-quarters powerhouse who overwhelms opponents with crushing Iron Fist strikes and earth-shattering shockwaves.',
@@ -99,7 +99,7 @@ export const CHARACTERS: CharacterProfile[] = [
   },
   {
     id: 'sagar',
-    name: 'Sagar',
+    name: 'Beggi',
     title: 'Rhythm Striker',
     archetype: 'Agile Tempo Fighter',
     bio: 'Fluid, barefoot martial artist who channels musical tempo into Sonic Pulse notes, snapping dash strikes, and harmonic waves.',
@@ -146,7 +146,7 @@ export const CHARACTERS: CharacterProfile[] = [
   },
   {
     id: 'jatin',
-    name: 'Jatin',
+    name: 'Ambani',
     title: 'High-Roller Tactician',
     archetype: 'Currency Zoner',
     bio: 'Sharp-eyed strategist who controls space with razor-edged Cash Flick notes, Banknote Barrages, and the golden Cash Storm.',
@@ -248,6 +248,60 @@ export const CHARACTERS: CharacterProfile[] = [
         damage: 260,
         isProjectileMove: true,
         vfxTriggerFrame: 3,
+      },
+    },
+  },
+  {
+    id: 'cheeni',
+    name: 'Cheeni',
+    title: 'Master of 39',
+    archetype: 'Veteran Sweet Trapster',
+    bio: 'The rightful, stubborn elder of House No. 39. Calm and grounded in bare feet, he defends his home with crisp Mishri Sugar Shots, sticky Caramel Traps, and the Sweet Legacy storm.',
+    accentColor: '#f472b6',
+    accentGlow: 'rgba(244, 114, 182, 0.45)',
+    idleSheetUrl: '/assets/characters/cheeni/cheeni_01_idle_8f.png',
+    idleFrames: 8,
+    victorySheetUrl: '/assets/characters/cheeni/cheeni_40_victory_6f.png',
+    victoryFrames: 6,
+    maxHealth: 1030,
+    walkSpeed: 405,
+    backWalkSpeed: 325,
+    dashForwardSpeed: 880,
+    dashBackwardSpeed: 760,
+    jumpVelocity: -1090,
+    renderScale: 1.74,
+    damageMultiplier: 1.05,
+    stats: { power: 84, speed: 78, range: 90, defense: 90 },
+    kit: {
+      special1Name: 'Sugar Shot',
+      special1Desc: 'Pinches and flicks a sharp Mishri rock-sugar crystal projectile.',
+      special1Type: 'projectile',
+      special1VfxId: 'cheeni_sugar_shot_projectile',
+      special2Name: 'Caramel Trap',
+      special2Desc: 'Flings molten sticky caramel onto the floor to snare advancing rivals.',
+      special2Type: 'floor_trap',
+      special2VfxId: 'cheeni_caramel_trap_vfx',
+      ultimateName: 'Sweet Legacy',
+      ultimateDesc: 'Unleashes a massive rotating Indian sweets vortex across House 39.',
+      ultimateType: 'sweet_storm',
+      ultimateVfxId: 'cheeni_sweet_legacy_vfx',
+    },
+    moveOverrides: {
+      special_1: {
+        damage: 118,
+        isProjectileMove: true,
+        vfxTriggerFrame: 3,
+      },
+      special_2: {
+        damage: 125,
+        hitLevel: 'low',
+        isProjectileMove: true,
+        vfxTriggerFrame: 4,
+      },
+      ultimate: {
+        damage: 265,
+        isProjectileMove: true,
+        vfxTriggerFrame: 5,
       },
     },
   },

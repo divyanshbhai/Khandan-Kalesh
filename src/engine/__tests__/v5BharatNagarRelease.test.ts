@@ -1,22 +1,29 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import http from 'node:http';
+import path from 'node:path';
 import test from 'node:test';
 import WebSocket from 'ws';
+import { CHARACTER_ANIMATIONS, getCharacterAssetUrls } from '../../config/animations';
 import { createArcadeRun } from '../../config/arcadeProgression';
 import { AUDIO_CATALOGUE } from '../../config/audioCatalogue';
 import {
   CHARACTER_REGISTRY,
   CHARACTER_RENDER_CALIBRATION,
   getPlayableCharacterIds,
+  getPlayableRegistryEntries,
   getUpcomingRegistryEntries,
 } from '../../config/characterRegistry';
 import { GAME_CONFIG } from '../../config/game';
+import { getStageById } from '../../config/stages';
 import { OFFICIAL_STORY_INTRO, STORY_PANELS } from '../../config/story';
 import {
   createTournamentBracket,
   getNextPlayerTournamentMatch,
   recordTournamentPlayerResult,
 } from '../../config/tournament';
+import { EffectsManager } from '../EffectsManager';
+import { Fighter } from '../Fighter';
 import {
   CompactInputPacket,
   CompactMatchSnapshot,
@@ -35,19 +42,27 @@ function makeDeterministicRng(seed = 42): () => number {
   };
 }
 
-test('39 Bharat Nagar official brand identity & 7-character registry', () => {
+test('39 Bharat Nagar official brand identity & 7-character registry with Cheeni and renamed fighters', () => {
   assert.equal(GAME_CONFIG.title, '39 BHARAT NAGAR');
   assert.equal(GAME_CONFIG.tagline, 'ONE HOUSE. SEVEN CLAIMS.');
   assert.equal(GAME_CONFIG.creator, 'Divyansh Ama QIM');
 
   assert.equal(CHARACTER_REGISTRY.length, 7);
-  assert.deepEqual(getPlayableCharacterIds(), ['rahul', 'sagar', 'jatin', 'tony']);
+  assert.deepEqual(getPlayableCharacterIds(), ['rahul', 'sagar', 'jatin', 'tony', 'cheeni']);
+  assert.deepEqual(
+    getPlayableRegistryEntries().map((e) => e.displayName),
+    ['BUMBA', 'BEGGI', 'AMBANI', 'TONY', 'CHEENI'],
+  );
+  assert.deepEqual(
+    getPlayableRegistryEntries().map((e) => e.profile.name),
+    ['Bumba', 'Beggi', 'Ambani', 'Tony', 'Cheeni'],
+  );
 
   const upcoming = getUpcomingRegistryEntries();
-  assert.equal(upcoming.length, 3);
+  assert.equal(upcoming.length, 2);
   assert.deepEqual(
     upcoming.map((u) => u.displayName),
-    ['CHINI', 'CHAMETO', 'MOLI'],
+    ['CHAMETO', 'MOLI'],
   );
   for (const entry of upcoming) {
     assert.equal(entry.available, false);
@@ -61,9 +76,83 @@ test('39 Bharat Nagar official brand identity & 7-character registry', () => {
   }
 });
 
+test('All 40 unique Cheeni animation sheets and 3 Cheeni VFX sheets exist on disk', () => {
+  const uniqueAnimUrls = new Set(Object.values(CHARACTER_ANIMATIONS.cheeni).map((d) => d.url));
+  assert.equal(uniqueAnimUrls.size, 40);
+  const allUrls = getCharacterAssetUrls('cheeni');
+  assert.equal(allUrls.length, 43);
+  const publicDir = path.resolve(process.cwd(), 'public');
+  for (const url of allUrls) {
+    const filePath = path.join(publicDir, url.replace(/^\//, ''));
+    assert.equal(fs.existsSync(filePath), true, `Missing Cheeni asset on disk: ${url}`);
+  }
+});
+
+test('Cheeni signature abilities spawn Sugar Shot, grounded Caramel Trap (holdFinal), and Sweet Legacy', () => {
+  const stage = getStageById('katra');
+  const cheeni = new Fighter(1, 'cheeni');
+  const effects = new EffectsManager();
+  const positions = {
+    1: { x: 1400, y: stage.groundY, facing: 1 as const },
+    2: { x: 1900, y: stage.groundY, facing: -1 as const },
+  };
+  cheeni.resetForRound(1400, stage.groundY, 1, false);
+  cheeni.meter = 100;
+
+  // 1. Sugar Shot (special_1 projectile — transitions from special_charge into special_1)
+  cheeni.startSpecial('special_1', effects);
+  for (let i = 0; i < 60; i++) {
+    cheeni.update(1 / 60, stage, effects);
+    effects.update(1 / 60, stage.worldWidth, positions);
+    if (effects.projectiles.some((p) => p.vfxId === 'cheeni_sugar_shot_projectile')) break;
+  }
+  const sugarShot = effects.projectiles.find((p) => p.vfxId === 'cheeni_sugar_shot_projectile');
+  assert.ok(sugarShot, 'Cheeni special_1 spawns Sugar Shot projectile');
+  assert.ok(sugarShot.vx > 0, 'Sugar Shot travels forward');
+
+  // 2. Caramel Trap (special_2 grounded floor_trap with holdFinal lingering past animation completion)
+  effects.clear();
+  cheeni.resetForRound(1400, stage.groundY, 1, false);
+  cheeni.meter = 100;
+  cheeni.startSpecial('special_2', effects);
+  for (let i = 0; i < 45; i++) {
+    cheeni.update(1 / 60, stage, effects);
+    effects.update(1 / 60, stage.worldWidth, positions);
+    if (effects.projectiles.some((p) => p.vfxId === 'cheeni_caramel_trap_vfx')) break;
+  }
+  const trap = effects.projectiles.find((p) => p.vfxId === 'cheeni_caramel_trap_vfx');
+  assert.ok(trap, 'Cheeni special_2 spawns Caramel Trap floor hazard');
+  assert.equal(trap.vx, 0, 'Caramel Trap stays anchored on the floor');
+  assert.equal(trap.hitLevel, 'low', 'Caramel Trap hits low');
+  // Advance 1.2s (well past its 8f / 14fps = 0.57s animation duration) and verify it stays active!
+  for (let i = 0; i < 72; i++) {
+    effects.update(1 / 60, stage.worldWidth, positions);
+  }
+  assert.equal(
+    effects.projectiles.some((p) => p.id === trap.id),
+    true,
+    'Caramel Trap holds final frame and remains active until maxLifetime',
+  );
+
+  // 3. Sweet Legacy (ultimate sweet_storm)
+  effects.clear();
+  cheeni.resetForRound(1400, stage.groundY, 1, false);
+  cheeni.meter = 100;
+  cheeni.startUltimate(effects);
+  for (let i = 0; i < 80; i++) {
+    cheeni.update(1 / 60, stage, effects);
+    effects.update(1 / 60, stage.worldWidth, positions);
+    if (effects.projectiles.some((p) => p.vfxId === 'cheeni_sweet_legacy_vfx')) break;
+  }
+  const legacy = effects.projectiles.find((p) => p.vfxId === 'cheeni_sweet_legacy_vfx');
+  assert.ok(legacy, 'Cheeni ultimate spawns Sweet Legacy storm');
+  assert.equal(legacy.piercing, true, 'Sweet Legacy is piercing');
+});
+
 test('Story mode contains official narrative and 4 concise panels', () => {
   assert.ok(OFFICIAL_STORY_INTRO.includes('One house. One disputed property.'));
-  assert.ok(OFFICIAL_STORY_INTRO.includes('Three more challengers are waiting.'));
+  assert.ok(OFFICIAL_STORY_INTRO.includes('Five fighters have entered the arena'));
+  assert.ok(OFFICIAL_STORY_INTRO.includes('Two more challengers are waiting.'));
   assert.equal(STORY_PANELS.length, 4);
   for (const panel of STORY_PANELS) {
     assert.ok(panel.lines.length >= 1 && panel.lines.length <= 4);
@@ -71,14 +160,14 @@ test('Story mode contains official narrative and 4 concise panels', () => {
   }
 });
 
-test('Arcade mode draws non-repeating randomized opponents and stages', () => {
-  const run = createArcadeRun('rahul', 'normal', makeDeterministicRng(1337));
-  assert.equal(run.playerCharId, 'rahul');
-  assert.equal(run.bouts.length, 3);
+test('Arcade mode draws 4 non-repeating randomized opponents and stages for 5-fighter roster', () => {
+  const run = createArcadeRun('cheeni', 'normal', makeDeterministicRng(1337));
+  assert.equal(run.playerCharId, 'cheeni');
+  assert.equal(run.bouts.length, 4);
 
   const seenOpponents = new Set<string>();
   for (const bout of run.bouts) {
-    assert.notEqual(bout.opponentCharId, 'rahul');
+    assert.notEqual(bout.opponentCharId, 'cheeni');
     assert.equal(seenOpponents.has(bout.opponentCharId), false);
     seenOpponents.add(bout.opponentCharId);
     assert.ok(['katra', 'ponta', 'enclave'].includes(bout.stageId));
@@ -117,14 +206,54 @@ test('Tournament mode handles 4-slot bracket progression, simulated CPU bouts, a
   assert.equal(getNextPlayerTournamentMatch(crowned), null);
 });
 
-test('Tournament mode automatically scales to 8-slot bracket with bye when 7 fighters exist', () => {
-  const sevenFighters = ['rahul', 'sagar', 'jatin', 'tony', 'rahul', 'sagar', 'jatin'] as const;
-  // Pass 5 unique placeholders cast as CharacterId to verify future 7-fighter 8-slot scaling
-  const expanded = ['rahul', 'sagar', 'jatin', 'tony', 'chini', 'chameto', 'moli'] as unknown as Parameters<
+test('Tournament mode handles 5-fighter 8-slot bracket cleanly with 3 BYEs and zero empty matches', () => {
+  const rng = makeDeterministicRng(77);
+  const bracket = createTournamentBracket(
+    'cheeni',
+    'normal',
+    ['rahul', 'sagar', 'jatin', 'tony', 'cheeni'],
+    rng,
+  );
+  assert.equal(bracket.bracketSize, 8);
+  assert.equal(bracket.rounds.length, 3);
+  assert.equal(bracket.rounds[0].length, 4);
+
+  // Every QF must have at least slotA filled (no [null, null] dead matches!)
+  for (const qf of bracket.rounds[0]) {
+    assert.ok(qf.slotA, `${qf.id} must have a seeded fighter in slotA`);
+  }
+  const byeCount = bracket.rounds[0].filter((m) => m.isBye).length;
+  assert.equal(byeCount, 3);
+
+  // Player fights QF1 -> SF1 -> Final and wins the Championship
+  const qf1 = getNextPlayerTournamentMatch(bracket);
+  assert.ok(qf1 && qf1.id === 'qf-1');
+  assert.equal(qf1.slotA, 'cheeni');
+  assert.ok(qf1.slotB, 'Player QF1 has a real opponent');
+
+  const afterQf = recordTournamentPlayerResult(bracket, qf1.id, 'cheeni', 2, 0, rng);
+  const sf1 = getNextPlayerTournamentMatch(afterQf);
+  assert.ok(sf1 && sf1.id === 'sf-1');
+  assert.equal(sf1.slotA, 'cheeni');
+  assert.ok(sf1.slotB, 'Semifinal A has a valid BYE winner opponent');
+
+  const afterSf = recordTournamentPlayerResult(afterQf, sf1.id, 'cheeni', 2, 1, rng);
+  const finalMatch = getNextPlayerTournamentMatch(afterSf);
+  assert.ok(finalMatch && finalMatch.id === 'final');
+  assert.equal(finalMatch.slotA, 'cheeni');
+  assert.ok(finalMatch.slotB, 'Championship Final has a valid Semifinal B winner');
+
+  const crowned = recordTournamentPlayerResult(afterSf, finalMatch.id, 'cheeni', 2, 0, rng);
+  assert.equal(crowned.champion, 'cheeni');
+  assert.equal(crowned.playerEliminated, false);
+  assert.equal(getNextPlayerTournamentMatch(crowned), null);
+});
+
+test('Tournament mode automatically scales to 8-slot bracket with 1 BYE when 7 fighters exist', () => {
+  const expanded = ['rahul', 'sagar', 'jatin', 'tony', 'cheeni', 'chameto', 'moli'] as unknown as Parameters<
     typeof createTournamentBracket
   >[2];
   const bracket = createTournamentBracket('rahul', 'normal', expanded, makeDeterministicRng(7));
-  void sevenFighters;
   assert.equal(bracket.bracketSize, 8);
   assert.equal(bracket.rounds.length, 3);
   assert.equal(bracket.rounds[0].length, 4);
@@ -145,7 +274,7 @@ test('Multiplayer protocol validators reject malformed room codes and input pack
   assert.equal(isValidRoomCode('SHORT'), false);
   assert.equal(isValidRoomCode('DROP;TABLE'), false);
 
-  assert.equal(sanitizeDisplayName('  Rahul <script>!  ', 'P1'), 'Rahul script');
+  assert.equal(sanitizeDisplayName('  Bumba <script>!  ', 'P1'), 'Bumba script');
   assert.equal(sanitizeDisplayName('   ', 'FALLBACK'), 'FALLBACK');
 
   const validPacket: CompactInputPacket = {

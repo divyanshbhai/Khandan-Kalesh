@@ -219,17 +219,18 @@ test('UtilityAI V4 executes character-specific combo routes on hit and punishes 
 });
 
 test('Arcade Tournament ladder, Survival Gauntlet progression, and S-C scoring/ranking work deterministically', () => {
-  const chars: CharacterId[] = ['rahul', 'sagar', 'jatin', 'tony'];
+  const chars: CharacterId[] = ['rahul', 'sagar', 'jatin', 'tony', 'cheeni'];
   for (const player of chars) {
     const run = createArcadeRun(player, 'normal');
-    assert.equal(run.bouts.length, 3, 'Arcade ladder has 3 distinct family rival bouts');
+    assert.equal(run.bouts.length, 4, 'Arcade ladder has 4 distinct family rival bouts');
     assert.equal(
       run.bouts.some((b) => b.opponentCharId === player),
       false,
       `${player} should never fight themselves in Arcade Tournament`,
     );
-    assert.equal(run.bouts[2].isFinalBoss, true, 'Stage 3 is flagged as Final Rival');
-    assert.equal(run.bouts[2].difficulty, 'hard', 'Normal arcade escalates Final Rival to Hard');
+    const finalBout = run.bouts[run.bouts.length - 1];
+    assert.equal(finalBout.isFinalBoss, true, 'Final stage is flagged as Final Rival');
+    assert.equal(finalBout.difficulty, 'hard', 'Normal arcade escalates Final Rival to Hard');
     for (const bout of run.bouts) {
       assert.equal(getStageById(bout.stageId).id, bout.stageId, `Stage ${bout.stageId} must exist in STAGES`);
     }

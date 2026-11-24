@@ -136,27 +136,27 @@ test('RoundManager completes Best-of-3 match cleanly when a fighter wins 2 round
   });
   rm.resetMatch();
   // Finish intro
-  rm.update(2.0, 1000, 1000, 'Rahul', 'Tony');
+  rm.update(2.0, 1000, 1000, 'Bumba', 'Tony');
   assert.equal(rm.phase, 'fighting');
 
   // Round 1 KO for P1
-  rm.update(0.05, 800, 0, 'Rahul', 'Tony');
+  rm.update(0.05, 800, 0, 'Bumba', 'Tony');
   assert.equal(rm.p1Rounds, 1);
   assert.equal(rm.phase, 'ko_slowmo');
 
   // Advance through KO slowmo + round_over into Round 2
-  rm.update(1.0, 800, 0, 'Rahul', 'Tony');
+  rm.update(1.0, 800, 0, 'Bumba', 'Tony');
   assert.equal(rm.phase, 'round_over');
-  rm.update(2.5, 800, 0, 'Rahul', 'Tony');
+  rm.update(2.5, 800, 0, 'Bumba', 'Tony');
   assert.equal(rm.roundNumber, 2);
   assert.equal(rm.phase, 'intro');
 
   // Round 2 fight start + KO for P1
-  rm.update(2.0, 1000, 1000, 'Rahul', 'Tony');
-  rm.update(0.05, 650, 0, 'Rahul', 'Tony');
+  rm.update(2.0, 1000, 1000, 'Bumba', 'Tony');
+  rm.update(0.05, 650, 0, 'Bumba', 'Tony');
   assert.equal(rm.p1Rounds, 2);
-  rm.update(1.0, 650, 0, 'Rahul', 'Tony');
-  rm.update(2.5, 650, 0, 'Rahul', 'Tony');
+  rm.update(1.0, 650, 0, 'Bumba', 'Tony');
+  rm.update(2.5, 650, 0, 'Bumba', 'Tony');
   assert.equal(rm.phase, 'match_over');
   assert.equal(matchWinner, 1);
 });

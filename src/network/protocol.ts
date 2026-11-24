@@ -8,6 +8,7 @@ export const VALID_CHARACTERS: ReadonlySet<string> = new Set<CharacterId>([
   'sagar',
   'jatin',
   'tony',
+  'cheeni',
 ]);
 export const VALID_STAGES: ReadonlySet<string> = new Set<StageId>(['katra', 'ponta', 'enclave']);
 

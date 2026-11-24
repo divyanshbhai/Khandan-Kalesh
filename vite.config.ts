@@ -98,6 +98,7 @@ export default defineConfig({
     port: 3000,
     host: '0.0.0.0',
     hmr: process.env.ENABLE_HMR === 'true',
+    ...(process.env.ENABLE_HMR === 'true' ? {} : { ws: false as const }),
   },
   preview: {
     port: 3000,

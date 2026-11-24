@@ -22,9 +22,13 @@ const ALL_PAIRINGS: [CharacterId, CharacterId][] = [
   ['rahul', 'sagar'],
   ['rahul', 'jatin'],
   ['rahul', 'tony'],
+  ['rahul', 'cheeni'],
   ['sagar', 'jatin'],
   ['sagar', 'tony'],
+  ['sagar', 'cheeni'],
   ['jatin', 'tony'],
+  ['jatin', 'cheeni'],
+  ['tony', 'cheeni'],
 ];
 
 // Measured visible idle front stance reach from center (1920x1080 world px)
@@ -33,9 +37,10 @@ const MEASURED_FRONT_REACH: Record<CharacterId, number> = {
   sagar: 91,
   jatin: 117,
   tony: 114,
+  cheeni: 113,
 };
 
-test('All 6 character pairings enforce non-overlapping minimum separation exceeding visible stance reaches', () => {
+test('All 10 character pairings enforce non-overlapping minimum separation exceeding visible stance reaches', () => {
   const stage = getStageById('katra');
 
   for (const [charA, charB] of ALL_PAIRINGS) {
@@ -202,7 +207,7 @@ test('Simultaneous walk-in simulation settles smoothly with zero jitter and zero
   assert.ok(spread < 0.5, `Settled pushbox distance must not jitter (spread=${spread.toFixed(3)}px)`);
 });
 
-test('Calibrated attacks connect cleanly at proper non-overlapping combat spacing across all 6 matchups', () => {
+test('Calibrated attacks connect cleanly at proper non-overlapping combat spacing across all 10 matchups', () => {
   const stage = getStageById('katra');
   const moves = ['light_punch', 'heavy_punch', 'light_kick', 'heavy_kick', 'sweep'] as const;
 
@@ -354,6 +359,7 @@ test('CPU UtilityAI brakes before body overlap, backs off if crowded, and differ
     computePreferredCombatCenterDist('rahul', 'sagar') > computeMinCenterSeparation('rahul', 'sagar'),
     'Preferred combat distance is always strictly wider than minimum pushbox separation',
   );
-  assert.equal(Object.keys(FIGHTER_SPACING_CONFIGS).length, 4);
+  assert.equal(Object.keys(FIGHTER_SPACING_CONFIGS).length, 5);
   assert.ok(getFighterSpacingConfig('tony').movementBrakingDistance > 0);
+  assert.ok(getFighterSpacingConfig('cheeni').movementBrakingDistance > 0);
 });

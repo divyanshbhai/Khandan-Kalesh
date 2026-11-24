@@ -174,14 +174,15 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
           </div>
         </div>
 
-        {/* Center Roster Selector (4 Playable + 3 Coming Soon Strip) */}
+        {/* Center Roster Selector (5 Playable + 2 Coming Soon Strip) */}
         <div className="col-span-4 flex flex-col justify-between gap-2 min-h-0">
-          <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
-            {playable.map((entry) => {
+          <div className="grid grid-cols-6 gap-1.5">
+            {playable.map((entry, idx) => {
               const char = entry.profile;
               const isP1 = p1 === char.id;
               const isP2 = !isSoloRun && p2 === char.id;
               const isFocused = (effectiveSlot === 1 && isP1) || (effectiveSlot === 2 && isP2);
+              const colSpanClass = playable.length === 5 && idx >= 3 ? 'col-span-3' : 'col-span-2';
 
               return (
                 <button
@@ -198,7 +199,7 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
                           ? '#e03126'
                           : '#594635',
                   }}
-                  className={`relative border-2 p-1.5 flex flex-col items-center cursor-pointer ${
+                  className={`${colSpanClass} relative border-2 p-1.5 flex flex-col items-center cursor-pointer ${
                     isFocused ? 'bg-[#2c1e24]' : 'bg-[#161018] hover:bg-[#231922]'
                   }`}
                 >
@@ -220,10 +221,10 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
                     frames={char.idleFrames}
                     fps={8}
                     ariaLabel={`Select ${char.name}`}
-                    className="w-11 h-11 sm:w-16 sm:h-16 object-contain"
+                    className="w-10 h-10 sm:w-14 sm:h-14 object-contain"
                   />
                   <span
-                    className="font-pixel text-[8px] sm:text-[9px] uppercase mt-0.5"
+                    className="font-pixel text-[7px] sm:text-[8px] uppercase mt-0.5 truncate max-w-full"
                     style={{ color: char.accentColor }}
                   >
                     {char.name}
@@ -233,12 +234,12 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
             })}
           </div>
 
-          {/* 3 Upcoming Coming Soon Slots */}
-          <div className="grid grid-cols-3 gap-1">
+          {/* Upcoming Coming Soon Slots */}
+          <div className="grid grid-cols-2 gap-1.5">
             {upcoming.map((u) => (
               <div
                 key={u.id}
-                className="bg-[#110c14] border border-[#3a2a36] px-1 py-1 text-center opacity-75"
+                className="bg-[#110c14] border border-[#3a2a36] px-1.5 py-1 text-center opacity-75"
               >
                 <div className="font-pixel text-[7px] uppercase" style={{ color: u.accentColor }}>
                   {u.displayName}
@@ -279,11 +280,13 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
               {mode === 'tournament' ? 'RANDOM BRACKET DRAW' : 'RANDOMIZED RIVALS'}
             </span>
             <h2 className="font-pixel text-xs sm:text-sm uppercase text-[#ffc947]">
-              {mode === 'tournament' ? '4-FIGHTER CHAMPIONSHIP' : '3 NON-REPEATING BOUTS'}
+              {mode === 'tournament'
+                ? `${playable.length}-FIGHTER CHAMPIONSHIP`
+                : `${playable.length - 1} NON-REPEATING BOUTS`}
             </h2>
             <p className="text-[11px] sm:text-xs text-[#ebd8b7] leading-snug max-w-xs">
               {mode === 'tournament'
-                ? 'The bracket arranges all available fighters automatically. Win Semifinal A and the Championship Final to claim 39 Bharat Nagar!'
+                ? 'The bracket seeds all available fighters automatically with BYEs where needed. Fight through the elimination tree to claim 39 Bharat Nagar!'
                 : 'Opponents and arenas are drawn at random from the remaining roster with zero repeats. Defeat every rival to win House 39!'}
             </p>
           </div>

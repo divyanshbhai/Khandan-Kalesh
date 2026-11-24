@@ -61,7 +61,7 @@ export const BootLoadingScreen: React.FC<BootLoadingScreenProps> = ({
             sheetUrl="/assets/characters/rahul/rahul_02_walk_forward_6f.png"
             frames={6}
             fps={10}
-            ariaLabel="Rahul walking animation"
+            ariaLabel="Bumba walking animation"
             className="w-16 h-16 sm:w-24 sm:h-24 object-contain"
           />
           <img
@@ -70,11 +70,11 @@ export const BootLoadingScreen: React.FC<BootLoadingScreenProps> = ({
             className="w-24 h-24 sm:w-36 sm:h-36 object-contain pixelated drop-shadow-[0_6px_0_#090609]"
           />
           <SpritePreview
-            sheetUrl="/assets/characters/sagar/sagar_02_walk_forward_6f.png"
+            sheetUrl="/assets/characters/cheeni/cheeni_02_walk_forward_6f.png"
             frames={6}
             fps={10}
             flipX={true}
-            ariaLabel="Sagar walking animation"
+            ariaLabel="Cheeni walking animation"
             className="w-16 h-16 sm:w-24 sm:h-24 object-contain"
           />
         </div>

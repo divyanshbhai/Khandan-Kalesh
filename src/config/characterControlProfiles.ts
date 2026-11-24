@@ -31,7 +31,10 @@ export type AbilityIconKind =
   | 'jatin_storm'
   | 'tony_pulse'
   | 'tony_drone'
-  | 'tony_beam';
+  | 'tony_beam'
+  | 'cheeni_sugar'
+  | 'cheeni_caramel'
+  | 'cheeni_legacy';
 
 export interface CharacterTouchButtonSpec {
   action: VirtualActionId;
@@ -318,6 +321,59 @@ export const CHARACTER_CONTROL_PROFILES: Record<CharacterId, CharacterControlPro
           description: p.kit.ultimateDesc,
           icon: 'tony_beam',
           accentColor: '#bae6fd',
+          meterCost: GAME_CONFIG.ultimateCost,
+          cooldownSec: 1.6,
+          available: true,
+          slotGroup: 'ability',
+          defaultOffset: { x: 76, y: 20 },
+        },
+      ],
+    };
+  })(),
+
+  cheeni: (() => {
+    const p = getCharacterProfile('cheeni');
+    return {
+      characterId: 'cheeni',
+      accentColor: p.accentColor,
+      secondaryColor: '#b86b2b',
+      buttonToneHz: 523,
+      basicButtons: buildBasicButtons(p.accentColor),
+      abilities: [
+        {
+          action: 'special1',
+          shortLabel: 'SUGAR',
+          fullName: p.kit.special1Name,
+          description: p.kit.special1Desc,
+          icon: 'cheeni_sugar',
+          accentColor: '#fff5e0',
+          meterCost: GAME_CONFIG.specialCost,
+          cooldownSec: 0.85,
+          isChargeable: true,
+          available: true,
+          slotGroup: 'ability',
+          defaultOffset: { x: 78, y: 54 },
+        },
+        {
+          action: 'special2',
+          shortLabel: 'TRAP',
+          fullName: p.kit.special2Name,
+          description: p.kit.special2Desc,
+          icon: 'cheeni_caramel',
+          accentColor: '#e69b38',
+          meterCost: GAME_CONFIG.specialCost,
+          cooldownSec: 1.3,
+          available: true,
+          slotGroup: 'ability',
+          defaultOffset: { x: 78, y: 84 },
+        },
+        {
+          action: 'ultimate',
+          shortLabel: 'LEGACY',
+          fullName: p.kit.ultimateName,
+          description: p.kit.ultimateDesc,
+          icon: 'cheeni_legacy',
+          accentColor: '#f472b6',
           meterCost: GAME_CONFIG.ultimateCost,
           cooldownSec: 1.6,
           available: true,

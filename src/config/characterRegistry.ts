@@ -6,7 +6,7 @@ import {
 import { CHARACTERS, CharacterProfile, getCharacterProfile } from './characters';
 import { FighterSpacingConfig, getFighterSpacingConfig } from './fighterSpacing';
 
-export type UpcomingCharacterId = 'chini' | 'chameto' | 'moli';
+export type UpcomingCharacterId = 'chameto' | 'moli';
 export type RosterCharacterId = CharacterId | UpcomingCharacterId;
 
 export interface CharacterRenderCalibration {
@@ -72,6 +72,16 @@ export const CHARACTER_RENDER_CALIBRATION: Record<CharacterId, CharacterRenderCa
     groundPivotY: 272,
     menuScaleMultiplier: 0.99,
   },
+  cheeni: {
+    characterId: 'cheeni',
+    cellWidth: 288,
+    cellHeight: 288,
+    measuredVisibleHeightPx: 222,
+    targetGameplayHeightPx: 386,
+    gameplayRenderScale: 1.74,
+    groundPivotY: 272,
+    menuScaleMultiplier: 1.03,
+  },
 };
 
 export interface PlayableRosterEntry {
@@ -110,6 +120,7 @@ const HOUSE_CLAIMS: Record<CharacterId, string> = {
   sagar: 'Claims the upstairs terrace for loud rehearsals, late-night rhythm, and open sky.',
   jatin: 'Claims the corner plot valuation, deed paperwork, and the official household ledger.',
   tony: 'Claims the rooftop antenna tower, workshop room, and smart-home control of House 39.',
+  cheeni: 'The rightful veteran homeowner of 39 Bharat Nagar — defending his own roof with calm grit and sweet mastery.',
 };
 
 const PLAYABLE_ENTRIES: PlayableRosterEntry[] = CHARACTERS.map((profile, idx) => ({
@@ -130,17 +141,6 @@ const PLAYABLE_ENTRIES: PlayableRosterEntry[] = CHARACTERS.map((profile, idx) =>
 }));
 
 const UPCOMING_ENTRIES: UpcomingRosterEntry[] = [
-  {
-    id: 'chini',
-    displayName: 'CHINI',
-    available: false,
-    statusLabel: 'COMING SOON',
-    claimOrder: 5,
-    houseClaim: 'Claim #5 — Sealed inside the Bharat Nagar property file.',
-    description: 'Challenger 05 awaiting arrival at 39 Bharat Nagar. Original sprite production pending.',
-    accentColor: '#f472b6',
-    accentGlow: 'rgba(244, 114, 182, 0.35)',
-  },
   {
     id: 'chameto',
     displayName: 'CHAMETO',

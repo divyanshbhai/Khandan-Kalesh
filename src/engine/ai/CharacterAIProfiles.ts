@@ -235,6 +235,51 @@ export const CHARACTER_AI_PROFILES: Record<CharacterId, CharacterAIProfile> = {
       },
     ],
   },
+  cheeni: {
+    characterId: 'cheeni',
+    archetypeLabel: 'Veteran Sweet Trapster',
+    preferredMinDist: 268,
+    preferredMaxDist: 435,
+    aggression: 0.62,
+    dashApproachBias: 0.32,
+    special1Bias: 0.78,
+    special2Bias: 0.74,
+    defenseBias: 0.8,
+    antiAirBias: 0.72,
+    footsieShimmyBias: 0.68,
+    okizemePressureBias: 0.74,
+    lowMixupBias: 0.62,
+    meterConservationBias: 0.58,
+    comebackIntensity: 0.86,
+    adaptationSpeed: 1.12,
+    normalWeights: [0.26, 0.26, 0.24, 0.24],
+    comboRoutes: [
+      {
+        name: 'Sweet Legacy Storm',
+        minMeter: 100,
+        maxDistanceOffset: 58,
+        steps: ['heavy_punch', 'ultimate'],
+      },
+      {
+        name: 'Mishri Flick Cancel',
+        minMeter: 35,
+        maxDistanceOffset: 54,
+        steps: ['heavy_punch', 'special_1'],
+      },
+      {
+        name: 'Sticky Snare Setup',
+        minMeter: 35,
+        maxDistanceOffset: 56,
+        steps: ['light_kick', 'special_2'],
+      },
+      {
+        name: 'Veteran Sweep',
+        minMeter: 0,
+        maxDistanceOffset: 46,
+        steps: ['light_kick', 'sweep'],
+      },
+    ],
+  },
 };
 
 export function getCharacterAIProfile(id: CharacterId): CharacterAIProfile {

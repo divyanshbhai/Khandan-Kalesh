@@ -710,6 +710,27 @@ export class Fighter {
           hitImpactVfxId: 'tony_finisher_burst',
           accentColor: '#38bdf8',
         });
+      } else if (kit.special2Type === 'floor_trap' && kit.special2VfxId) {
+        effects.spawnProjectile({
+          ownerSlot: this.slot,
+          vfxId: kit.special2VfxId,
+          x: this.x + this.facing * 175,
+          y: this.y,
+          vx: 0,
+          facing: this.facing,
+          damage: data.damage,
+          chipDamage: data.chipDamage,
+          guardDamage: data.guardDamage,
+          hitLevel: 'low',
+          hitstun: 0.52,
+          knockbackX: 280,
+          knockbackY: -220,
+          causesKnockdown: true,
+          hitboxHalfW: 115,
+          hitboxHalfH: 58,
+          maxLifetime: 3.2,
+          accentColor: '#e69b38',
+        });
       }
       return;
     }
@@ -805,6 +826,27 @@ export class Fighter {
           piercing: true,
           hitImpactVfxId: 'tony_finisher_burst',
           accentColor: '#38bdf8',
+        });
+      } else if (kit.ultimateType === 'sweet_storm') {
+        effects.spawnProjectile({
+          ownerSlot: this.slot,
+          vfxId: kit.ultimateVfxId,
+          x: this.x + this.facing * 170,
+          y: this.y - 225,
+          vx: this.facing * 790,
+          facing: this.facing,
+          damage: data.damage,
+          chipDamage: data.chipDamage,
+          guardDamage: data.guardDamage,
+          hitstun: 0.65,
+          knockbackX: 700,
+          knockbackY: -420,
+          causesKnockdown: true,
+          hitboxHalfW: 160,
+          hitboxHalfH: 140,
+          maxLifetime: 1.05,
+          piercing: true,
+          accentColor: '#f472b6',
         });
       }
     }

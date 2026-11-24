@@ -20,11 +20,15 @@ const BracketSlotRow: React.FC<{
   charId: TournamentMatchNode['slotA'];
   isWinner: boolean;
   isPlayer: boolean;
-}> = ({ charId, isWinner, isPlayer }) => {
+  isByeEmpty?: boolean;
+  compact?: boolean;
+}> = ({ charId, isWinner, isPlayer, isByeEmpty = false, compact = false }) => {
   if (!charId) {
     return (
-      <div className="flex items-center justify-between px-2 py-1 bg-[#110c14] border border-[#3a2a36] text-[10px] font-pixel-ui text-[#755b42]">
-        <span>TBD</span>
+      <div
+        className={`flex items-center justify-between px-2 ${compact ? 'py-0.5' : 'py-1'} bg-[#110c14] border border-[#3a2a36] text-[9px] font-pixel-ui text-[#755b42]`}
+      >
+        <span>{isByeEmpty ? 'BYE' : 'TBD'}</span>
         <span>--</span>
       </div>
     );
@@ -32,7 +36,7 @@ const BracketSlotRow: React.FC<{
   const prof = getCharacterProfile(charId);
   return (
     <div
-      className={`flex items-center justify-between px-2 py-1 border ${
+      className={`flex items-center justify-between px-2 ${compact ? 'py-0.5' : 'py-1'} border ${
         isWinner
           ? 'bg-[#2a1f12] border-[#ffc947]'
           : isPlayer
@@ -71,6 +75,7 @@ export const TournamentBracketScreen: React.FC<TournamentBracketScreenProps> = (
   const nextMatch = getNextPlayerTournamentMatch(tournament);
   const championProfile = tournament.champion ? getCharacterProfile(tournament.champion) : null;
   const playerWonTitle = tournament.champion === tournament.playerCharId;
+  const isThreeRound = tournament.rounds.length >= 3;
 
   return (
     <div
@@ -108,13 +113,13 @@ export const TournamentBracketScreen: React.FC<TournamentBracketScreenProps> = (
       </div>
 
       {/* Bracket Columns (Fits Single Viewport!) */}
-      <div className="relative z-10 flex-1 grid grid-cols-12 gap-2.5 sm:gap-4 items-center py-2 min-h-0">
+      <div className="relative z-10 flex-1 grid grid-cols-12 gap-2 sm:gap-3 items-center py-2 min-h-0">
         {tournament.rounds.map((roundMatches, rIdx) => (
           <div
             key={rIdx}
             className={`${
               tournament.rounds.length === 2 ? 'col-span-4' : 'col-span-3'
-            } flex flex-col justify-around gap-2.5 h-full`}
+            } flex flex-col justify-around ${isThreeRound ? 'gap-1.5' : 'gap-2.5'} h-full min-h-0`}
           >
             {roundMatches.map((match) => {
               const stage = getStageById(match.stageId);
@@ -122,7 +127,7 @@ export const TournamentBracketScreen: React.FC<TournamentBracketScreenProps> = (
               return (
                 <div
                   key={match.id}
-                  className={`p-2 space-y-1 ${isNext ? 'arcade-panel-brass' : 'arcade-panel'}`}
+                  className={`${isThreeRound ? 'p-1.5 space-y-0.5' : 'p-2 space-y-1'} ${isNext ? 'arcade-panel-brass' : 'arcade-panel'}`}
                 >
                   <div className="flex items-center justify-between gap-1 text-[8px] sm:text-[9px] font-pixel-ui uppercase">
                     <span className={isNext ? 'text-[#ffc947] font-bold' : 'text-[#b8a391]'}>
@@ -140,14 +145,17 @@ export const TournamentBracketScreen: React.FC<TournamentBracketScreenProps> = (
                     charId={match.slotA}
                     isWinner={Boolean(match.winner && match.winner === match.slotA)}
                     isPlayer={match.slotA === tournament.playerCharId}
+                    compact={isThreeRound}
                   />
                   <BracketSlotRow
                     charId={match.slotB}
                     isWinner={Boolean(match.winner && match.winner === match.slotB)}
                     isPlayer={match.slotB === tournament.playerCharId}
+                    isByeEmpty={Boolean(match.isBye && !match.slotB)}
+                    compact={isThreeRound}
                   />
                   {match.isSimulated && (
-                    <div className="text-[8px] font-pixel-ui text-[#38bdf8] uppercase">
+                    <div className="text-[7px] sm:text-[8px] font-pixel-ui text-[#38bdf8] uppercase leading-none pt-0.5">
                       SIMULATED CPU RESULT
                     </div>
                   )}

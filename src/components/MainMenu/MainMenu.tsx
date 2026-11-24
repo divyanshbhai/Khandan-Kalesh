@@ -135,24 +135,24 @@ export const MainMenu: React.FC<MainMenuProps> = ({
 
       {/* Main Split Composition: Living Fighters flanking Official Logo & Arcade Command Menu */}
       <div className="flex-1 grid grid-cols-12 items-center gap-2 sm:gap-4 min-h-0 py-1">
-        {/* Left Living Fighters (Rahul & Sagar) */}
-        <div className="hidden sm:flex col-span-3 items-end justify-around h-full pb-2 pointer-events-none">
-          {playable.slice(0, 2).map((entry, idx) => {
+        {/* Left Living Fighters (Bumba, Beggi & Ambani) */}
+        <div className="hidden sm:flex col-span-3 items-end justify-center -space-x-2 md:-space-x-1 lg:space-x-0 h-full pb-2 pointer-events-none">
+          {playable.slice(0, 3).map((entry, idx) => {
             const isActivePose = featuredIndex === idx;
             const scale = entry.renderCalibration.menuScaleMultiplier;
             return (
-              <div key={entry.id} className="flex flex-col items-center">
+              <div key={entry.id} className="flex flex-col items-center min-w-0">
                 <div style={{ transform: `scale(${scale})` }} className="origin-bottom">
                   <SpritePreview
                     sheetUrl={isActivePose ? entry.profile.victorySheetUrl : entry.profile.idleSheetUrl}
                     frames={isActivePose ? entry.profile.victoryFrames : entry.profile.idleFrames}
                     fps={9}
                     ariaLabel={`${entry.displayName} animated fighter`}
-                    className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 object-contain"
+                    className="w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 object-contain"
                   />
                 </div>
                 <span
-                  className="mt-0.5 px-1.5 py-0.5 bg-[#090609]/85 border border-[#4a3624] font-pixel text-[7px] md:text-[9px] uppercase hud-text-stroke-sm"
+                  className="mt-0.5 px-1.5 py-0.5 bg-[#090609]/85 border border-[#4a3624] font-pixel text-[6px] md:text-[8px] uppercase hud-text-stroke-sm"
                   style={{ color: entry.accentColor }}
                 >
                   {entry.displayName}
@@ -171,7 +171,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                 sheetUrl={playable[0].profile.idleSheetUrl}
                 frames={playable[0].profile.idleFrames}
                 fps={9}
-                ariaLabel="Rahul animated idle"
+                ariaLabel={`${playable[0].displayName} animated idle`}
                 className="w-14 h-14 object-contain"
               />
             </div>
@@ -191,11 +191,11 @@ export const MainMenu: React.FC<MainMenuProps> = ({
             {/* Compact Mobile Right Fighter */}
             <div className="sm:hidden pointer-events-none">
               <SpritePreview
-                sheetUrl={playable[1].profile.idleSheetUrl}
-                frames={playable[1].profile.idleFrames}
+                sheetUrl={playable[playable.length - 1].profile.idleSheetUrl}
+                frames={playable[playable.length - 1].profile.idleFrames}
                 fps={9}
                 flipX={true}
-                ariaLabel="Sagar animated idle"
+                ariaLabel={`${playable[playable.length - 1].displayName} animated idle`}
                 className="w-14 h-14 object-contain"
               />
             </div>
@@ -248,13 +248,13 @@ export const MainMenu: React.FC<MainMenuProps> = ({
           </div>
         </div>
 
-        {/* Right Living Fighters (Jatin & Tony) */}
+        {/* Right Living Fighters (Tony & Cheeni) */}
         <div className="hidden sm:flex col-span-3 items-end justify-around h-full pb-2 pointer-events-none">
-          {playable.slice(2, 4).map((entry, idx) => {
-            const isActivePose = featuredIndex === idx + 2;
+          {playable.slice(3).map((entry, idx) => {
+            const isActivePose = featuredIndex === idx + 3;
             const scale = entry.renderCalibration.menuScaleMultiplier;
             return (
-              <div key={entry.id} className="flex flex-col items-center">
+              <div key={entry.id} className="flex flex-col items-center min-w-0">
                 <div style={{ transform: `scale(${scale})` }} className="origin-bottom">
                   <SpritePreview
                     sheetUrl={isActivePose ? entry.profile.victorySheetUrl : entry.profile.idleSheetUrl}
@@ -262,11 +262,11 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                     fps={9}
                     flipX={true}
                     ariaLabel={`${entry.displayName} animated fighter`}
-                    className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 object-contain"
+                    className="w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 object-contain"
                   />
                 </div>
                 <span
-                  className="mt-0.5 px-1.5 py-0.5 bg-[#090609]/85 border border-[#4a3624] font-pixel text-[7px] md:text-[9px] uppercase hud-text-stroke-sm"
+                  className="mt-0.5 px-1.5 py-0.5 bg-[#090609]/85 border border-[#4a3624] font-pixel text-[6px] md:text-[8px] uppercase hud-text-stroke-sm"
                   style={{ color: entry.accentColor }}
                 >
                   {entry.displayName}

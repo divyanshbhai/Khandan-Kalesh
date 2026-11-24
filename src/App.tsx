@@ -982,7 +982,7 @@ export function App() {
           />
         )}
 
-        {/* Character Roster (4 Playable + 3 Coming Soon: Chini, Chameto, Moli) */}
+        {/* Character Roster (5 Playable + 2 Coming Soon: Chameto, Moli) */}
         {screen === 'ROSTER' && (
           <CharacterRosterScreen
             onOpenMoveList={(charId) => setMoveListChar(charId)}

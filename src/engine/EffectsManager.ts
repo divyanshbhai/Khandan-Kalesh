@@ -332,12 +332,13 @@ export class EffectsManager {
       proj.y += proj.vy * dt;
       proj.player.update(dt);
 
+      const def = proj.player.getDefinition();
       const expired =
         proj.lifetime >= proj.maxLifetime ||
         proj.x < -300 ||
         proj.x > worldWidth + 300 ||
         (!proj.piercing && proj.hasHit) ||
-        (!proj.player.getDefinition().loop && proj.player.isCompleted());
+        (!def.loop && !def.holdFinal && proj.player.isCompleted());
 
       if (expired) {
         this.projectiles.splice(i, 1);

@@ -121,13 +121,22 @@ export function createTournamentBracket(
     };
   }
 
-  // Future-proof 8-slot bracket (for 7 characters + 1 automatic bye)
-  const seeds: (CharacterId | null)[] = [playerCharId, ...others];
-  while (seeds.length < 8) seeds.push(null);
+  // Standard 8-slot bracket seeding for 5–8 fighters:
+  // Place first 4 fighters in each QF's slotA so every QF has at least 1 fighter,
+  // then fill remaining (N - 4) fighters into QF slotB (so 5 fighters => 1 real QF + 3 BYEs,
+  // 7 fighters => 3 real QFs + 1 BYE, and every Semifinal is guaranteed 2 valid entrants).
+  const orderedFighters: CharacterId[] = [playerCharId, ...others].slice(0, 8);
+  const qfPairs: [CharacterId | null, CharacterId | null][] = [
+    [orderedFighters[0] ?? null, null],
+    [orderedFighters[1] ?? null, null],
+    [orderedFighters[2] ?? null, null],
+    [orderedFighters[3] ?? null, null],
+  ];
+  for (let extraIdx = 4; extraIdx < orderedFighters.length; extraIdx++) {
+    qfPairs[extraIdx - 4][1] = orderedFighters[extraIdx];
+  }
 
-  const quarterfinals: TournamentMatchNode[] = [0, 1, 2, 3].map((idx) => {
-    const a = seeds[idx * 2];
-    const b = seeds[idx * 2 + 1];
+  const quarterfinals: TournamentMatchNode[] = qfPairs.map(([a, b], idx) => {
     const isBye = Boolean((a && !b) || (!a && b));
     return {
       id: `qf-${idx + 1}`,
@@ -182,7 +191,7 @@ export function createTournamentBracket(
     champion: null,
     playerEliminated: false,
     activeRoundIndex: 0,
-    lastEventNote: '8-Slot Championship Bracket drawn.',
+    lastEventNote: `${orderedFighters.length}-Fighter Championship Bracket drawn. Win your Quarterfinal to advance!`,
   };
 }
 

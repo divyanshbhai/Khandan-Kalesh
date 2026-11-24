@@ -23,6 +23,8 @@ export const CharacterRosterScreen: React.FC<CharacterRosterScreenProps> = ({
   const [selectedId, setSelectedId] = useState<RosterCharacterId>('rahul');
   const selected: CharacterRegistryEntry =
     CHARACTER_REGISTRY.find((c) => c.id === selectedId) ?? CHARACTER_REGISTRY[0];
+  const playableCount = CHARACTER_REGISTRY.filter((c) => c.available).length;
+  const upcomingCount = CHARACTER_REGISTRY.length - playableCount;
 
   return (
     <div
@@ -42,7 +44,7 @@ export const CharacterRosterScreen: React.FC<CharacterRosterScreenProps> = ({
       <div className="relative z-10 flex items-center justify-between gap-2 border-b-2 border-[#755b42] pb-2">
         <div>
           <p className="font-pixel-ui text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.22em] text-[#ffc947]">
-            39 BHARAT NAGAR · 4 PLAYABLE / 3 COMING SOON
+            39 BHARAT NAGAR · {playableCount} PLAYABLE / {upcomingCount} COMING SOON
           </p>
           <h1 className="font-pixel text-xs sm:text-base md:text-lg uppercase text-[#fff5e0] hud-text-stroke-sm">
             CHARACTER ROSTER — SEVEN CLAIMS

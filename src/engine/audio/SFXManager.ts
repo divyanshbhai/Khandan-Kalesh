@@ -297,12 +297,12 @@ export class SFXManager {
     if (!this.canPlayEvent(`special_charge:${slot}`, this.nowMs())) return;
     const p = getCharacterSoundProfile(characterId);
     if (p.timbre === 'musical_harmonic') {
-      // Sagar: rising harmonic triad
+      // Beggi: rising harmonic triad
       this.playTone({ freqStart: 392, freqEnd: 440, duration: 0.12, type: 'triangle', volume: 0.2 });
       this.playTone({ freqStart: 493.88, freqEnd: 587.33, duration: 0.14, type: 'triangle', volume: 0.18, delay: 0.06 });
       this.playTone({ freqStart: 659.25, freqEnd: 783.99, duration: 0.16, type: 'sine', volume: 0.16, delay: 0.12 });
     } else if (p.timbre === 'paper_cash') {
-      // Jatin: rapid fluttering banknote shuffle + snap
+      // Ambani: rapid fluttering banknote shuffle + snap
       this.playNoise({ duration: 0.06, volume: 0.18, highpass: 2400, lowpass: 7200 });
       this.playNoise({ duration: 0.07, volume: 0.18, highpass: 2600, lowpass: 7600, delay: 0.07 });
       this.playTone({ freqStart: p.chargeBaseHz, freqEnd: p.chargeTargetHz, duration: 0.14, type: 'triangle', volume: 0.14 });
@@ -310,8 +310,12 @@ export class SFXManager {
       // Tony: electronic energy charge + holo chirp
       this.playTone({ freqStart: 280, freqEnd: 1180, duration: 0.22, type: 'sawtooth', volume: 0.18 });
       this.playTone({ freqStart: 880, freqEnd: 1560, duration: 0.12, type: 'sine', volume: 0.12, delay: 0.08 });
+    } else if (p.timbre === 'sweet_crystal') {
+      // Cheeni: crisp crystalline Mishri sparkle chime
+      this.playTone({ freqStart: 660, freqEnd: 1320, duration: 0.11, type: 'sine', volume: 0.18 });
+      this.playTone({ freqStart: 880, freqEnd: 1760, duration: 0.12, type: 'triangle', volume: 0.15, delay: 0.06 });
     } else {
-      // Rahul: deep coiled kinetic rumble
+      // Bumba: deep coiled kinetic rumble
       this.playTone({ freqStart: p.chargeBaseHz, freqEnd: p.chargeTargetHz, duration: 0.22, type: 'sawtooth', volume: 0.24 });
       this.playNoise({ duration: 0.18, volume: 0.16, highpass: 180, lowpass: 1400 });
     }
@@ -321,12 +325,12 @@ export class SFXManager {
     if (!this.canPlayEvent(`special_release:${slot}:${move}`, this.nowMs())) return;
     const p = getCharacterSoundProfile(characterId);
     if (p.timbre === 'musical_harmonic') {
-      // Sagar Sonic Pulse / Rhythm Break: shimmering chord snap
+      // Beggi Sonic Pulse / Rhythm Break: shimmering chord snap
       this.playTone({ freqStart: 523.25, freqEnd: 659.25, duration: 0.18, type: 'triangle', volume: 0.24 });
       this.playTone({ freqStart: 783.99, freqEnd: 1046.5, duration: 0.2, type: 'sine', volume: 0.18, delay: 0.03 });
       this.playNoise({ duration: 0.1, volume: 0.12, highpass: 1400, lowpass: 5200 });
     } else if (p.timbre === 'paper_cash') {
-      // Jatin Cash Flick / Banknote Barrage: crisp bill whip + cascade
+      // Ambani Cash Flick / Banknote Barrage: crisp bill whip + cascade
       this.playNoise({ duration: 0.09, volume: 0.24, highpass: 2200, lowpass: 8000 });
       this.playTone({ freqStart: 1180, freqEnd: 540, duration: 0.11, type: 'triangle', volume: 0.18 });
       if (move === 'special_2') {
@@ -343,8 +347,17 @@ export class SFXManager {
         this.playTone({ freqStart: 960, freqEnd: 220, duration: 0.2, type: 'sawtooth', volume: 0.22 });
         this.playNoise({ duration: 0.12, volume: 0.14, highpass: 1800, lowpass: 6200 });
       }
+    } else if (p.timbre === 'sweet_crystal') {
+      // Cheeni Sugar Shot (crystal snap) / Caramel Trap (syrup splash)
+      if (move === 'special_2') {
+        this.playTone({ freqStart: 320, freqEnd: 110, duration: 0.18, type: 'sine', volume: 0.24 });
+        this.playNoise({ duration: 0.14, volume: 0.18, highpass: 450, lowpass: 2200, delay: 0.03 });
+      } else {
+        this.playTone({ freqStart: 1480, freqEnd: 740, duration: 0.14, type: 'triangle', volume: 0.22 });
+        this.playTone({ freqStart: 1960, freqEnd: 1320, duration: 0.1, type: 'sine', volume: 0.16, delay: 0.02 });
+      }
     } else {
-      // Rahul Iron Fist / Overload Rush
+      // Bumba Iron Fist / Overload Rush
       this.playTone({ freqStart: 190, freqEnd: 46, duration: 0.22, type: 'sawtooth', volume: 0.3 });
       this.playNoise({ duration: 0.18, volume: 0.24, highpass: 240, lowpass: 2100 });
     }

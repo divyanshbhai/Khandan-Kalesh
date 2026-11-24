@@ -271,7 +271,7 @@ export const LocalMultiplayerScreen: React.FC<LocalMultiplayerScreenProps> = ({
                 <span className="block font-pixel-ui text-[9px] text-[#b8a391] uppercase mb-1">
                   STARTING FIGHTER
                 </span>
-                <div className="grid grid-cols-4 gap-1.5">
+                <div className="grid grid-cols-5 gap-1.5">
                   {playable.map((f) => (
                     <button
                       key={f.id}
@@ -505,7 +505,7 @@ export const LocalMultiplayerScreen: React.FC<LocalMultiplayerScreenProps> = ({
                 )}
               </div>
 
-              <div className="grid grid-cols-4 gap-1.5">
+              <div className="grid grid-cols-5 gap-1.5">
                 {playable.map((f) => {
                   const selected = myParticipant?.characterId === f.id;
                   return (

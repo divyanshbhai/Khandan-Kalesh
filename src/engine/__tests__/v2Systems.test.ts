@@ -11,8 +11,8 @@ import { EffectsManager } from '../EffectsManager';
 import { Fighter } from '../Fighter';
 import { VirtualControls } from '../VirtualControls';
 
-test('All four characters have zero fallback animations after Sagar Batch 03 integration', () => {
-  const chars: CharacterId[] = ['rahul', 'sagar', 'jatin', 'tony'];
+test('All five characters have zero fallback animations including Cheeni', () => {
+  const chars: CharacterId[] = ['rahul', 'sagar', 'jatin', 'tony', 'cheeni'];
   for (const id of chars) {
     const anims = CHARACTER_ANIMATIONS[id];
     for (const [key, def] of Object.entries(anims)) {
@@ -32,25 +32,34 @@ test('All four characters have zero fallback animations after Sagar Batch 03 int
     CHARACTER_ANIMATIONS.sagar.guard_break.url,
     '/assets/characters/sagar/sagar_29_guard_break_stunned_5f.png',
   );
+  assert.equal(
+    CHARACTER_ANIMATIONS.cheeni.special_2.url,
+    '/assets/characters/cheeni/cheeni_33_caramel_trap_cast_7f.png',
+  );
 });
 
 test('Character touch control profiles expose distinct signature abilities per fighter', () => {
-  const rahul = getCharacterControlProfile('rahul');
-  const sagar = getCharacterControlProfile('sagar');
-  const jatin = getCharacterControlProfile('jatin');
+  const bumba = getCharacterControlProfile('rahul');
+  const beggi = getCharacterControlProfile('sagar');
+  const ambani = getCharacterControlProfile('jatin');
   const tony = getCharacterControlProfile('tony');
+  const cheeni = getCharacterControlProfile('cheeni');
 
   const abilityNames = [
-    rahul.abilities.map((a) => a.fullName).join('|'),
-    sagar.abilities.map((a) => a.fullName).join('|'),
-    jatin.abilities.map((a) => a.fullName).join('|'),
+    bumba.abilities.map((a) => a.fullName).join('|'),
+    beggi.abilities.map((a) => a.fullName).join('|'),
+    ambani.abilities.map((a) => a.fullName).join('|'),
     tony.abilities.map((a) => a.fullName).join('|'),
+    cheeni.abilities.map((a) => a.fullName).join('|'),
   ];
-  assert.equal(new Set(abilityNames).size, 4, 'Each character has unique signature touch abilities');
-  assert.equal(rahul.abilities[0].icon, 'rahul_fist');
-  assert.equal(sagar.abilities[0].icon, 'sagar_note');
-  assert.equal(jatin.abilities[0].icon, 'jatin_cash');
+  assert.equal(new Set(abilityNames).size, 5, 'Each character has unique signature touch abilities');
+  assert.equal(bumba.abilities[0].icon, 'rahul_fist');
+  assert.equal(beggi.abilities[0].icon, 'sagar_note');
+  assert.equal(ambani.abilities[0].icon, 'jatin_cash');
   assert.equal(tony.abilities[1].icon, 'tony_drone');
+  assert.equal(cheeni.abilities[0].icon, 'cheeni_sugar');
+  assert.equal(cheeni.abilities[1].icon, 'cheeni_caramel');
+  assert.equal(cheeni.abilities[2].icon, 'cheeni_legacy');
 });
 
 test('VirtualControls isolates Player 1 and Player 2 simultaneous touch inputs cleanly', () => {

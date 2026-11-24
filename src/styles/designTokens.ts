@@ -51,6 +51,13 @@ export const DESIGN_TOKENS = {
       border: '#7dd3fc',
       label: 'Hologram Cyan',
     },
+    cheeni: {
+      primary: '#f472b6',
+      secondary: '#9d174d',
+      surface: '#2b0f21',
+      border: '#fbcfe8',
+      label: 'Caramel Rose',
+    },
   } satisfies Record<
     CharacterId,
     { primary: string; secondary: string; surface: string; border: string; label: string }

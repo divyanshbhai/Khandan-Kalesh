@@ -12,7 +12,7 @@ export interface CharacterSoundProfile {
   impactSubHz: number;
   impactSparkHz: number;
   /** Distinct timbre mode reflecting character's real artwork */
-  timbre: 'kinetic_heavy' | 'musical_harmonic' | 'paper_cash' | 'cyber_tech';
+  timbre: 'kinetic_heavy' | 'musical_harmonic' | 'paper_cash' | 'cyber_tech' | 'sweet_crystal';
   ultimateChordHz: number[];
 }
 
@@ -72,6 +72,20 @@ export const CHARACTER_SOUND_PROFILES: Record<CharacterId, CharacterSoundProfile
     impactSparkHz: 1480,
     timbre: 'cyber_tech',
     ultimateChordHz: [196.0, 293.66, 392.0, 587.33],
+  },
+  cheeni: {
+    characterId: 'cheeni',
+    signatureLabel: 'Mishri Crystal Chime & Caramel Splash',
+    chargeBaseHz: 520,
+    chargeTargetHz: 1040,
+    chargeWave: 'triangle',
+    releaseBaseHz: 1120,
+    releaseEndHz: 580,
+    releaseWave: 'sine',
+    impactSubHz: 86,
+    impactSparkHz: 1360,
+    timbre: 'sweet_crystal',
+    ultimateChordHz: [329.63, 415.3, 493.88, 659.25],
   },
 };
 
