@@ -1,0 +1,308 @@
+{
+  "project": "Project Cheeni — Batch 01: Basic Movement",
+  "character": "CHEENI (चीनी)",
+  "batch": "01_Basic_Movement",
+  "total_animations": 11,
+  "total_frames": 47,
+  "technical_standards": {
+    "frame_cell_width_px": 288,
+    "frame_cell_height_px": 288,
+    "ground_baseline_y_px": 272,
+    "horizontal_root_pivot_x_px": 144,
+    "format": "32-bit RGBA PNG",
+    "background": "Genuine alpha transparency",
+    "default_facing_direction": "RIGHT",
+    "frame_order": "Left to right, chronological",
+    "scaling_filter": "Nearest-neighbour only",
+    "canonical_standing_height_px": 224,
+    "canonical_crouch_height_px": 196.1
+  },
+  "animations": [
+    {
+      "animation_id": "cheeni_01_idle",
+      "animation_name": "Idle Breathing",
+      "filename": "spritesheets/cheeni_01_idle_8f.png",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Default neutral standing fighting-stance breathing loop.",
+      "starting_pose": "Default balanced elderly fighting guard facing right, bare feet grounded, fists up.",
+      "ending_pose": "Returns cleanly to F1 neutral fighting guard for seamless looping.",
+      "cross_animation_transition_notes": "Connects seamlessly to Walk Forward, Walk Backward, Forward Dash, Backward Dash, Crouch Transition F1, and Jump Take-Off F1."
+    },
+    {
+      "animation_id": "cheeni_02_walk_forward",
+      "animation_name": "Forward Walking",
+      "filename": "spritesheets/cheeni_02_walk_forward_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled forward advance while maintaining active fighting guard.",
+      "starting_pose": "Standing fighting guard initiating lead-foot step.",
+      "ending_pose": "Balanced guard stance ready to cycle seamlessly into F1 or Idle F1.",
+      "cross_animation_transition_notes": "Transitions directly from and back into Idle F1."
+    },
+    {
+      "animation_id": "cheeni_03_walk_backward",
+      "animation_name": "Backward Walking",
+      "filename": "spritesheets/cheeni_03_walk_backward_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.11,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Cautious defensive backward retreat while keeping eyes and guard facing right.",
+      "starting_pose": "Standard fighting guard beginning rearward foot placement.",
+      "ending_pose": "Balanced retreating guard matching Idle F1 orientation.",
+      "cross_animation_transition_notes": "Transitions cleanly from and back into Idle F1."
+    },
+    {
+      "animation_id": "cheeni_04_dash_forward",
+      "animation_name": "Forward Dash",
+      "filename": "spritesheets/cheeni_04_dash_forward_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.67,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Surprisingly quick forward burst demonstrating veteran explosiveness and footwork.",
+      "starting_pose": "Coiling guard preparation shifting weight forward.",
+      "ending_pose": "Braked, balanced upright standing fighting guard.",
+      "cross_animation_transition_notes": "Triggered from Idle or Walk; recovers directly into Standing Guard (Idle F1)."
+    },
+    {
+      "animation_id": "cheeni_05_dash_backward",
+      "animation_name": "Backward Dash",
+      "filename": "spritesheets/cheeni_05_dash_backward_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Quick defensive rearward evasion while maintaining right-facing guard.",
+      "starting_pose": "Standing fighting guard shifting weight backward.",
+      "ending_pose": "Braced upright standing guard after absorbing rearward momentum.",
+      "cross_animation_transition_notes": "Triggered from Idle; recovers directly into Standing Guard (Idle F1)."
+    },
+    {
+      "animation_id": "cheeni_06_crouch_enter",
+      "animation_name": "Crouch Transition",
+      "filename": "spritesheets/cheeni_06_crouch_enter_2f.png",
+      "frame_count": 2,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled lowering from standing guard into crouching defensive stance.",
+      "starting_pose": "Standing fighting guard with initial knee flexion.",
+      "ending_pose": "Stable elderly crouching defensive guard with both bare feet grounded.",
+      "cross_animation_transition_notes": "F1 connects from Idle F1; F2 connects directly into Crouch Idle F1."
+    },
+    {
+      "animation_id": "cheeni_07_crouch_idle",
+      "animation_name": "Crouch Idle",
+      "filename": "spritesheets/cheeni_07_crouch_idle_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 8,
+      "frame_duration_ms": 125.0,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled low defensive breathing loop while holding crouch.",
+      "starting_pose": "Stable balanced crouching defensive guard.",
+      "ending_pose": "Returns seamlessly to F1 crouching guard.",
+      "cross_animation_transition_notes": "Entered from Crouch Transition F2; exits into Return to Standing F1."
+    },
+    {
+      "animation_id": "cheeni_08_crouch_exit",
+      "animation_name": "Return to Standing",
+      "filename": "spritesheets/cheeni_08_crouch_exit_2f.png",
+      "frame_count": 2,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled leg extension rising from crouch back into standing guard.",
+      "starting_pose": "Crouching defensive guard matching Crouch Idle.",
+      "ending_pose": "Full upright standing fighting stance matching Idle F1.",
+      "cross_animation_transition_notes": "F1 connects from Crouch Idle; F2 connects directly into Idle F1."
+    },
+    {
+      "animation_id": "cheeni_09_jump_takeoff",
+      "animation_name": "Jump Take-Off",
+      "filename": "spritesheets/cheeni_09_jump_takeoff_2f.png",
+      "frame_count": 2,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Jump anticipation knee-bend followed by believable upward push-off.",
+      "starting_pose": "Grounded jump anticipation crouch with coiled knees and arms.",
+      "ending_pose": "Upward push-off with both bare feet visibly leaving the ground.",
+      "cross_animation_transition_notes": "F1 triggered from Idle/Walk; F2 connects directly into Jump Airborne F1."
+    },
+    {
+      "animation_id": "cheeni_10_jump_airborne",
+      "animation_name": "Jumping / Airborne Loop",
+      "filename": "spritesheets/cheeni_10_jump_airborne_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Mid-air rising, apex, and descent posture while engine drives vertical arc.",
+      "starting_pose": "Rising airborne stance with lead knee raised and both feet off ground.",
+      "ending_pose": "Controlled descent posture preparing bare feet for ground contact.",
+      "cross_animation_transition_notes": "Entered from Jump Take-Off F2; F4 descent connects directly into Landing F1."
+    },
+    {
+      "animation_id": "cheeni_11_landing",
+      "animation_name": "Landing",
+      "filename": "spritesheets/cheeni_11_landing_2f.png",
+      "frame_count": 2,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.67,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Safe knee-buffered impact absorption and recovery to neutral guard.",
+      "starting_pose": "Both bare feet contacting ground with controlled knee flexion.",
+      "ending_pose": "Balanced upright fighting guard matching Idle F1.",
+      "cross_animation_transition_notes": "F1 connects from Airborne F4 descent; F2 connects directly into Idle F1."
+    }
+  ]
+}

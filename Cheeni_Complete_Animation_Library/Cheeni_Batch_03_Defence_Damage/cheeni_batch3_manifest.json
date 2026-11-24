@@ -1,0 +1,231 @@
+{
+  "project": "Project Cheeni — Batch 03: Defence & Damage Reactions",
+  "character": "CHEENI (चीनी)",
+  "batch": "03_Defence_Damage",
+  "total_animations": 8,
+  "total_frames": 37,
+  "technical_standards": {
+    "frame_cell_width_px": 288,
+    "frame_cell_height_px": 288,
+    "ground_baseline_y_px": 272,
+    "horizontal_root_pivot_x_px": 144,
+    "format": "32-bit RGBA PNG",
+    "background": "Genuine alpha transparency",
+    "default_facing_direction": "RIGHT",
+    "frame_order": "Left to right, chronological",
+    "scaling_filter": "Nearest-neighbour only",
+    "canonical_standing_height_px": 224,
+    "canonical_crouch_height_px": 188,
+    "canonical_lying_width_px": 229.0
+  },
+  "animations": [
+    {
+      "animation_id": "cheeni_22_standing_guard",
+      "animation_name": "Standing Guard",
+      "filename": "spritesheets/cheeni_22_standing_guard_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.11,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Experienced standing defensive block loop shielding face and upper chest.",
+      "starting_pose": "Balanced standing defensive guard raising forearms upward.",
+      "ending_pose": "Returns cleanly to ready standing defensive guard for seamless loop.",
+      "cross_batch_transition_notes": "Entered from Standing Idle; exits cleanly to Standing Idle or Light/Heavy Hit if guard breaks."
+    },
+    {
+      "animation_id": "cheeni_23_crouching_guard",
+      "animation_name": "Crouching Guard",
+      "filename": "spritesheets/cheeni_23_crouching_guard_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.11,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled low crouching defensive block loop protecting against low/mid strikes.",
+      "starting_pose": "Stable Batch 1 crouching stance bracing knees and torso.",
+      "ending_pose": "Returns cleanly to F1 crouching guard for seamless looping.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Crouch Idle; exits directly back to Crouch Idle."
+    },
+    {
+      "animation_id": "cheeni_24_light_hit_reaction",
+      "animation_name": "Light Hit Reaction",
+      "filename": "spritesheets/cheeni_24_light_hit_reaction_3f.png",
+      "frame_count": 3,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 864,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Short, readable upper-body flinch when struck by a light attack from the right.",
+      "starting_pose": "Initial sharp wince and shoulder jolt with grounded feet.",
+      "ending_pose": "Quickly regains upright balance and returns toward standing fighting guard.",
+      "cross_batch_transition_notes": "Triggered from Standing Idle/Guard; recovers directly into Standing Idle F1."
+    },
+    {
+      "animation_id": "cheeni_25_heavy_hit_reaction",
+      "animation_name": "Heavy Hit Reaction",
+      "filename": "spritesheets/cheeni_25_heavy_hit_reaction_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.33,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Strong full-body recoil and stagger from a heavy strike while staying on his feet.",
+      "starting_pose": "Heavy chest/upper-body impact jolting guard open.",
+      "ending_pose": "Recovers from unsteady backward step into a composed standing guard.",
+      "cross_batch_transition_notes": "Triggered from Standing Idle/Guard; recovers into Standing Idle F1."
+    },
+    {
+      "animation_id": "cheeni_26_launch_knockback",
+      "animation_name": "Launch / Knockback Reaction",
+      "filename": "spritesheets/cheeni_26_launch_knockback_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.92,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Involuntary airborne leftward launch from a launcher or heavy knockback attack.",
+      "starting_pose": "Heavy impact pitching torso backward as heels leave the ground.",
+      "ending_pose": "Back-first airborne descent posture ready to transition into Knockdown F1.",
+      "cross_batch_transition_notes": "F5 connects directly into Knockdown / Falling F1."
+    },
+    {
+      "animation_id": "cheeni_27_knockdown_fall",
+      "animation_name": "Knockdown / Falling",
+      "filename": "spritesheets/cheeni_27_knockdown_fall_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.33,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Complete airborne descent, ground impact absorption, and flat knocked-down state.",
+      "starting_pose": "Back-first airborne descent matching Launch / Knockback F5.",
+      "ending_pose": "Stable lying-down knocked-down pose (head LEFT, feet RIGHT) on ground baseline.",
+      "cross_batch_transition_notes": "Entered from Launch / Knockback F5; F6 connects directly into Get-Up F1."
+    },
+    {
+      "animation_id": "cheeni_28_get_up",
+      "animation_name": "Get-Up Animation",
+      "filename": "spritesheets/cheeni_28_get_up_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Believable elderly veteran recovery rising from knocked-down pose back to fighting guard.",
+      "starting_pose": "Knocked-down lying pose matching Knockdown F6, lifting head to recover.",
+      "ending_pose": "Balanced upright standing fighting guard facing RIGHT matching Batch 1 Idle F1.",
+      "cross_batch_transition_notes": "Entered from Knockdown F6; F5 recovers directly into Standing Idle F1."
+    },
+    {
+      "animation_id": "cheeni_29_guard_break_stun",
+      "animation_name": "Guard-Break / Stun",
+      "filename": "spritesheets/cheeni_29_guard_break_stun_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Shattered-guard dizzy stun reaction leaving Cheeni momentarily vulnerable while swaying.",
+      "starting_pose": "Guard violently forced open with arms flung wide and dazed expression.",
+      "ending_pose": "Unsteady open-guard swaying posture ready to loop during stun or recover to Idle.",
+      "cross_batch_transition_notes": "Triggered when guard meter breaks; exits into Standing Idle F1 or Hit Reaction if struck."
+    }
+  ]
+}

@@ -1,0 +1,1251 @@
+{
+  "project": "Project Cheeni — Complete Animation Library (Batches 01–05)",
+  "character": "CHEENI (चीनी)",
+  "total_batches": 5,
+  "total_sheets": 43,
+  "total_frames": 227,
+  "technical_standards": {
+    "frame_cell_width_px": 288,
+    "frame_cell_height_px": 288,
+    "ground_baseline_y_px": 272,
+    "horizontal_root_pivot_x_px": 144,
+    "format": "32-bit RGBA PNG",
+    "background": "Genuine alpha transparency",
+    "default_facing_direction": "RIGHT",
+    "scaling_filter": "Nearest-neighbour only"
+  },
+  "animations": [
+    {
+      "animation_id": "cheeni_01_idle",
+      "animation_name": "Idle Breathing",
+      "filename": "spritesheets/cheeni_01_idle_8f.png",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Default neutral standing fighting-stance breathing loop.",
+      "starting_pose": "Default balanced elderly fighting guard facing right, bare feet grounded, fists up.",
+      "ending_pose": "Returns cleanly to F1 neutral fighting guard for seamless looping.",
+      "cross_animation_transition_notes": "Connects seamlessly to Walk Forward, Walk Backward, Forward Dash, Backward Dash, Crouch Transition F1, and Jump Take-Off F1.",
+      "batch": "Cheeni_Batch_01_Basic_Movement",
+      "batch_path": "Cheeni_Batch_01_Basic_Movement/spritesheets/cheeni_01_idle_8f.png"
+    },
+    {
+      "animation_id": "cheeni_02_walk_forward",
+      "animation_name": "Forward Walking",
+      "filename": "spritesheets/cheeni_02_walk_forward_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled forward advance while maintaining active fighting guard.",
+      "starting_pose": "Standing fighting guard initiating lead-foot step.",
+      "ending_pose": "Balanced guard stance ready to cycle seamlessly into F1 or Idle F1.",
+      "cross_animation_transition_notes": "Transitions directly from and back into Idle F1.",
+      "batch": "Cheeni_Batch_01_Basic_Movement",
+      "batch_path": "Cheeni_Batch_01_Basic_Movement/spritesheets/cheeni_02_walk_forward_6f.png"
+    },
+    {
+      "animation_id": "cheeni_03_walk_backward",
+      "animation_name": "Backward Walking",
+      "filename": "spritesheets/cheeni_03_walk_backward_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.11,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Cautious defensive backward retreat while keeping eyes and guard facing right.",
+      "starting_pose": "Standard fighting guard beginning rearward foot placement.",
+      "ending_pose": "Balanced retreating guard matching Idle F1 orientation.",
+      "cross_animation_transition_notes": "Transitions cleanly from and back into Idle F1.",
+      "batch": "Cheeni_Batch_01_Basic_Movement",
+      "batch_path": "Cheeni_Batch_01_Basic_Movement/spritesheets/cheeni_03_walk_backward_6f.png"
+    },
+    {
+      "animation_id": "cheeni_04_dash_forward",
+      "animation_name": "Forward Dash",
+      "filename": "spritesheets/cheeni_04_dash_forward_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.67,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Surprisingly quick forward burst demonstrating veteran explosiveness and footwork.",
+      "starting_pose": "Coiling guard preparation shifting weight forward.",
+      "ending_pose": "Braked, balanced upright standing fighting guard.",
+      "cross_animation_transition_notes": "Triggered from Idle or Walk; recovers directly into Standing Guard (Idle F1).",
+      "batch": "Cheeni_Batch_01_Basic_Movement",
+      "batch_path": "Cheeni_Batch_01_Basic_Movement/spritesheets/cheeni_04_dash_forward_6f.png"
+    },
+    {
+      "animation_id": "cheeni_05_dash_backward",
+      "animation_name": "Backward Dash",
+      "filename": "spritesheets/cheeni_05_dash_backward_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Quick defensive rearward evasion while maintaining right-facing guard.",
+      "starting_pose": "Standing fighting guard shifting weight backward.",
+      "ending_pose": "Braced upright standing guard after absorbing rearward momentum.",
+      "cross_animation_transition_notes": "Triggered from Idle; recovers directly into Standing Guard (Idle F1).",
+      "batch": "Cheeni_Batch_01_Basic_Movement",
+      "batch_path": "Cheeni_Batch_01_Basic_Movement/spritesheets/cheeni_05_dash_backward_5f.png"
+    },
+    {
+      "animation_id": "cheeni_06_crouch_enter",
+      "animation_name": "Crouch Transition",
+      "filename": "spritesheets/cheeni_06_crouch_enter_2f.png",
+      "frame_count": 2,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled lowering from standing guard into crouching defensive stance.",
+      "starting_pose": "Standing fighting guard with initial knee flexion.",
+      "ending_pose": "Stable elderly crouching defensive guard with both bare feet grounded.",
+      "cross_animation_transition_notes": "F1 connects from Idle F1; F2 connects directly into Crouch Idle F1.",
+      "batch": "Cheeni_Batch_01_Basic_Movement",
+      "batch_path": "Cheeni_Batch_01_Basic_Movement/spritesheets/cheeni_06_crouch_enter_2f.png"
+    },
+    {
+      "animation_id": "cheeni_07_crouch_idle",
+      "animation_name": "Crouch Idle",
+      "filename": "spritesheets/cheeni_07_crouch_idle_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 8,
+      "frame_duration_ms": 125.0,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled low defensive breathing loop while holding crouch.",
+      "starting_pose": "Stable balanced crouching defensive guard.",
+      "ending_pose": "Returns seamlessly to F1 crouching guard.",
+      "cross_animation_transition_notes": "Entered from Crouch Transition F2; exits into Return to Standing F1.",
+      "batch": "Cheeni_Batch_01_Basic_Movement",
+      "batch_path": "Cheeni_Batch_01_Basic_Movement/spritesheets/cheeni_07_crouch_idle_4f.png"
+    },
+    {
+      "animation_id": "cheeni_08_crouch_exit",
+      "animation_name": "Return to Standing",
+      "filename": "spritesheets/cheeni_08_crouch_exit_2f.png",
+      "frame_count": 2,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled leg extension rising from crouch back into standing guard.",
+      "starting_pose": "Crouching defensive guard matching Crouch Idle.",
+      "ending_pose": "Full upright standing fighting stance matching Idle F1.",
+      "cross_animation_transition_notes": "F1 connects from Crouch Idle; F2 connects directly into Idle F1.",
+      "batch": "Cheeni_Batch_01_Basic_Movement",
+      "batch_path": "Cheeni_Batch_01_Basic_Movement/spritesheets/cheeni_08_crouch_exit_2f.png"
+    },
+    {
+      "animation_id": "cheeni_09_jump_takeoff",
+      "animation_name": "Jump Take-Off",
+      "filename": "spritesheets/cheeni_09_jump_takeoff_2f.png",
+      "frame_count": 2,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Jump anticipation knee-bend followed by believable upward push-off.",
+      "starting_pose": "Grounded jump anticipation crouch with coiled knees and arms.",
+      "ending_pose": "Upward push-off with both bare feet visibly leaving the ground.",
+      "cross_animation_transition_notes": "F1 triggered from Idle/Walk; F2 connects directly into Jump Airborne F1.",
+      "batch": "Cheeni_Batch_01_Basic_Movement",
+      "batch_path": "Cheeni_Batch_01_Basic_Movement/spritesheets/cheeni_09_jump_takeoff_2f.png"
+    },
+    {
+      "animation_id": "cheeni_10_jump_airborne",
+      "animation_name": "Jumping / Airborne Loop",
+      "filename": "spritesheets/cheeni_10_jump_airborne_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Mid-air rising, apex, and descent posture while engine drives vertical arc.",
+      "starting_pose": "Rising airborne stance with lead knee raised and both feet off ground.",
+      "ending_pose": "Controlled descent posture preparing bare feet for ground contact.",
+      "cross_animation_transition_notes": "Entered from Jump Take-Off F2; F4 descent connects directly into Landing F1.",
+      "batch": "Cheeni_Batch_01_Basic_Movement",
+      "batch_path": "Cheeni_Batch_01_Basic_Movement/spritesheets/cheeni_10_jump_airborne_4f.png"
+    },
+    {
+      "animation_id": "cheeni_11_landing",
+      "animation_name": "Landing",
+      "filename": "spritesheets/cheeni_11_landing_2f.png",
+      "frame_count": 2,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 576,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.67,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Safe knee-buffered impact absorption and recovery to neutral guard.",
+      "starting_pose": "Both bare feet contacting ground with controlled knee flexion.",
+      "ending_pose": "Balanced upright fighting guard matching Idle F1.",
+      "cross_animation_transition_notes": "F1 connects from Airborne F4 descent; F2 connects directly into Idle F1.",
+      "batch": "Cheeni_Batch_01_Basic_Movement",
+      "batch_path": "Cheeni_Batch_01_Basic_Movement/spritesheets/cheeni_11_landing_2f.png"
+    },
+    {
+      "animation_id": "cheeni_12_light_punch",
+      "animation_name": "Standing Light Punch",
+      "filename": "spritesheets/cheeni_12_light_punch_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 18,
+      "frame_duration_ms": 55.56,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Fast, precise standing veteran jab for quick pokes and interrupt pressure.",
+      "starting_pose": "Default standing fighting guard matching Batch 1 Idle F1.",
+      "ending_pose": "Retracts arm cleanly back into balanced standing fighting guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Standing Idle / Walk; recovers directly into Standing Idle F1.",
+      "batch": "Cheeni_Batch_02_Basic_Attacks",
+      "batch_path": "Cheeni_Batch_02_Basic_Attacks/spritesheets/cheeni_12_light_punch_4f.png"
+    },
+    {
+      "animation_id": "cheeni_13_heavy_punch",
+      "animation_name": "Standing Heavy Punch",
+      "filename": "spritesheets/cheeni_13_heavy_punch_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.92,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Deliberate right-hand cross power strike using hip and shoulder rotation.",
+      "starting_pose": "Default standing fighting guard preparing rear-hand windup.",
+      "ending_pose": "Regains balanced upright standing fighting guard after follow-through.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Standing Idle; recovers directly into Standing Idle F1.",
+      "batch": "Cheeni_Batch_02_Basic_Attacks",
+      "batch_path": "Cheeni_Batch_02_Basic_Attacks/spritesheets/cheeni_13_heavy_punch_6f.png"
+    },
+    {
+      "animation_id": "cheeni_14_light_kick",
+      "animation_name": "Standing Light Kick",
+      "filename": "spritesheets/cheeni_14_light_kick_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled waist-height front push kick to maintain mid-range spacing.",
+      "starting_pose": "Standing fighting guard shifting weight onto rear supporting bare foot.",
+      "ending_pose": "Kicking leg retracts cleanly back into balanced standing fighting guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Standing Idle; recovers directly into Standing Idle F1.",
+      "batch": "Cheeni_Batch_02_Basic_Attacks",
+      "batch_path": "Cheeni_Batch_02_Basic_Attacks/spritesheets/cheeni_14_light_kick_5f.png"
+    },
+    {
+      "animation_id": "cheeni_15_heavy_kick",
+      "animation_name": "Standing Heavy Kick",
+      "filename": "spritesheets/cheeni_15_heavy_kick_7f.png",
+      "frame_count": 7,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2016,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.92,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Deliberate mid-torso side kick with hip rotation and balanced counter-lean.",
+      "starting_pose": "Standing fighting guard shifting weight onto supporting leg.",
+      "ending_pose": "Retracts leg through chamber and plants back into standing fighting guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Standing Idle; recovers directly into Standing Idle F1.",
+      "batch": "Cheeni_Batch_02_Basic_Attacks",
+      "batch_path": "Cheeni_Batch_02_Basic_Attacks/spritesheets/cheeni_15_heavy_kick_7f.png"
+    },
+    {
+      "animation_id": "cheeni_16_crouch_punch",
+      "animation_name": "Crouching Low Punch",
+      "filename": "spritesheets/cheeni_16_crouch_punch_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 18,
+      "frame_duration_ms": 55.56,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Fast low-profile horizontal punch from crouching defensive stance.",
+      "starting_pose": "Stable crouching defensive guard matching Batch 1 Crouch Idle.",
+      "ending_pose": "Retracts punching arm back into stable crouching defensive guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Crouch Idle; recovers directly into Crouch Idle F1.",
+      "batch": "Cheeni_Batch_02_Basic_Attacks",
+      "batch_path": "Cheeni_Batch_02_Basic_Attacks/spritesheets/cheeni_16_crouch_punch_4f.png"
+    },
+    {
+      "animation_id": "cheeni_17_crouch_kick",
+      "animation_name": "Crouching Low Kick",
+      "filename": "spritesheets/cheeni_17_crouch_kick_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.67,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Quick low shin/ankle poke from crouching stance with grounded rear support.",
+      "starting_pose": "Stable crouching defensive guard shifting weight onto rear foot.",
+      "ending_pose": "Kicking leg retracts back into stable crouching defensive guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Crouch Idle; recovers directly into Crouch Idle F1.",
+      "batch": "Cheeni_Batch_02_Basic_Attacks",
+      "batch_path": "Cheeni_Batch_02_Basic_Attacks/spritesheets/cheeni_17_crouch_kick_5f.png"
+    },
+    {
+      "animation_id": "cheeni_18_sweep_attack",
+      "animation_name": "Sweep Attack",
+      "filename": "spritesheets/cheeni_18_sweep_attack_7f.png",
+      "frame_count": 7,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2016,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.92,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Tactical floor-level knockdown sweep with hand-braced elderly stability.",
+      "starting_pose": "Standard crouching guard lowering center of gravity.",
+      "ending_pose": "Sweeping leg pulls back cleanly into upright crouching fighting guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Crouch Idle; recovers directly into Crouch Idle F1.",
+      "batch": "Cheeni_Batch_02_Basic_Attacks",
+      "batch_path": "Cheeni_Batch_02_Basic_Attacks/spritesheets/cheeni_18_sweep_attack_7f.png"
+    },
+    {
+      "animation_id": "cheeni_19_anti_air_uppercut",
+      "animation_name": "Anti-Air Uppercut",
+      "filename": "spritesheets/cheeni_19_anti_air_uppercut_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Grounded skyward uppercut counterattack punishing jumping opponents.",
+      "starting_pose": "Standing fighting guard dropping knees and coiling right fist low.",
+      "ending_pose": "Follows through from skyward punch and settles back into standing guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Standing Guard; recovers directly into Standing Idle F1.",
+      "batch": "Cheeni_Batch_02_Basic_Attacks",
+      "batch_path": "Cheeni_Batch_02_Basic_Attacks/spritesheets/cheeni_19_anti_air_uppercut_6f.png"
+    },
+    {
+      "animation_id": "cheeni_20_jumping_punch",
+      "animation_name": "Jumping Punch",
+      "filename": "spritesheets/cheeni_20_jumping_punch_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.67,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled mid-air forward punch for jump-ins and air-to-air exchanges.",
+      "starting_pose": "Batch 1 airborne guard posture with both bare feet off ground.",
+      "ending_pose": "Retracts arm into balanced airborne recovery posture ready for landing.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Jump Airborne; recovers into Jump Airborne or Landing F1.",
+      "batch": "Cheeni_Batch_02_Basic_Attacks",
+      "batch_path": "Cheeni_Batch_02_Basic_Attacks/spritesheets/cheeni_20_jumping_punch_5f.png"
+    },
+    {
+      "animation_id": "cheeni_21_jumping_kick",
+      "animation_name": "Jumping Kick",
+      "filename": "spritesheets/cheeni_21_jumping_kick_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled forward-downward airborne kick for jump-in approaches.",
+      "starting_pose": "Batch 1 airborne guard posture chambering lead kicking leg.",
+      "ending_pose": "Retracts kicking leg into balanced airborne recovery posture.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Jump Airborne; recovers into Jump Airborne or Landing F1.",
+      "batch": "Cheeni_Batch_02_Basic_Attacks",
+      "batch_path": "Cheeni_Batch_02_Basic_Attacks/spritesheets/cheeni_21_jumping_kick_5f.png"
+    },
+    {
+      "animation_id": "cheeni_22_standing_guard",
+      "animation_name": "Standing Guard",
+      "filename": "spritesheets/cheeni_22_standing_guard_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.11,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Experienced standing defensive block loop shielding face and upper chest.",
+      "starting_pose": "Balanced standing defensive guard raising forearms upward.",
+      "ending_pose": "Returns cleanly to ready standing defensive guard for seamless loop.",
+      "cross_batch_transition_notes": "Entered from Standing Idle; exits cleanly to Standing Idle or Light/Heavy Hit if guard breaks.",
+      "batch": "Cheeni_Batch_03_Defence_Damage",
+      "batch_path": "Cheeni_Batch_03_Defence_Damage/spritesheets/cheeni_22_standing_guard_4f.png"
+    },
+    {
+      "animation_id": "cheeni_23_crouching_guard",
+      "animation_name": "Crouching Guard",
+      "filename": "spritesheets/cheeni_23_crouching_guard_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 9,
+      "frame_duration_ms": 111.11,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled low crouching defensive block loop protecting against low/mid strikes.",
+      "starting_pose": "Stable Batch 1 crouching stance bracing knees and torso.",
+      "ending_pose": "Returns cleanly to F1 crouching guard for seamless looping.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Crouch Idle; exits directly back to Crouch Idle.",
+      "batch": "Cheeni_Batch_03_Defence_Damage",
+      "batch_path": "Cheeni_Batch_03_Defence_Damage/spritesheets/cheeni_23_crouching_guard_4f.png"
+    },
+    {
+      "animation_id": "cheeni_24_light_hit_reaction",
+      "animation_name": "Light Hit Reaction",
+      "filename": "spritesheets/cheeni_24_light_hit_reaction_3f.png",
+      "frame_count": 3,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 864,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Short, readable upper-body flinch when struck by a light attack from the right.",
+      "starting_pose": "Initial sharp wince and shoulder jolt with grounded feet.",
+      "ending_pose": "Quickly regains upright balance and returns toward standing fighting guard.",
+      "cross_batch_transition_notes": "Triggered from Standing Idle/Guard; recovers directly into Standing Idle F1.",
+      "batch": "Cheeni_Batch_03_Defence_Damage",
+      "batch_path": "Cheeni_Batch_03_Defence_Damage/spritesheets/cheeni_24_light_hit_reaction_3f.png"
+    },
+    {
+      "animation_id": "cheeni_25_heavy_hit_reaction",
+      "animation_name": "Heavy Hit Reaction",
+      "filename": "spritesheets/cheeni_25_heavy_hit_reaction_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.33,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Strong full-body recoil and stagger from a heavy strike while staying on his feet.",
+      "starting_pose": "Heavy chest/upper-body impact jolting guard open.",
+      "ending_pose": "Recovers from unsteady backward step into a composed standing guard.",
+      "cross_batch_transition_notes": "Triggered from Standing Idle/Guard; recovers into Standing Idle F1.",
+      "batch": "Cheeni_Batch_03_Defence_Damage",
+      "batch_path": "Cheeni_Batch_03_Defence_Damage/spritesheets/cheeni_25_heavy_hit_reaction_5f.png"
+    },
+    {
+      "animation_id": "cheeni_26_launch_knockback",
+      "animation_name": "Launch / Knockback Reaction",
+      "filename": "spritesheets/cheeni_26_launch_knockback_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.92,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Involuntary airborne leftward launch from a launcher or heavy knockback attack.",
+      "starting_pose": "Heavy impact pitching torso backward as heels leave the ground.",
+      "ending_pose": "Back-first airborne descent posture ready to transition into Knockdown F1.",
+      "cross_batch_transition_notes": "F5 connects directly into Knockdown / Falling F1.",
+      "batch": "Cheeni_Batch_03_Defence_Damage",
+      "batch_path": "Cheeni_Batch_03_Defence_Damage/spritesheets/cheeni_26_launch_knockback_5f.png"
+    },
+    {
+      "animation_id": "cheeni_27_knockdown_fall",
+      "animation_name": "Knockdown / Falling",
+      "filename": "spritesheets/cheeni_27_knockdown_fall_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.33,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Complete airborne descent, ground impact absorption, and flat knocked-down state.",
+      "starting_pose": "Back-first airborne descent matching Launch / Knockback F5.",
+      "ending_pose": "Stable lying-down knocked-down pose (head LEFT, feet RIGHT) on ground baseline.",
+      "cross_batch_transition_notes": "Entered from Launch / Knockback F5; F6 connects directly into Get-Up F1.",
+      "batch": "Cheeni_Batch_03_Defence_Damage",
+      "batch_path": "Cheeni_Batch_03_Defence_Damage/spritesheets/cheeni_27_knockdown_fall_6f.png"
+    },
+    {
+      "animation_id": "cheeni_28_get_up",
+      "animation_name": "Get-Up Animation",
+      "filename": "spritesheets/cheeni_28_get_up_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Believable elderly veteran recovery rising from knocked-down pose back to fighting guard.",
+      "starting_pose": "Knocked-down lying pose matching Knockdown F6, lifting head to recover.",
+      "ending_pose": "Balanced upright standing fighting guard facing RIGHT matching Batch 1 Idle F1.",
+      "cross_batch_transition_notes": "Entered from Knockdown F6; F5 recovers directly into Standing Idle F1.",
+      "batch": "Cheeni_Batch_03_Defence_Damage",
+      "batch_path": "Cheeni_Batch_03_Defence_Damage/spritesheets/cheeni_28_get_up_5f.png"
+    },
+    {
+      "animation_id": "cheeni_29_guard_break_stun",
+      "animation_name": "Guard-Break / Stun",
+      "filename": "spritesheets/cheeni_29_guard_break_stun_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Shattered-guard dizzy stun reaction leaving Cheeni momentarily vulnerable while swaying.",
+      "starting_pose": "Guard violently forced open with arms flung wide and dazed expression.",
+      "ending_pose": "Unsteady open-guard swaying posture ready to loop during stun or recover to Idle.",
+      "cross_batch_transition_notes": "Triggered when guard meter breaks; exits into Standing Idle F1 or Hit Reaction if struck.",
+      "batch": "Cheeni_Batch_03_Defence_Damage",
+      "batch_path": "Cheeni_Batch_03_Defence_Damage/spritesheets/cheeni_29_guard_break_stun_5f.png"
+    },
+    {
+      "animation_id": "cheeni_30_sugar_shot_charge",
+      "asset_name": "Sugar Shot — Charging",
+      "filename": "spritesheets/cheeni_30_sugar_shot_charge_5f.png",
+      "asset_type": "character",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Forms a faceted white Mishri rock-sugar crystal between Cheeni's pinched fingers ready to flick.",
+      "starting_pose": "Default standing fighting guard matching Batch 1 Idle F1.",
+      "ending_pose": "Stable flick-ready stance holding a clearly visible white Mishri crystal.",
+      "character_to_vfx_trigger_frames": "None (prepares for Sugar Shot Release F1).",
+      "cross_batch_transition_notes": "Entered from Standing Guard; F5 connects directly into Sugar Shot Release F1.",
+      "batch": "Cheeni_Batch_04_Special_Abilities",
+      "batch_path": "Cheeni_Batch_04_Special_Abilities/spritesheets/cheeni_30_sugar_shot_charge_5f.png"
+    },
+    {
+      "animation_id": "cheeni_31_sugar_shot_release",
+      "asset_name": "Sugar Shot — Release",
+      "filename": "spritesheets/cheeni_31_sugar_shot_release_5f.png",
+      "asset_type": "character",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.67,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Sharp, controlled finger-flick launching the Mishri rock-sugar projectile rightward.",
+      "starting_pose": "Flick-ready stance holding Mishri crystal matching Sugar Shot Charge F5.",
+      "ending_pose": "Recovers cleanly back into standing fighting guard.",
+      "character_to_vfx_trigger_frames": "Spawn `cheeni_32_sugar_shot_projectile_vfx_8f.png` on Frame 3/4 (finger-flick release at ~X+54, Y-148 from root).",
+      "cross_batch_transition_notes": "Entered from Sugar Shot Charge F5; F5 returns directly to Batch 1 Standing Guard.",
+      "batch": "Cheeni_Batch_04_Special_Abilities",
+      "batch_path": "Cheeni_Batch_04_Special_Abilities/spritesheets/cheeni_31_sugar_shot_release_5f.png"
+    },
+    {
+      "animation_id": "cheeni_32_sugar_shot_projectile_vfx",
+      "asset_name": "Sugar Shot — Mishri Projectile VFX",
+      "filename": "spritesheets/cheeni_32_sugar_shot_projectile_vfx_8f.png",
+      "asset_type": "vfx",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "effect_origin_x": 144,
+        "effect_origin_y": 144
+      },
+      "gameplay_purpose": "Independent travelling Mishri rock-sugar crystal cluster projectile moving RIGHT.",
+      "starting_pose": "Compact angular cluster of white rock-sugar crystals.",
+      "ending_pose": "Compatible travelling crystal cluster looping seamlessly back to F1.",
+      "character_to_vfx_trigger_frames": "Triggered by `cheeni_31_sugar_shot_release_5f.png` on Frame 3/4.",
+      "cross_batch_transition_notes": "Loops continuously during horizontal travel until impact or off-screen despawn.",
+      "batch": "Cheeni_Batch_04_Special_Abilities",
+      "batch_path": "Cheeni_Batch_04_Special_Abilities/spritesheets/cheeni_32_sugar_shot_projectile_vfx_8f.png"
+    },
+    {
+      "animation_id": "cheeni_33_caramel_trap_cast",
+      "asset_name": "Caramel Trap — Casting",
+      "filename": "spritesheets/cheeni_33_caramel_trap_cast_7f.png",
+      "asset_type": "character",
+      "frame_count": 7,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2016,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.92,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Deliberate downward casting gesture flinging thick sticky caramel syrup onto the ground ahead.",
+      "starting_pose": "Standing fighting guard lowering center of gravity toward the floor.",
+      "ending_pose": "Regains upright balance and returns to standing fighting guard.",
+      "character_to_vfx_trigger_frames": "Spawn `cheeni_34_caramel_trap_vfx_8f.png` on Frame 5 (ground impact ahead of lead foot at ~X+96, Y=272).",
+      "cross_batch_transition_notes": "Entered from Standing Guard; F7 returns directly to Batch 1 Standing Guard.",
+      "batch": "Cheeni_Batch_04_Special_Abilities",
+      "batch_path": "Cheeni_Batch_04_Special_Abilities/spritesheets/cheeni_33_caramel_trap_cast_7f.png"
+    },
+    {
+      "animation_id": "cheeni_34_caramel_trap_vfx",
+      "asset_name": "Caramel Trap — Floor VFX",
+      "filename": "spritesheets/cheeni_34_caramel_trap_vfx_8f.png",
+      "asset_type": "vfx",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "effect_origin_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Independent glossy amber-brown sticky caramel puddle with rising elastic strands forming a floor trap.",
+      "starting_pose": "Thick amber caramel droplet descending to floor level.",
+      "ending_pose": "Stable active glossy caramel trap puddle suitable for holding during active gameplay duration.",
+      "character_to_vfx_trigger_frames": "Triggered by `cheeni_33_caramel_trap_cast_7f.png` on Frame 5.",
+      "cross_batch_transition_notes": "Plays F1–F8 once on spawn, then holds F8 while trap remains active on stage floor.",
+      "batch": "Cheeni_Batch_04_Special_Abilities",
+      "batch_path": "Cheeni_Batch_04_Special_Abilities/spritesheets/cheeni_34_caramel_trap_vfx_8f.png"
+    },
+    {
+      "animation_id": "cheeni_35_sweet_legacy_activation",
+      "asset_name": "Sweet Legacy — Activation",
+      "filename": "spritesheets/cheeni_35_sweet_legacy_activation_8f.png",
+      "asset_type": "character",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Ultimate activation gathering recognizable Mishri, Jalebi spirals, Motichoor Ladoos, Barfi pieces, and caramel ribbons around Cheeni.",
+      "starting_pose": "Determined ultimate activation stance from standing guard.",
+      "ending_pose": "Fully charged ultimate-ready stance surrounded by swirling traditional Indian sweets.",
+      "character_to_vfx_trigger_frames": "None (hands off directly to Sweet Legacy Main Attack F1).",
+      "cross_batch_transition_notes": "Entered from Standing Guard; F8 connects directly into Sweet Legacy Main Attack F1.",
+      "batch": "Cheeni_Batch_04_Special_Abilities",
+      "batch_path": "Cheeni_Batch_04_Special_Abilities/spritesheets/cheeni_35_sweet_legacy_activation_8f.png"
+    },
+    {
+      "animation_id": "cheeni_36_sweet_legacy_main_attack",
+      "asset_name": "Sweet Legacy — Main Attack",
+      "filename": "spritesheets/cheeni_36_sweet_legacy_main_attack_8f.png",
+      "asset_type": "character",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Two-handed ultimate unleashing of Cheeni's concentrated Indian sweets storm toward the RIGHT.",
+      "starting_pose": "Fully charged stance matching Sweet Legacy Activation F8.",
+      "ending_pose": "Poised post-release stance transitioning directly into Sweet Legacy Finisher F1.",
+      "character_to_vfx_trigger_frames": "Spawn `cheeni_37_sweet_legacy_vfx_8f.png` on Frame 5/6 (storm launch at ~X+90, Y-128 from root).",
+      "cross_batch_transition_notes": "Entered from Activation F8; F8 connects directly into Sweet Legacy Finisher F1.",
+      "batch": "Cheeni_Batch_04_Special_Abilities",
+      "batch_path": "Cheeni_Batch_04_Special_Abilities/spritesheets/cheeni_36_sweet_legacy_main_attack_8f.png"
+    },
+    {
+      "animation_id": "cheeni_37_sweet_legacy_vfx",
+      "asset_name": "Sweet Legacy — Ultimate Storm VFX",
+      "filename": "spritesheets/cheeni_37_sweet_legacy_vfx_8f.png",
+      "asset_type": "vfx",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "effect_origin_x": 144,
+        "effect_origin_y": 144
+      },
+      "gameplay_purpose": "Independent massive rotating Indian sweets ultimate vortex (Jalebi, Motichoor Ladoo, Barfi, Mishri, caramel ribbons) travelling RIGHT.",
+      "starting_pose": "Compact swirling core of Mishri rock-sugar crystals.",
+      "ending_pose": "Dispersing sweet fragments and caramel ribbons as ultimate concludes.",
+      "character_to_vfx_trigger_frames": "Triggered by `cheeni_36_sweet_legacy_main_attack_8f.png` on Frame 5/6.",
+      "cross_batch_transition_notes": "Plays F1–F8 across stage travel; independently layerable over character and stage.",
+      "batch": "Cheeni_Batch_04_Special_Abilities",
+      "batch_path": "Cheeni_Batch_04_Special_Abilities/spritesheets/cheeni_37_sweet_legacy_vfx_8f.png"
+    },
+    {
+      "animation_id": "cheeni_38_sweet_legacy_finisher",
+      "asset_name": "Sweet Legacy — Finisher",
+      "filename": "spritesheets/cheeni_38_sweet_legacy_finisher_4f.png",
+      "asset_type": "character",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Confident, slightly playful elderly post-ultimate finishing pose.",
+      "starting_pose": "Completing two-handed forward-release follow-through matching Main Attack F8.",
+      "ending_pose": "Stable, confident hand-on-hip veteran smile pose suitable for brief hold.",
+      "character_to_vfx_trigger_frames": "None.",
+      "cross_batch_transition_notes": "Entered from Main Attack F8; F4 connects directly into Special Move Recovery F1.",
+      "batch": "Cheeni_Batch_04_Special_Abilities",
+      "batch_path": "Cheeni_Batch_04_Special_Abilities/spritesheets/cheeni_38_sweet_legacy_finisher_4f.png"
+    },
+    {
+      "animation_id": "cheeni_39_special_move_recovery",
+      "asset_name": "Special Move Recovery",
+      "filename": "spritesheets/cheeni_39_special_move_recovery_5f.png",
+      "asset_type": "character",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Shared controlled recovery transitioning from post-special pose back into standard fighting guard.",
+      "starting_pose": "Relaxed post-special upright stance matching Sweet Legacy Finisher.",
+      "ending_pose": "Exact standing fighting guard matching Batch 1 Idle F1.",
+      "character_to_vfx_trigger_frames": "None.",
+      "cross_batch_transition_notes": "Entered from Sweet Legacy Finisher F4 (or other specials); F5 connects directly into Batch 1 Standing Guard.",
+      "batch": "Cheeni_Batch_04_Special_Abilities",
+      "batch_path": "Cheeni_Batch_04_Special_Abilities/spritesheets/cheeni_39_special_move_recovery_5f.png"
+    },
+    {
+      "animation_id": "cheeni_40_victory",
+      "animation_name": "Victory",
+      "filename": "spritesheets/cheeni_40_victory_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": false,
+      "hold_final_frame": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Match victory celebration showing pride in defending his property and playful satisfaction with his favorite sweet.",
+      "starting_pose": "Combat completion standing posture transitioning from active guard.",
+      "ending_pose": "Stable victory hold: one hand on hip, other hand holding up a golden Motichoor Ladoo with a proud veteran smile.",
+      "sweet_prop_reference": "Approved Batch 4 golden-orange Motichoor Ladoo held in Cheeni's hand (F4–F6).",
+      "cross_batch_transition_notes": "Entered from combat victory state; holds F6 indefinitely on victory screen.",
+      "batch": "Cheeni_Batch_05_Character_States",
+      "batch_path": "Cheeni_Batch_05_Character_States/spritesheets/cheeni_40_victory_6f.png"
+    },
+    {
+      "animation_id": "cheeni_41_defeat",
+      "animation_name": "Defeat",
+      "filename": "spritesheets/cheeni_41_defeat_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 10,
+      "frame_duration_ms": 100.0,
+      "loop": false,
+      "hold_final_frame": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Time-over or match-loss standing defeat expressing exhaustion and disappointment over losing the fight.",
+      "starting_pose": "Fighting guard dropping as Cheeni realizes defeat.",
+      "ending_pose": "Stable exhausted standing defeat posture with slumped shoulders and disappointed elderly expression.",
+      "sweet_prop_reference": "None.",
+      "cross_batch_transition_notes": "Entered on match defeat; holds F5 indefinitely on defeat screen.",
+      "batch": "Cheeni_Batch_05_Character_States",
+      "batch_path": "Cheeni_Batch_05_Character_States/spritesheets/cheeni_41_defeat_5f.png"
+    },
+    {
+      "animation_id": "cheeni_42_ko_collapse",
+      "animation_name": "KO / Collapse",
+      "filename": "spritesheets/cheeni_42_ko_collapse_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 12,
+      "frame_duration_ms": 83.33,
+      "loop": false,
+      "hold_final_frame": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Decisive match-ending knockout collapse transitioning into a permanent unconscious lying-down state.",
+      "starting_pose": "Strong final knockout impact jolt before knees weaken and buckle.",
+      "ending_pose": "Unconscious flat lying-down KO state (head LEFT, bare feet RIGHT, eyes closed) matching Batch 3 Knockdown F6 orientation and footprint.",
+      "sweet_prop_reference": "None.",
+      "cross_batch_transition_notes": "Triggered by match-ending KO hit; F6 matches Batch 3 `cheeni_27_knockdown_fall_6f.png` F6 scale/orientation and holds indefinitely.",
+      "batch": "Cheeni_Batch_05_Character_States",
+      "batch_path": "Cheeni_Batch_05_Character_States/spritesheets/cheeni_42_ko_collapse_6f.png"
+    },
+    {
+      "animation_id": "cheeni_43_taunt",
+      "animation_name": "Taunt",
+      "filename": "spritesheets/cheeni_43_taunt_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "hold_final_frame": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Playful, mischievous mid-match character taunt challenging the opponent while enjoying a quick nibble of a Ladoo.",
+      "starting_pose": "Standard standing fighting guard matching Batch 1 Idle F1.",
+      "ending_pose": "Calmly returns to standard standing fighting guard matching Batch 1 Idle F1.",
+      "sweet_prop_reference": "Approved Batch 4 golden-orange Motichoor Ladoo (same design and scale as Victory, F3–F5).",
+      "cross_batch_transition_notes": "Entered from Batch 1 Standing Guard; F6 connects directly back into Batch 1 Standing Guard.",
+      "batch": "Cheeni_Batch_05_Character_States",
+      "batch_path": "Cheeni_Batch_05_Character_States/spritesheets/cheeni_43_taunt_6f.png"
+    }
+  ]
+}

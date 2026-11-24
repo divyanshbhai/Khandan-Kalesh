@@ -1,0 +1,283 @@
+{
+  "project": "Project Cheeni — Batch 02: Basic Fighting Attacks",
+  "character": "CHEENI (चीनी)",
+  "batch": "02_Basic_Attacks",
+  "total_animations": 10,
+  "total_frames": 54,
+  "technical_standards": {
+    "frame_cell_width_px": 288,
+    "frame_cell_height_px": 288,
+    "ground_baseline_y_px": 272,
+    "horizontal_root_pivot_x_px": 144,
+    "format": "32-bit RGBA PNG",
+    "background": "Genuine alpha transparency",
+    "default_facing_direction": "RIGHT",
+    "frame_order": "Left to right, chronological",
+    "scaling_filter": "Nearest-neighbour only",
+    "canonical_standing_height_px": 224,
+    "canonical_crouch_height_px": 188,
+    "canonical_airborne_height_px": 212
+  },
+  "animations": [
+    {
+      "animation_id": "cheeni_12_light_punch",
+      "animation_name": "Standing Light Punch",
+      "filename": "spritesheets/cheeni_12_light_punch_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 18,
+      "frame_duration_ms": 55.56,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Fast, precise standing veteran jab for quick pokes and interrupt pressure.",
+      "starting_pose": "Default standing fighting guard matching Batch 1 Idle F1.",
+      "ending_pose": "Retracts arm cleanly back into balanced standing fighting guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Standing Idle / Walk; recovers directly into Standing Idle F1."
+    },
+    {
+      "animation_id": "cheeni_13_heavy_punch",
+      "animation_name": "Standing Heavy Punch",
+      "filename": "spritesheets/cheeni_13_heavy_punch_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.92,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Deliberate right-hand cross power strike using hip and shoulder rotation.",
+      "starting_pose": "Default standing fighting guard preparing rear-hand windup.",
+      "ending_pose": "Regains balanced upright standing fighting guard after follow-through.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Standing Idle; recovers directly into Standing Idle F1."
+    },
+    {
+      "animation_id": "cheeni_14_light_kick",
+      "animation_name": "Standing Light Kick",
+      "filename": "spritesheets/cheeni_14_light_kick_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled waist-height front push kick to maintain mid-range spacing.",
+      "starting_pose": "Standing fighting guard shifting weight onto rear supporting bare foot.",
+      "ending_pose": "Kicking leg retracts cleanly back into balanced standing fighting guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Standing Idle; recovers directly into Standing Idle F1."
+    },
+    {
+      "animation_id": "cheeni_15_heavy_kick",
+      "animation_name": "Standing Heavy Kick",
+      "filename": "spritesheets/cheeni_15_heavy_kick_7f.png",
+      "frame_count": 7,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2016,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.92,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Deliberate mid-torso side kick with hip rotation and balanced counter-lean.",
+      "starting_pose": "Standing fighting guard shifting weight onto supporting leg.",
+      "ending_pose": "Retracts leg through chamber and plants back into standing fighting guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Standing Idle; recovers directly into Standing Idle F1."
+    },
+    {
+      "animation_id": "cheeni_16_crouch_punch",
+      "animation_name": "Crouching Low Punch",
+      "filename": "spritesheets/cheeni_16_crouch_punch_4f.png",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 18,
+      "frame_duration_ms": 55.56,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Fast low-profile horizontal punch from crouching defensive stance.",
+      "starting_pose": "Stable crouching defensive guard matching Batch 1 Crouch Idle.",
+      "ending_pose": "Retracts punching arm back into stable crouching defensive guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Crouch Idle; recovers directly into Crouch Idle F1."
+    },
+    {
+      "animation_id": "cheeni_17_crouch_kick",
+      "animation_name": "Crouching Low Kick",
+      "filename": "spritesheets/cheeni_17_crouch_kick_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.67,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Quick low shin/ankle poke from crouching stance with grounded rear support.",
+      "starting_pose": "Stable crouching defensive guard shifting weight onto rear foot.",
+      "ending_pose": "Kicking leg retracts back into stable crouching defensive guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Crouch Idle; recovers directly into Crouch Idle F1."
+    },
+    {
+      "animation_id": "cheeni_18_sweep_attack",
+      "animation_name": "Sweep Attack",
+      "filename": "spritesheets/cheeni_18_sweep_attack_7f.png",
+      "frame_count": 7,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2016,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.92,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Tactical floor-level knockdown sweep with hand-braced elderly stability.",
+      "starting_pose": "Standard crouching guard lowering center of gravity.",
+      "ending_pose": "Sweeping leg pulls back cleanly into upright crouching fighting guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Crouch Idle; recovers directly into Crouch Idle F1."
+    },
+    {
+      "animation_id": "cheeni_19_anti_air_uppercut",
+      "animation_name": "Anti-Air Uppercut",
+      "filename": "spritesheets/cheeni_19_anti_air_uppercut_6f.png",
+      "frame_count": 6,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1728,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Grounded skyward uppercut counterattack punishing jumping opponents.",
+      "starting_pose": "Standing fighting guard dropping knees and coiling right fist low.",
+      "ending_pose": "Follows through from skyward punch and settles back into standing guard.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Standing Guard; recovers directly into Standing Idle F1."
+    },
+    {
+      "animation_id": "cheeni_20_jumping_punch",
+      "animation_name": "Jumping Punch",
+      "filename": "spritesheets/cheeni_20_jumping_punch_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.67,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled mid-air forward punch for jump-ins and air-to-air exchanges.",
+      "starting_pose": "Batch 1 airborne guard posture with both bare feet off ground.",
+      "ending_pose": "Retracts arm into balanced airborne recovery posture ready for landing.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Jump Airborne; recovers into Jump Airborne or Landing F1."
+    },
+    {
+      "animation_id": "cheeni_21_jumping_kick",
+      "animation_name": "Jumping Kick",
+      "filename": "spritesheets/cheeni_21_jumping_kick_5f.png",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_and_ground_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Controlled forward-downward airborne kick for jump-in approaches.",
+      "starting_pose": "Batch 1 airborne guard posture chambering lead kicking leg.",
+      "ending_pose": "Retracts kicking leg into balanced airborne recovery posture.",
+      "cross_batch_transition_notes": "Entered from Batch 1 Jump Airborne; recovers into Jump Airborne or Landing F1."
+    }
+  ]
+}

@@ -1,0 +1,307 @@
+{
+  "project": "Project Cheeni — Batch 04: Sweet-Based Special Abilities & Ultimate",
+  "character": "CHEENI (चीनी)",
+  "batch": "04_Special_Abilities",
+  "summary_counts": {
+    "total_png_sheets": 10,
+    "character_animation_sheets": 7,
+    "vfx_sheets": 3,
+    "total_character_frames": 42,
+    "total_vfx_frames": 24,
+    "total_frames": 66
+  },
+  "technical_standards": {
+    "frame_cell_width_px": 288,
+    "frame_cell_height_px": 288,
+    "character_ground_baseline_y_px": 272,
+    "character_horizontal_root_pivot_x_px": 144,
+    "format": "32-bit RGBA PNG",
+    "background": "Genuine alpha transparency",
+    "default_facing_direction": "RIGHT",
+    "frame_order": "Left to right, chronological",
+    "scaling_filter": "Nearest-neighbour only",
+    "canonical_standing_height_px": 224
+  },
+  "animations": [
+    {
+      "animation_id": "cheeni_30_sugar_shot_charge",
+      "asset_name": "Sugar Shot — Charging",
+      "filename": "spritesheets/cheeni_30_sugar_shot_charge_5f.png",
+      "asset_type": "character",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Forms a faceted white Mishri rock-sugar crystal between Cheeni's pinched fingers ready to flick.",
+      "starting_pose": "Default standing fighting guard matching Batch 1 Idle F1.",
+      "ending_pose": "Stable flick-ready stance holding a clearly visible white Mishri crystal.",
+      "character_to_vfx_trigger_frames": "None (prepares for Sugar Shot Release F1).",
+      "cross_batch_transition_notes": "Entered from Standing Guard; F5 connects directly into Sugar Shot Release F1."
+    },
+    {
+      "animation_id": "cheeni_31_sugar_shot_release",
+      "asset_name": "Sugar Shot — Release",
+      "filename": "spritesheets/cheeni_31_sugar_shot_release_5f.png",
+      "asset_type": "character",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 15,
+      "frame_duration_ms": 66.67,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Sharp, controlled finger-flick launching the Mishri rock-sugar projectile rightward.",
+      "starting_pose": "Flick-ready stance holding Mishri crystal matching Sugar Shot Charge F5.",
+      "ending_pose": "Recovers cleanly back into standing fighting guard.",
+      "character_to_vfx_trigger_frames": "Spawn `cheeni_32_sugar_shot_projectile_vfx_8f.png` on Frame 3/4 (finger-flick release at ~X+54, Y-148 from root).",
+      "cross_batch_transition_notes": "Entered from Sugar Shot Charge F5; F5 returns directly to Batch 1 Standing Guard."
+    },
+    {
+      "animation_id": "cheeni_32_sugar_shot_projectile_vfx",
+      "asset_name": "Sugar Shot — Mishri Projectile VFX",
+      "filename": "spritesheets/cheeni_32_sugar_shot_projectile_vfx_8f.png",
+      "asset_type": "vfx",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": true,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "effect_origin_x": 144,
+        "effect_origin_y": 144
+      },
+      "gameplay_purpose": "Independent travelling Mishri rock-sugar crystal cluster projectile moving RIGHT.",
+      "starting_pose": "Compact angular cluster of white rock-sugar crystals.",
+      "ending_pose": "Compatible travelling crystal cluster looping seamlessly back to F1.",
+      "character_to_vfx_trigger_frames": "Triggered by `cheeni_31_sugar_shot_release_5f.png` on Frame 3/4.",
+      "cross_batch_transition_notes": "Loops continuously during horizontal travel until impact or off-screen despawn."
+    },
+    {
+      "animation_id": "cheeni_33_caramel_trap_cast",
+      "asset_name": "Caramel Trap — Casting",
+      "filename": "spritesheets/cheeni_33_caramel_trap_cast_7f.png",
+      "asset_type": "character",
+      "frame_count": 7,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2016,
+        "height": 288
+      },
+      "recommended_fps": 13,
+      "frame_duration_ms": 76.92,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Deliberate downward casting gesture flinging thick sticky caramel syrup onto the ground ahead.",
+      "starting_pose": "Standing fighting guard lowering center of gravity toward the floor.",
+      "ending_pose": "Regains upright balance and returns to standing fighting guard.",
+      "character_to_vfx_trigger_frames": "Spawn `cheeni_34_caramel_trap_vfx_8f.png` on Frame 5 (ground impact ahead of lead foot at ~X+96, Y=272).",
+      "cross_batch_transition_notes": "Entered from Standing Guard; F7 returns directly to Batch 1 Standing Guard."
+    },
+    {
+      "animation_id": "cheeni_34_caramel_trap_vfx",
+      "asset_name": "Caramel Trap — Floor VFX",
+      "filename": "spritesheets/cheeni_34_caramel_trap_vfx_8f.png",
+      "asset_type": "vfx",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "effect_origin_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Independent glossy amber-brown sticky caramel puddle with rising elastic strands forming a floor trap.",
+      "starting_pose": "Thick amber caramel droplet descending to floor level.",
+      "ending_pose": "Stable active glossy caramel trap puddle suitable for holding during active gameplay duration.",
+      "character_to_vfx_trigger_frames": "Triggered by `cheeni_33_caramel_trap_cast_7f.png` on Frame 5.",
+      "cross_batch_transition_notes": "Plays F1–F8 once on spawn, then holds F8 while trap remains active on stage floor."
+    },
+    {
+      "animation_id": "cheeni_35_sweet_legacy_activation",
+      "asset_name": "Sweet Legacy — Activation",
+      "filename": "spritesheets/cheeni_35_sweet_legacy_activation_8f.png",
+      "asset_type": "character",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Ultimate activation gathering recognizable Mishri, Jalebi spirals, Motichoor Ladoos, Barfi pieces, and caramel ribbons around Cheeni.",
+      "starting_pose": "Determined ultimate activation stance from standing guard.",
+      "ending_pose": "Fully charged ultimate-ready stance surrounded by swirling traditional Indian sweets.",
+      "character_to_vfx_trigger_frames": "None (hands off directly to Sweet Legacy Main Attack F1).",
+      "cross_batch_transition_notes": "Entered from Standing Guard; F8 connects directly into Sweet Legacy Main Attack F1."
+    },
+    {
+      "animation_id": "cheeni_36_sweet_legacy_main_attack",
+      "asset_name": "Sweet Legacy — Main Attack",
+      "filename": "spritesheets/cheeni_36_sweet_legacy_main_attack_8f.png",
+      "asset_type": "character",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 14,
+      "frame_duration_ms": 71.43,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Two-handed ultimate unleashing of Cheeni's concentrated Indian sweets storm toward the RIGHT.",
+      "starting_pose": "Fully charged stance matching Sweet Legacy Activation F8.",
+      "ending_pose": "Poised post-release stance transitioning directly into Sweet Legacy Finisher F1.",
+      "character_to_vfx_trigger_frames": "Spawn `cheeni_37_sweet_legacy_vfx_8f.png` on Frame 5/6 (storm launch at ~X+90, Y-128 from root).",
+      "cross_batch_transition_notes": "Entered from Activation F8; F8 connects directly into Sweet Legacy Finisher F1."
+    },
+    {
+      "animation_id": "cheeni_37_sweet_legacy_vfx",
+      "asset_name": "Sweet Legacy — Ultimate Storm VFX",
+      "filename": "spritesheets/cheeni_37_sweet_legacy_vfx_8f.png",
+      "asset_type": "vfx",
+      "frame_count": 8,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 2304,
+        "height": 288
+      },
+      "recommended_fps": 16,
+      "frame_duration_ms": 62.5,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "effect_origin_x": 144,
+        "effect_origin_y": 144
+      },
+      "gameplay_purpose": "Independent massive rotating Indian sweets ultimate vortex (Jalebi, Motichoor Ladoo, Barfi, Mishri, caramel ribbons) travelling RIGHT.",
+      "starting_pose": "Compact swirling core of Mishri rock-sugar crystals.",
+      "ending_pose": "Dispersing sweet fragments and caramel ribbons as ultimate concludes.",
+      "character_to_vfx_trigger_frames": "Triggered by `cheeni_36_sweet_legacy_main_attack_8f.png` on Frame 5/6.",
+      "cross_batch_transition_notes": "Plays F1–F8 across stage travel; independently layerable over character and stage."
+    },
+    {
+      "animation_id": "cheeni_38_sweet_legacy_finisher",
+      "asset_name": "Sweet Legacy — Finisher",
+      "filename": "spritesheets/cheeni_38_sweet_legacy_finisher_4f.png",
+      "asset_type": "character",
+      "frame_count": 4,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1152,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Confident, slightly playful elderly post-ultimate finishing pose.",
+      "starting_pose": "Completing two-handed forward-release follow-through matching Main Attack F8.",
+      "ending_pose": "Stable, confident hand-on-hip veteran smile pose suitable for brief hold.",
+      "character_to_vfx_trigger_frames": "None.",
+      "cross_batch_transition_notes": "Entered from Main Attack F8; F4 connects directly into Special Move Recovery F1."
+    },
+    {
+      "animation_id": "cheeni_39_special_move_recovery",
+      "asset_name": "Special Move Recovery",
+      "filename": "spritesheets/cheeni_39_special_move_recovery_5f.png",
+      "asset_type": "character",
+      "frame_count": 5,
+      "frame_cell_dimensions": {
+        "width": 288,
+        "height": 288
+      },
+      "total_spritesheet_dimensions": {
+        "width": 1440,
+        "height": 288
+      },
+      "recommended_fps": 11,
+      "frame_duration_ms": 90.91,
+      "loop": false,
+      "default_facing_direction": "RIGHT",
+      "pivot_or_effect_anchor": {
+        "pivot_x": 144,
+        "ground_baseline_y": 272
+      },
+      "gameplay_purpose": "Shared controlled recovery transitioning from post-special pose back into standard fighting guard.",
+      "starting_pose": "Relaxed post-special upright stance matching Sweet Legacy Finisher.",
+      "ending_pose": "Exact standing fighting guard matching Batch 1 Idle F1.",
+      "character_to_vfx_trigger_frames": "None.",
+      "cross_batch_transition_notes": "Entered from Sweet Legacy Finisher F4 (or other specials); F5 connects directly into Batch 1 Standing Guard."
+    }
+  ]
+}
